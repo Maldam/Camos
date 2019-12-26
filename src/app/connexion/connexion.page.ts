@@ -28,6 +28,10 @@ export class ConnexionPage implements OnInit {
     console.log('Erreur: ' + err);
     this.errorMail();
   });
+  this.loginData = {
+    email: '',
+    password: ''
+  };
 }
 
 async errorMail() {
@@ -46,12 +50,13 @@ signUp() {
   })
   .catch(err => {
     console.log('Erreur: ' + err);
-    this.errorMail();
+    this.errorMail();  
   });
+  this.loginData = {
+    email: '',
+    password: ''
+  }
 }
-
-
-
   ngOnInit() {
   }
 
