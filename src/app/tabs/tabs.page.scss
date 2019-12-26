@@ -1,1 +1,6 @@
-
+.my-custom-menu {
+    --width: 500px;
+}
+ion-button {   /* juste selection de button avec un float right */
+    float: right;
+}
