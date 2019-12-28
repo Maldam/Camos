@@ -12,6 +12,7 @@ import { firebaseConfig } from './app.firebase.config';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
 import { ListeProduitService } from './services/liste-produits.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { Camera } from '@ionic-native/camera/ngx';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ListeProduitService
   ],

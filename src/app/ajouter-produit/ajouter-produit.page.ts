@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ListeProduitService } from '../services/liste-produits.service';
-
-
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 @Component({
 
@@ -14,16 +15,15 @@ import { ListeProduitService } from '../services/liste-produits.service';
 
 })
 
-export class ProduitsPage implements OnInit {
+export class AjouterProduitPage implements OnInit {
 
-    
+  image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
+  imagePath: string;
+  upload: any;
 
   produit = {
-
     nom:"",
-
     quantite: undefined,
-
     prix: undefined,
 
   }
@@ -32,7 +32,13 @@ export class ProduitsPage implements OnInit {
 
   
 
-  constructor(private listeProduit: ListeProduitService ) {
+  constructor(
+    private listeProduit: ListeProduitService,
+    private camera: Camera,
+    public loadingController: LoadingController,
+    public alertController: AlertController,
+    public afSG: AngularFireStorage,
+    ) {
 
   
 
@@ -40,20 +46,74 @@ export class ProduitsPage implements OnInit {
 
 
 
-  ajoutProduit(produit: ProduitsPage){
+  async ajoutProduit(produit: AjouterProduitPage){
 
+
+    const loading = await this.loadingController.create();
+    await loading.present(); 
+    this.imagePath = 'Produits/' + new Date().getTime() + '.jpg';
     this.listeProduit.ajoutProduit(produit).then(ref => {})
-
-
-
+    this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+    this.upload.then(async () => { 
+      this.produit = {
+        nom: '',
+        quantite: undefined,
+        prix: undefined,
+        }
+      this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
+  
+      await loading.dismiss();
+      const alert = await this.alertController.create({
+        header: 'Félicitation',
+        message: 'L\'envoi de la photo dans Firebase est terminé!',
+        buttons: ['OK']
+      });
+      await alert.present();
+    });
+  
   }
 
+  async ajouterPhoto(source: string) {
+    if (source == 'galerie') {
+      const galerieImage = await this.openLibrary();
+    this.image = 'data:image/jpg;base64,' + galerieImage;
+    } else {
+      const cameraImage = await this.openCamera();
+      this.image = 'data:image/jpg;base64,' + cameraImage;
+    }
+
+  }
+  async openLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+    return await this.camera.getPicture(options);
+  }
+  async openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+    return await this.camera.getPicture(options);
+  }
+
+
+  
 
 
   ngOnInit() {
 
   }
-
-
-
 }
+

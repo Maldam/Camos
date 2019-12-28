@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { ProduitsPage } from '../ajouter-produit/ajouter-produit.page';
+import { AjouterProduitPage } from '../ajouter-produit/ajouter-produit.page';
 
 @Injectable()
 export class ListeProduitService{
 
-    private listeProduitRef = this.bd.list<ProduitsPage>('liste-produits')
+    private listeProduitRef = this.bd.list<AjouterProduitPage>('liste-produits')
     
     constructor(public bd: AngularFireDatabase){
 
@@ -13,7 +13,7 @@ export class ListeProduitService{
     getListeProduits(){
         return this.listeProduitRef
     }
-    ajoutProduit(produit: ProduitsPage){
+    ajoutProduit(produit: AjouterProduitPage){
         return this.listeProduitRef.push(produit)
 
 

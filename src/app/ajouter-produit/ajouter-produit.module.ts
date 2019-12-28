@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 
 import { ProduitsPageRoutingModule } from './ajouter-produit-routing.module';
 
-import { ProduitsPage } from './ajouter-produit.page';
+import { AjouterProduitPage } from './ajouter-produit.page';
 
 @NgModule({
 
@@ -22,11 +22,11 @@ import { ProduitsPage } from './ajouter-produit.page';
 
     FormsModule,
 
-    RouterModule.forChild([{ path: '', component: ProduitsPage }])
+    RouterModule.forChild([{ path: '', component: AjouterProduitPage }])
 
   ],
 
-  declarations: [ProduitsPage]
+  declarations: [AjouterProduitPage]
 
 })
 

@@ -4,15 +4,15 @@ import { IonicModule } from '@ionic/angular';
 
 
 
-import { ProduitsPage } from './ajouter-produit.page';
+import { AjouterProduitPage } from './ajouter-produit.page';
 
 
 
 describe('ProduitsPage', () => {
 
-  let component: ProduitsPage;
+  let component: AjouterProduitPage;
 
-  let fixture: ComponentFixture<ProduitsPage>;
+  let fixture: ComponentFixture<AjouterProduitPage>;
 
 
 
@@ -20,7 +20,7 @@ describe('ProduitsPage', () => {
 
     TestBed.configureTestingModule({
 
-      declarations: [ ProduitsPage ],
+      declarations: [ AjouterProduitPage ],
 
       imports: [IonicModule.forRoot()]
 
@@ -28,7 +28,7 @@ describe('ProduitsPage', () => {
 
 
 
-    fixture = TestBed.createComponent(ProduitsPage);
+    fixture = TestBed.createComponent(AjouterProduitPage);
 
     component = fixture.componentInstance;
 
