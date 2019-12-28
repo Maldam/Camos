@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ListeProduitService } from '../services/liste-produits.service';
 
 @Component({
   selector: 'app-produits',
@@ -6,8 +7,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./produits.page.scss'],
 })
 export class ProduitsPage implements OnInit {
+    
+  produit = {
+    nom:"",
+    quantite: undefined,
+    prix: undefined,
+  }
 
-  constructor() { }
+  
+  constructor(private listeProduit: ListeProduitService ) {
+  
+  }
+
+  ajoutProduit(produit: ProduitsPage){
+    this.listeProduit.ajoutProduit(produit).then(ref => {})
+
+  }
 
   ngOnInit() {
   }

@@ -1,9 +1,24 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>produits</ion-title>
+  <ion-toolbar color='primary'>
+    <ion-title>Liste des produits</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-label>Nom</ion-label>
+    <ion-input [(ngModel)]="produit.nom" type="string" placeholder="coco nature"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Quantité</ion-label>
+    <ion-input [(ngModel)]='produit.quantite' type="number" placeholder="1"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Prix</ion-label>
+    <ion-input [(ngModel)]='produit.prix' type="number" placeholder="2"></ion-input>
+  </ion-item>
+
+  <ion-button (click)="ajoutProduit(produit)" expand="block" color="primary" >Ajouter</ion-button>
+  
 
 </ion-content>

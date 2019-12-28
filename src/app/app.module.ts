@@ -10,6 +10,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { firebaseConfig } from './app.firebase.config';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
+import { ListeProduitService } from './services/liste-produits.service';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 
 @NgModule({
@@ -21,11 +23,13 @@ import { AngularFireDatabaseModule } from '@angular/fire/database'
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ListeProduitService
   ],
   bootstrap: [AppComponent]
 })
