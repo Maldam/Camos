@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { ProduitsPage } from '../produits/produits.page';
+import { ProduitsPage } from '../ajouter-produit/ajouter-produit.page';
 
 @Injectable()
 export class ListeProduitService{
