@@ -10,7 +10,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { firebaseConfig } from './app.firebase.config';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
-import { ListeProduitService } from './services/liste-produits.service';
+import { ListeProduitsService } from './services/liste-produits.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 
@@ -31,7 +31,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     SplashScreen,
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ListeProduitService
+    ListeProduitsService
   ],
   bootstrap: [AppComponent]
 })

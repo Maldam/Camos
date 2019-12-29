@@ -30,4 +30,4 @@ import { AjouterProduitPage } from './ajouter-produit.page';
 
 })
 
-export class ProduitsPageModule {}
+export class AjouterProduitPageModule {}

@@ -33,7 +33,17 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../ajouter-produit/ajouter-produit.module').then(m => m.ProduitsPageModule)
+              import('../produits/produits.module').then(m => m.ProduitsPageModule)
+          }
+        ]
+      },
+      {
+        path: 'ajouter-produit',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../ajouter-produit/ajouter-produit.module').then(m => m.AjouterProduitPageModule)
           }
         ]
       },

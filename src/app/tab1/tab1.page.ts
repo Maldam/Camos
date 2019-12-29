@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-
-
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -21,15 +19,10 @@ export class Tab1Page {
       if (!auth) {
         console.log('non connecté');
       } else {
-        console.log('connecté: ' + auth.uid);
         this.userId = auth.uid;
         this.mail = auth.email;
         this.method = auth.providerData[0].providerId;
       }
     });
-    
   }
-  
-
 }
-
