@@ -6,7 +6,6 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Action } from 'rxjs/internal/scheduler/Action';
 
-
 @Component({
   selector: 'app-produits',
   templateUrl: './produits.page.html',
@@ -14,7 +13,6 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 })
 export class ProduitsPage implements OnInit {
   produits = [];
-  liste
 
   constructor(
     public listeProduits: ListeProduitsService
@@ -23,12 +21,10 @@ export class ProduitsPage implements OnInit {
     this.recupProduit()
   }
 
-
   recupProduit() {
         this.listeProduits.bd.list('Produits/').snapshotChanges(['child_added']).subscribe(actions =>{
       this.produits = [];
       actions.forEach(action =>{
-        console.log('nom:' + action.payload.exportVal().nom)
         this.produits.push({
           nom: action.payload.exportVal().nom
         })
@@ -38,5 +34,4 @@ export class ProduitsPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

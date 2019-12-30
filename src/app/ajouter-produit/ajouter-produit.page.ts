@@ -11,13 +11,13 @@ import { LoadingController, AlertController } from '@ionic/angular';
 })
 
 export class AjouterProduitPage implements OnInit {
-
-  image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
+  imageVide ='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
+  image = this.imageVide;
   imagePath: string;
   upload: any;
 
   produit = {
-    nom:"",
+    nom: "",
     quantite: undefined,
     prix: undefined,
 
@@ -30,36 +30,51 @@ export class AjouterProduitPage implements OnInit {
     public alertController: AlertController,
     public afSG: AngularFireStorage,
     ) {
-
   }
 
   async ajoutProduit(produit: AjouterProduitPage){
+    const loading = await this.loadingController.create({
+    //  duration: 2000
+    });
+    const alert = await this.alertController.create({
+      header: 'Félicitation',
+      message: 'L\'article a bien été ajouté',
+      buttons: ['OK']
+    });
+    const alertNom = await this.alertController.create({
+      header: 'Attention',
+      message: 'Nous avons besoin d\'un nom de produit',
+      buttons: ['OK']
+    });
 
-
-    const loading = await this.loadingController.create();
-    await loading.present(); 
-    this.imagePath = 'Produits/' + new Date().getTime() + '.jpg';
-    this.upload = this.listeProduits.ajoutProduit(produit).then(ref => {});
-    this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
-    this.upload.then(async () => { 
-      this.produit = {
-        nom: '',
-        quantite: undefined,
-        prix: undefined,
-        }
-      this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
-  
+    if(this.produit.nom == ''){
+      await alertNom.present();
+    } else {
+      await loading.present(); 
+    this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
+    this.listeProduits.ajoutProduit(produit).then(ref => {this.produit = {
+      nom: '',
+      quantite: undefined,
+      prix: undefined,
+      }});
+    
+    if(this.image == this.imageVide) {
+      this.upload='';
       await loading.dismiss();
-      const alert = await this.alertController.create({
-        header: 'Félicitation',
-        message: 'L\'envoi de la photo dans Firebase est terminé!',
-        buttons: ['OK']
-      });
+      await alert.present();
+    } else {
+      this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+    }
+   
+    //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+    this.upload.then(async () => {       
+      this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
+      await loading.dismiss();
       await alert.present();
     });
-  
-  }
 
+    }  
+  }
   async ajouterPhoto(source: string) {
     if (source == 'galerie') {
       const galerieImage = await this.openLibrary();
@@ -68,7 +83,6 @@ export class AjouterProduitPage implements OnInit {
       const cameraImage = await this.openCamera();
       this.image = 'data:image/jpg;base64,' + cameraImage;
     }
-
   }
   async openLibrary() {
     const options: CameraOptions = {
@@ -94,13 +108,6 @@ export class AjouterProduitPage implements OnInit {
     };
     return await this.camera.getPicture(options);
   }
-
-
-  
-
-
   ngOnInit() {
-
   }
 }
-
