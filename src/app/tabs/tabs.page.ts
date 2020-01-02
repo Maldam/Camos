@@ -16,9 +16,10 @@ export class TabsPage {
     public afAuth: AngularFireAuth
   ) {}
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
+  // logout() {
+  //   this.afAuth.auth.signOut();
+  // }
+
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');

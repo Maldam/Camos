@@ -28,7 +28,6 @@ export class AjouterProduitPage implements OnInit {
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    public afSG: AngularFireStorage,
     ) {
   }
 
@@ -63,7 +62,7 @@ export class AjouterProduitPage implements OnInit {
       await loading.dismiss();
       await alert.present();
     } else {
-      this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+      this.upload = this.listeProduits.afSG.ref(this.imagePath).putString(this.image, 'data_url');
     }
    
     //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');

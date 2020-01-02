@@ -59,5 +59,4 @@ signUp() {
 }
   ngOnInit() {
   }
-
 }

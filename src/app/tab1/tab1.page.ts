@@ -25,4 +25,7 @@ export class Tab1Page {
       }
     });
   }
+  logout() {
+    this.afAuth.auth.signOut();
+  }
 }
