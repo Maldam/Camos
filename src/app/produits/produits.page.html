@@ -7,15 +7,13 @@
 <ion-content>
 
   <ion-list>
-    <ion-item *ngFor="let produit of produits">
+    <ion-item href="" *ngFor="let produit of produits">
       <ion-thumbnail slot="start">
-        <ion-img [src]="produit.image"></ion-img>
+        <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>
-
     </ion-item>
   </ion-list>
-
 
 
 <!-- <ion-list lines="none">
@@ -26,6 +24,7 @@
     <ion-label></ion-label>
   </ion-item>
 </ion-list> -->
+
 
 
 </ion-content>
