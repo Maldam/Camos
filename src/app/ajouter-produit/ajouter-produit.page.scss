@@ -1,12 +1,18 @@
 .flex {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-  }
-  .img-box {
-    height: 200px;
-    overflow: hidden;
-  }
-  img {
-    height: 200px;
-  }
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.img-box {
+  height: 200px;
+  overflow: hidden;
+}
+img {
+  height: 200px;
+}
+#titre{
+  text-align: center;
+}
+#retourProduits{
+  float: left;
+}

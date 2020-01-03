@@ -48,13 +48,9 @@ export class ProduitsPage implements OnInit {
     var test = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F'+ nom +'.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5';
     var test1 = 'https://farm6.staticflickr.com/5569/14749174189_169427d3b9_b.jpg'+'' 
     return test
-    
-    
-
-   // img1.onerror =
-   // img1.onabort =
-    
+  
   }
+  
 
   
   ngOnInit() {

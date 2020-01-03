@@ -38,16 +38,6 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'ajouter-produit',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>
-              import('../ajouter-produit/ajouter-produit.module').then(m => m.AjouterProduitPageModule)
-          }
-        ]
-      },
-      {
         path: 'tab3',
         children: [
           {

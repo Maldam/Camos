@@ -11,7 +11,7 @@ const routes: Routes = [
     loadChildren: () => import('./connexion/connexion.module').then( m => m.ConnexionPageModule)
   },
   {
-    path: 'liste-produits',
+    path: 'ajouter-produit',
     loadChildren: () => import('./ajouter-produit/ajouter-produit.module').then( m => m.AjouterProduitPageModule)
   },
   {
