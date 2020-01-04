@@ -24,10 +24,10 @@ export class ProduitsPage implements OnInit {
     public listeProduits: ListeProduitsService,
     
   ) { 
-    this.recupProduit();
+    this.recupererProduit();
   }
 
-  recupProduit() {
+  recupererProduit() {
 
       this.listeProduits.bd.list('Produits/').snapshotChanges(['child_added']).subscribe(actions =>{
       this.produits = [];
@@ -51,8 +51,8 @@ export class ProduitsPage implements OnInit {
   
   }
 
-  afficherProduit(){
-
+  afficherProduit(text : String){
+    console.log(text)
   }
   
 
