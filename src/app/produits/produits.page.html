@@ -11,7 +11,7 @@
 <ion-content>
 
   <ion-list>
-    <ion-item href="" *ngFor="let produit of produits">
+    <ion-item (click)="afficherProduit()" *ngFor="let produit of produits">
       <ion-thumbnail slot="start">
         <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
       </ion-thumbnail>
