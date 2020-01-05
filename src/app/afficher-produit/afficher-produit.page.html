@@ -1,9 +1,21 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>afficher-produit</ion-title>
+  <ion-toolbar color='primary'>
+    <ion-buttons id='retourProduits' slot="start">
+      <ion-back-button defaultHref="/produits" text="Page Produits"></ion-back-button>
+    </ion-buttons>
+    <ion-title id='titre'>Détails du produit</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-list>
+    <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" >
+      <ion-thumbnail slot="start">
+        <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
+      </ion-thumbnail>
+      <ion-label>{{produit.nom}}</ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

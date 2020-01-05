@@ -9,26 +9,12 @@
 </ion-header>
 
 <ion-content>
-
   <ion-list>
-    <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" (click)="afficherProduit(produit.nom)">
+    <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" >
       <ion-thumbnail slot="start">
         <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>
     </ion-item>
   </ion-list>
-
-
-<!-- <ion-list lines="none">
-  <ion-item href="" *ngFor=>
-    <ion-thumbnail slot="start">
-      <ion-img [src]=""></ion-img>
-    </ion-thumbnail>
-    <ion-label></ion-label>
-  </ion-item>
-</ion-list> -->
-
-
-
 </ion-content>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { ConnexionService } from '../services/connexion.service';
 
 @Component({
   selector: 'app-tab1',
@@ -12,7 +13,8 @@ export class Tab1Page {
   method: any;
   
   constructor(
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
+    public connexionService: ConnexionService
     
   ) {
     this.afAuth.authState.subscribe(auth => {
@@ -25,7 +27,7 @@ export class Tab1Page {
       }
     });
   }
-  logout() {
-    this.afAuth.auth.signOut();
+  deconnexion() {
+    this.connexionService.deconnexionUtilisateur();
   }
 }

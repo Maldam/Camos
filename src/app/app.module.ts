@@ -13,6 +13,9 @@ import { AngularFireDatabaseModule } from '@angular/fire/database'
 import { ListeProduitsService } from './services/liste-produits.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { Camera } from '@ionic-native/camera/ngx';
+import { recupererProduitService } from './services/recuperer-produit.service';
+import { ConnexionService } from './services/connexion.service';
+import { FormBuilder } from '@angular/forms';
 
 
 @NgModule({
@@ -24,14 +27,18 @@ import { Camera } from '@ionic-native/camera/ngx';
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ListeProduitsService
+    ListeProduitsService,
+    recupererProduitService,
+    ConnexionService,
+    FormBuilder
   ],
   bootstrap: [AppComponent]
 })
