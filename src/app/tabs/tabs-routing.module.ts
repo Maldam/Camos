@@ -8,16 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'connexion',
-        children: [
-          {
-            path: '',
-            loadChildren: () =>
-              import('../connexion/connexion.module').then(m => m.ConnexionPageModule)
-          }
-        ]
-      },
-      {
         path: 'tab1',
         children: [
           {

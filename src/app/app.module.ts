@@ -16,6 +16,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { recupererProduitService } from './services/recuperer-produit.service';
 import { ConnexionService } from './services/connexion.service';
 import { FormBuilder } from '@angular/forms';
+import { GardeConnexionService } from './services/garde-connexion.service';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { FormBuilder } from '@angular/forms';
     ListeProduitsService,
     recupererProduitService,
     ConnexionService,
-    FormBuilder
+    FormBuilder,
+    GardeConnexionService
   ],
   bootstrap: [AppComponent]
 })
