@@ -18,7 +18,6 @@ import { ConnexionService } from './services/connexion.service';
 import { FormBuilder } from '@angular/forms';
 import { GardeConnexionService } from './services/garde-connexion.service';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
