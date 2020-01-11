@@ -10,13 +10,13 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { firebaseConfig } from './app.firebase.config';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
-import { ListeProduitsService } from './services/liste-produits.service';
+import { ProduitsService } from './services/produits.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { Camera } from '@ionic-native/camera/ngx';
-import { recupererProduitService } from './services/recuperer-produit.service';
 import { ConnexionService } from './services/connexion.service';
 import { FormBuilder } from '@angular/forms';
 import { GardeConnexionService } from './services/garde-connexion.service';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,8 +35,7 @@ import { GardeConnexionService } from './services/garde-connexion.service';
     SplashScreen,
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ListeProduitsService,
-    recupererProduitService,
+    ProduitsService,
     ConnexionService,
     FormBuilder,
     GardeConnexionService

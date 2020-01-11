@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListeProduitsService } from '../services/liste-produits.service';
+import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController, AlertController } from '@ionic/angular';
@@ -24,7 +24,7 @@ export class AjouterProduitPage implements OnInit {
   }
 
   constructor(
-    private listeProduits: ListeProduitsService,
+    private listeProduits: ProduitsService,
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,

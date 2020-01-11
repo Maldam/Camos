@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListeProduitsService } from '../services/liste-produits.service';
+import { ProduitsService } from '../services/produits.service';
 
 @Component({
   selector: 'app-produits',
@@ -10,7 +10,7 @@ export class ProduitsPage implements OnInit {
   produits = [];
   
   constructor(
-    public listeProduits: ListeProduitsService,
+    public listeProduits: ProduitsService,
   ) { 
     this.recupererProduit();
   }
