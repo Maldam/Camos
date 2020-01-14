@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ConnexionService } from '../services/connexion.service';
 
@@ -7,7 +7,7 @@ import { ConnexionService } from '../services/connexion.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
   userId: string;
   mail: string;
   method: any;
@@ -29,5 +29,8 @@ export class Tab1Page {
   }
   deconnexion() {
     this.connexionService.deconnexionUtilisateur();
+  }
+  ngOnInit(){
+    
   }
 }

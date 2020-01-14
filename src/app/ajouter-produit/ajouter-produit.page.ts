@@ -3,6 +3,7 @@ import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController, AlertController } from '@ionic/angular';
+//import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
   selector: 'app-produits',
@@ -20,11 +21,11 @@ export class AjouterProduitPage implements OnInit {
     nom: "",
     quantite: undefined,
     prix: undefined,
-
   }
 
   constructor(
-    private listeProduits: ProduitsService,
+    private produitsService: ProduitsService,
+    //private produitModele: ProduitModele, 
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,
@@ -51,7 +52,7 @@ export class AjouterProduitPage implements OnInit {
     } else {
       await loading.present(); 
     this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
-    this.listeProduits.ajoutProduit(produit).then(ref => {this.produit = {
+    this.produitsService.ajoutProduit(produit).then(ref => {this.produit = {
       nom: '',
       quantite: undefined,
       prix: undefined,
@@ -62,7 +63,7 @@ export class AjouterProduitPage implements OnInit {
       await loading.dismiss();
       await alert.present();
     } else {
-      this.upload = this.listeProduits.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+      this.upload = this.produitsService.afSG.ref(this.imagePath).putString(this.image, 'data_url');
     }
    
     //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');

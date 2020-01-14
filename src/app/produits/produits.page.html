@@ -4,17 +4,23 @@
       <ion-icon name='add'></ion-icon>
     </ion-button>
     <ion-title id='titre'>Liste des produits</ion-title>
-    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" >
+    <!-- <ion-item *ngFor="let produit of produits"  > -->
+      <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" (click)="versVueProduit(produit)" >
+
       <ion-thumbnail slot="start">
         <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>
+ 
+    <ion-button shape="round" color="danger" size="small" (click)="RemoveRecord(produit)">
+      <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+
+    </ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

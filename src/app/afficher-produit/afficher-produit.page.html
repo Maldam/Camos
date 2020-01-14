@@ -3,19 +3,32 @@
     <ion-buttons id='retourProduits' slot="start">
       <ion-back-button defaultHref="/produits" text="Page Produits"></ion-back-button>
     </ion-buttons>
-    <ion-title id='titre'>Détails du produit</ion-title>
+    <ion-title id='titre'>Liste des produits</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-list>
-    <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" >
-      <ion-thumbnail slot="start">
-        <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
-      </ion-thumbnail>
-      <ion-label>{{produit.nom}}</ion-label>
-    </ion-item>
-  </ion-list>
+  <div class="flex">
+    <div class="img-box">
+      <img [src]="image">
+    </div>
+  </div>
+  <ion-item>
+    <ion-label>Nom</ion-label>
+    <ion-input [(ngModel)]="produit.nom" type="string" placeholder="produit.nom"></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label>Quantité</ion-label>
+    <ion-input [(ngModel)]='produit.quantite' type="number" placeholder="produit.quantite"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Prix</ion-label>
+    <ion-input [(ngModel)]='produit.prix' type="number" placeholder="produit.prix"></ion-input>
+  </ion-item>
+  
+  <ion-button (click)="ajoutProduit(produit)" expand="block" color="primary" >
+    <ion-icon name="checkmark"></ion-icon>Ajouter</ion-button>
 </ion-content>

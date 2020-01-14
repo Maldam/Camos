@@ -16,7 +16,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { ConnexionService } from './services/connexion.service';
 import { FormBuilder } from '@angular/forms';
 import { GardeConnexionService } from './services/garde-connexion.service';
-
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,6 +38,7 @@ import { GardeConnexionService } from './services/garde-connexion.service';
     ProduitsService,
     ConnexionService,
     FormBuilder,
+    AngularFirestore,
     GardeConnexionService
   ],
   bootstrap: [AppComponent]

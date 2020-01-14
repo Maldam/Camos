@@ -1,9 +1,47 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Tab Three
-    </ion-title>
+  <ion-toolbar color='primary'>
+    <ion-buttons id='retourProduits' slot="start">
+      <ion-back-button defaultHref="/produits" text="Page Produits"></ion-back-button>
+    </ion-buttons>
+    <ion-title id='titre'>Liste des produits</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+
+  <div class="flex">
+    <div class="img-box">
+      <img [src]="image">
+    </div>
+  </div>
+
+  <ion-button (click)="ajouterPhoto('galerie')" color="tertiary" expand="block">
+    <ion-icon name="image" slot="start"></ion-icon>
+    Charger image
+  </ion-button>
+  <ion-button (click)="ajouterPhoto('camera')" color="secondary" expand="block">
+    <ion-icon name="camera" slot="start"></ion-icon>
+    Prendre une photo
+  </ion-button>
+  
+  <ion-item>
+    <ion-label>Nom</ion-label>
+    <ion-input [(ngModel)]="produit.nom" type="string" placeholder="coco nature"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Quantité</ion-label>
+    <ion-input [(ngModel)]='produit.quantite' type="number" placeholder="1"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Prix</ion-label>
+    <ion-input [(ngModel)]='produit.prix' type="number" placeholder="2"></ion-input>
+  </ion-item>
+  
+  <ion-button (click)="ajoutProduit(produit)" expand="block" color="primary" >
+    <ion-icon name="checkmark"></ion-icon>Ajouter</ion-button>
+</ion-content>
+
+
+

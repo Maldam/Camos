@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-produits',
@@ -7,35 +8,51 @@ import { ProduitsService } from '../services/produits.service';
   styleUrls: ['./produits.page.scss'],
 })
 export class ProduitsPage implements OnInit {
-  produits = [];
+  produits: any;
+  key;
+  nom: string;
+  prix: number;
+  quantite: number;
   
   constructor(
-    public listeProduits: ProduitsService,
+    public produitsService: ProduitsService,
+    public route: Router
   ) { 
-    this.recupererProduit();
   }
-
-  recupererProduit() {
-      this.listeProduits.bd.list('Produits/').snapshotChanges(['child_added']).subscribe(actions =>{
-      this.produits = [];
-      actions.forEach(action =>{
-        this.produits.push({
-          nom: action.payload.exportVal().nom,          
-          image: this.afficherImage(action.payload.exportVal().nom)
-          })
-      });
-    })
+  getProduits(){
+  this.produitsService.getTasks()
   }
   
   imageDefaut(event) {
     event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
 }
   afficherImage(nom : String){
-    var image = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F'+ nom +'.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5';
-    //var test1 = 'https://farm6.staticflickr.com/5569/14749174189_169427d3b9_b.jpg'+'' 
-    return image
+    var image = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F'+ nom +'.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5';    return image
+  }
+  versVueProduit(produit){
+    this.route.navigate(['/afficher-produit', produit.nom]);
+    this.produitsService.recupProduit(produit)
+    console.log(produit.prix)
+  }
+  RemoveRecord(produit) {
+    this.produitsService.deleteTask(produit.key);
+    console.log(produit.key)
   }
  
   ngOnInit() {
-  }
+    this.produitsService.getTasks().subscribe(actions =>{
+      this.produits = [];
+      actions.forEach(action =>{
+        this.produits.push({
+          //id: action.payload.exportVal().id,
+          key: action.key,
+          nom: action.payload.exportVal().nom,
+          quantite: action.payload.exportVal().quantite,  
+          prix: action.payload.exportVal().prix,           
+          image: this.afficherImage(action.payload.exportVal().nom)
+          })
+          //console.log(action.key)
+      });
+    })
+}
 }
