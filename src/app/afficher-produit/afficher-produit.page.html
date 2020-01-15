@@ -29,6 +29,7 @@
     <ion-input [(ngModel)]='produit.prix' type="number" placeholder="produit.prix"></ion-input>
   </ion-item>
   
-  <ion-button (click)="ajoutProduit(produit)" expand="block" color="primary" >
-    <ion-icon name="checkmark"></ion-icon>Ajouter</ion-button>
+  <ion-button  shape="round" color="danger" size="small" (click)="RemoveRecord(produit)">
+    <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+  </ion-button>
 </ion-content>

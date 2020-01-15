@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ProduitsPage implements OnInit {
   produits: any;
-  key;
+  key: any;
   nom: string;
   prix: number;
   quantite: number;
@@ -32,13 +32,8 @@ export class ProduitsPage implements OnInit {
   versVueProduit(produit){
     this.route.navigate(['/afficher-produit', produit.nom]);
     this.produitsService.recupProduit(produit)
-    console.log(produit.prix)
   }
-  RemoveRecord(produit) {
-    this.produitsService.deleteTask(produit.key);
-    console.log(produit.key)
-  }
- 
+   
   ngOnInit() {
     this.produitsService.getTasks().subscribe(actions =>{
       this.produits = [];

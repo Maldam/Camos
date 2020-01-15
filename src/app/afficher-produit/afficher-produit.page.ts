@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 //import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
@@ -17,17 +18,19 @@ export class AfficherProduitPage implements OnInit {
     prix: undefined,
 
   }
-  constructor(public produitsService: ProduitsService) {
-this.produit.nom = this.produitsService.obtenirListeProduits()
-//console.log(this.produit.nom)
+  constructor(public produitsService: ProduitsService,
+    public navCtrl: NavController) {
+    this.produit.nom = this.produitsService.obtenirListeProduits()
+    //console.log(this.produit.nom)
 
-   }
-              
+  }
+  async RemoveRecord(produit: any) {
+    this.produitsService.deleteTask(produit.key);
+    this.navCtrl.back()
+  }
+
   ngOnInit() {
     this.produit = this.produitsService.renvoyerProduit()
-    console.log(this.produit.nom)
-    console.log(this.produit.quantite)
-    console.log(this.produit.prix)
   }
 }
 
