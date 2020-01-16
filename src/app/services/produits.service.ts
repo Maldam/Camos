@@ -35,7 +35,7 @@ export class ProduitsService {
 
   createTask(value: any) {
     return new Promise<any>((resolve, reject) => {
-      this.afs.collection('Produits').add(value)
+      this.bd.list('Produits/').push(value)
         .then(
           res => resolve(res),
           err => reject(err)
@@ -46,7 +46,7 @@ export class ProduitsService {
   }
 
   getTasks() {
-    return this.referencesProduit = this.bd.list('Produits/').snapshotChanges(['child_added'])
+    return this.referencesProduit = this.bd.list('Produits/').snapshotChanges(['child_added', 'child_removed'])
   }
   updateTask(taskKey: any, value: any) {
     return new Promise<any>((resolve, reject) => {

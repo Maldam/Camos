@@ -52,7 +52,7 @@ export class AjouterProduitPage implements OnInit {
     } else {
       await loading.present(); 
     this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
-    this.produitsService.ajoutProduit(produit).then(ref => {this.produit = {
+    this.produitsService.createTask(produit).then(ref => {this.produit = {
       nom: '',
       quantite: undefined,
       prix: undefined,

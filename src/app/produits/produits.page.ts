@@ -17,7 +17,7 @@ export class ProduitsPage implements OnInit {
   constructor(
     public produitsService: ProduitsService,
     public route: Router
-  ) { 
+  ) {
   }
   getProduits(){
   this.produitsService.getTasks()
