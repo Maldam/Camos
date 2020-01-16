@@ -67,11 +67,11 @@ export class AjouterProduitPage implements OnInit {
     }
    
     //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
-    this.upload.then(async () => {       
-      this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
-      await loading.dismiss();
-      await alert.present();
-    });
+    // this.upload.then(async () => {       
+    //   this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
+    //   await loading.dismiss();
+    //   await alert.present();
+    // });
 
     }  
   }
