@@ -3,17 +3,15 @@
     <ion-buttons id='retourProduits' slot="start">
       <ion-back-button defaultHref="/produits" text="Page Produits"></ion-back-button>
     </ion-buttons>
-    <ion-title id='titre'>Liste des produits</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <div class="flex">
-    <div class="img-box">
-      <img [src]="image">
-    </div>
+  <div class="disposition">
+    <img [src]="produit.image" onerror="src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';" alt="Missing Image"/>
   </div>
+  
   <ion-item>
     <ion-label>Nom</ion-label>
     <ion-input [(ngModel)]="produit.nom" type="string" placeholder="produit.nom"></ion-input>

@@ -16,8 +16,8 @@ export class AfficherProduitPage implements OnInit {
     nom: "",
     quantite: undefined,
     prix: undefined,
-
   }
+  imageVide = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg"
   constructor(public produitsService: ProduitsService,
     public navCtrl: NavController) {
     this.produit.nom = this.produitsService.obtenirListeProduits()
