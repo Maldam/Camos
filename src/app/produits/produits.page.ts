@@ -23,7 +23,7 @@ export class ProduitsPage implements OnInit {
   this.produitsService.getTasks()
   }
   
-  imageDefaut(event) {
+  imageDefaut(event : any) {
     event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
 }
   afficherImage(nom : String){

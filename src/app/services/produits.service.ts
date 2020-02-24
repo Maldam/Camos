@@ -58,9 +58,14 @@ export class ProduitsService {
         )
     })
   }
-  deleteTask(taskKey: any) {
-    this.bd.list('Produits').remove(taskKey);
-  }
+  deleteTask(taskKey: any, nom: any) {
+    this.bd.list('Produits').remove(taskKey)
+    
+    firebase.storage().ref().child('Produits/' + nom + '.jpg').delete().then(() => {
+    })
+    .catch(error => console.log("pas d'image"));
+}   
+  
   recupProduit(produit: any) {
     this.produit = produit
     //this.nom = produit.nom;

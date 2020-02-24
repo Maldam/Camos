@@ -25,12 +25,11 @@ export class AfficherProduitPage implements OnInit {
 
   }
   async RemoveRecord(produit: any) {
-    this.produitsService.deleteTask(produit.key);
-    this.navCtrl.back()
+    this.produitsService.deleteTask(produit.key, produit.nom);
+    //this.navCtrl.back()
   }
 
   ngOnInit() {
     this.produit = this.produitsService.renvoyerProduit()
   }
 }
-
