@@ -63,7 +63,10 @@ export class AjouterProduitPage implements OnInit {
       await loading.dismiss();
       await alert.present();
     } else {
-      this.upload = this.produitsService.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+      this.upload = this.produitsService.afSG.ref(this.imagePath).putString(this.image, 'data_url').
+      then(ref => {this.image=this.imageVide});
+      await loading.dismiss();
+      await alert.present();
     }
    
     //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
