@@ -12,8 +12,8 @@ import { LoadingController, AlertController } from '@ionic/angular';
 })
 
 export class AjouterProduitPage implements OnInit {
-  imageVide ='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
-  image = this.imageVide;
+  imageVide: string;
+  image: string;
   imagePath: string;
   upload: any;
 
@@ -112,5 +112,7 @@ export class AjouterProduitPage implements OnInit {
     return await this.camera.getPicture(options);
   }
   ngOnInit() {
+    this.imageVide ='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
+    this.image = this.imageVide;
   }
 }
