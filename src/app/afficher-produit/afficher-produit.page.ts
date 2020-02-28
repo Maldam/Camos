@@ -28,6 +28,9 @@ export class AfficherProduitPage implements OnInit {
     this.produitsService.deleteTask(produit.key, produit.nom);
     //this.navCtrl.back()
   }
+  async UpdateRecord(produit: any){
+    this.produitsService.updateTask(produit);
+  }
 
   ngOnInit() {
     this.produit = this.produitsService.renvoyerProduit()

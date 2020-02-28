@@ -29,12 +29,12 @@ export class AjouterProduitPage implements OnInit {
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    ) {
+  ) {
   }
 
-  async ajoutProduit(produit: AjouterProduitPage){
+  async ajoutProduit(produit: AjouterProduitPage) {
     const loading = await this.loadingController.create({
-    //  duration: 2000
+      //  duration: 2000
     });
     const alert = await this.alertController.create({
       header: 'Félicitation',
@@ -47,41 +47,43 @@ export class AjouterProduitPage implements OnInit {
       buttons: ['OK']
     });
 
-    if(this.produit.nom == ''){
+    if (this.produit.nom == '') {
       await alertNom.present();
     } else {
-      await loading.present(); 
-    this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
-    this.produitsService.createTask(produit).then(ref => {this.produit = {
-      nom: '',
-      quantite: undefined,
-      prix: undefined,
-      }});
-    
-    if(this.image == this.imageVide) {
-      this.upload='';
-      await loading.dismiss();
-      await alert.present();
-    } else {
-      this.upload = this.produitsService.afSG.ref(this.imagePath).putString(this.image, 'data_url').
-      then(ref => {this.image=this.imageVide});
-      await loading.dismiss();
-      await alert.present();
-    }
-   
-    //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
-    // this.upload.then(async () => {       
-    //   this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
-    //   await loading.dismiss();
-    //   await alert.present();
-    // });
+      await loading.present();
+      this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
+      this.produitsService.createTask(produit).then(ref => {
+      this.produit = {
+        nom: '',
+        quantite: undefined,
+        prix: undefined,
+      }
+      });
 
-    }  
+      if (this.image == this.imageVide) {
+        this.upload = '';
+        await loading.dismiss();
+        await alert.present();
+      } else {
+        this.upload = this.produitsService.afSG.ref(this.imagePath).putString(this.image, 'data_url').
+          then(ref => { this.image = this.imageVide });
+        await loading.dismiss();
+        await alert.present();
+      }
+
+      //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
+      // this.upload.then(async () => {       
+      //   this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
+      //   await loading.dismiss();
+      //   await alert.present();
+      // });
+
+    }
   }
   async ajouterPhoto(source: string) {
     if (source == 'galerie') {
       const galerieImage = await this.openLibrary();
-    this.image = 'data:image/jpg;base64,' + galerieImage;
+      this.image = 'data:image/jpg;base64,' + galerieImage;
     } else {
       const cameraImage = await this.openCamera();
       this.image = 'data:image/jpg;base64,' + cameraImage;
@@ -112,7 +114,7 @@ export class AjouterProduitPage implements OnInit {
     return await this.camera.getPicture(options);
   }
   ngOnInit() {
-    this.imageVide ='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
+    this.imageVide = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
     this.image = this.imageVide;
   }
 }

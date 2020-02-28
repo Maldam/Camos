@@ -9,6 +9,7 @@ import * as firebase from 'firebase/app';
 import { Subject, Observable } from 'rxjs';
 import { DataSnapshot } from '@angular/fire/database/interfaces';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { PrefixNot } from '@angular/compiler';
 
 
 @Injectable()
@@ -48,11 +49,9 @@ export class ProduitsService {
   getTasks() {
     return this.referencesProduit = this.bd.list('Produits/').snapshotChanges(['child_added', 'child_removed'])
   }
-  updateTask(taskKey: any, value: any) {
+  updateTask(produit: any) {
     return new Promise<any>((resolve, reject) => {
-      let currentUser = firebase.auth().currentUser;
-      this.afs.collection('people').doc(currentUser.uid).collection('tasks').doc(taskKey).set(value)
-        .then(
+    this.bd.list('Produits').update(produit.key, {nom: produit.nom, quantite: produit.quantite, prix: produit.prix}).then(
           res => resolve(res),
           err => reject(err)
         )
