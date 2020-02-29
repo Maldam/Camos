@@ -20,11 +20,17 @@ export class AfficherProduitPage implements OnInit {
     quantite: undefined,
     prix: undefined,
   }
+  nom: any;
+  quantite: any;
+  prix: any;
+
+  
   imageVide = "https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg"
   constructor(public produitsService: ProduitsService,
     //private confirmationService: ConfirmationService,
-    public navCtrl: NavController) {
-    this.produit.nom = this.produitsService.obtenirListeProduits()
+    public navCtrl: NavController
+    ) {
+   // this.produit.nom = this.produitsService.obtenirListeProduits()
     //console.log(this.produit.nom)
 
   }
@@ -36,12 +42,19 @@ export class AfficherProduitPage implements OnInit {
     }
   }
   async UpdateRecord(produit: any) {
-    if (confirm("Êtes-vous sûr de vouloir modiffier " + produit.nom + " ?")) {
+    if (confirm("Êtes-vous sûr de vouloir modiffier " + this.nom + " ?")) {
     this.produitsService.updateTask(produit);
-    }
+    } else {
+      this.produit.nom = this.nom
+      this.produit.quantite = this.quantite;
+      this.produit.prix = this.prix;
+        }
   }
 
   ngOnInit() {
     this.produit = this.produitsService.renvoyerProduit()
+    this.nom = this.produit.nom;
+    this.quantite = this.produit.quantite;
+    this.prix = this.produit.prix;
   }
 }
