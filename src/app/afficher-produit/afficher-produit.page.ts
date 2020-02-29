@@ -45,10 +45,13 @@ export class AfficherProduitPage implements OnInit {
     if (confirm("Êtes-vous sûr de vouloir modiffier " + this.nom + " ?")) {
     this.produitsService.updateTask(produit);
     } else {
-      this.produit.nom = this.nom
-      this.produit.quantite = this.quantite;
-      this.produit.prix = this.prix;
+      this.ancienneDonnee()
         }
+  }
+  ancienneDonnee(){
+    this.produit.nom = this.nom;
+    this.produit.quantite = this.quantite;
+    this.produit.prix = this.prix;
   }
 
   ngOnInit() {
