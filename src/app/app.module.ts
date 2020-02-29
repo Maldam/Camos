@@ -18,6 +18,7 @@ import { FormBuilder } from '@angular/forms';
 import { GardeConnexionService } from './services/garde-connexion.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -28,6 +29,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
+    
     
   ],
   providers: [

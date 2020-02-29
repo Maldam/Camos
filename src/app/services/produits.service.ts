@@ -47,7 +47,7 @@ export class ProduitsService {
   }
 
   getTasks() {
-    return this.referencesProduit = this.bd.list('Produits/').snapshotChanges(['child_added', 'child_removed'])
+    return this.referencesProduit = this.bd.list('Produits/').snapshotChanges(['child_added', 'child_removed', 'child_changed'])
   }
   updateTask(produit: any) {
     return new Promise<any>((resolve, reject) => {
