@@ -1,37 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController, AlertController } from '@ionic/angular';
-//import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
   selector: 'app-produits',
   templateUrl: './ajouter-produit.page.html',
   styleUrls: ['./ajouter-produit.page.scss'],
 })
-
 export class AjouterProduitPage implements OnInit {
   imageVide: string;
   image: string;
   imagePath: string;
   upload: any;
-
   produit = {
     nom: "",
     quantite: undefined,
     prix: undefined,
   }
-
   constructor(
     private produitsService: ProduitsService,
-    //private produitModele: ProduitModele, 
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,
   ) {
   }
-
   async ajoutProduit(produit: AjouterProduitPage) {
     const loading = await this.loadingController.create({
       //  duration: 2000
@@ -46,18 +39,17 @@ export class AjouterProduitPage implements OnInit {
       message: 'Nous avons besoin d\'un nom de produit',
       buttons: ['OK']
     });
-
     if (this.produit.nom == '') {
       await alertNom.present();
     } else {
       await loading.present();
       this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
       this.produitsService.createTask(produit).then(ref => {
-      this.produit = {
-        nom: '',
-        quantite: undefined,
-        prix: undefined,
-      }
+        this.produit = {
+          nom: '',
+          quantite: undefined,
+          prix: undefined,
+        }
       });
 
       if (this.image == this.imageVide) {
@@ -70,14 +62,6 @@ export class AjouterProduitPage implements OnInit {
         await loading.dismiss();
         await alert.present();
       }
-
-      //this.upload = this.afSG.ref(this.imagePath).putString(this.image, 'data_url');
-      // this.upload.then(async () => {       
-      //   this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg'
-      //   await loading.dismiss();
-      //   await alert.present();
-      // });
-
     }
   }
   async ajouterPhoto(source: string) {

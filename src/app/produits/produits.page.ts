@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
 import { Router } from '@angular/router';
+import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
   selector: 'app-produits',
@@ -8,46 +9,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./produits.page.scss'],
 })
 export class ProduitsPage implements OnInit {
-  produits: any;
-  key: any;
-  nom: string;
-  prix: number;
-  quantite: number;
-  
+  public produits: Array<ProduitModele> = new Array<ProduitModele>();
   constructor(
     public produitsService: ProduitsService,
     public route: Router
   ) {
   }
-  getProduits(){
-  this.produitsService.getTasks()
+  getProduits() {
+    this.produitsService.getProduits()
   }
-  
-  imageDefaut(event : any) {
+  imageDefaut(event: any) {
     event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
-}
-  afficherImage(nom : String){
-    var image = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F'+ nom +'.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5';    return image
   }
-  versVueProduit(produit){
-    this.route.navigate(['/afficher-produit', produit.nom]);
-    this.produitsService.recupProduit(produit)
+  afficherImage(nom: String) {
+    var image = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'; 
+    return image
+  
+        // return this.produitsService.afs.collection('Produit', ref => ref.where('Nom', '>=', nom)
+        // .where('Nom', '<=', nom + '\uf8ff'))
+        // .snapshotChanges()
+    
+  
+  
   }
-   
+  versVueProduit(produit: ProduitModele) {
+    this.route.navigate(["afficher-produit"], { state: { data: produit}});
+  }
   ngOnInit() {
-    this.produitsService.getTasks().subscribe(actions =>{
-      this.produits = [];
-      actions.forEach(action =>{
-        this.produits.push({
-          //id: action.payload.exportVal().id,
-          key: action.key,
-          nom: action.payload.exportVal().nom,
-          quantite: action.payload.exportVal().quantite,  
-          prix: action.payload.exportVal().prix,           
-          image: this.afficherImage(action.payload.exportVal().nom)
-          })
-          //console.log(action.key)
+    this.produitsService.getProduits().subscribe(produits => {
+      this.produits = new Array
+      produits.forEach(produitRecus => {
+        let produit: ProduitModele =  new ProduitModele();
+        produit.key = produitRecus.key,
+        produit.nom = produitRecus.payload.exportVal().nom,
+        produit.quantite = produitRecus.payload.exportVal().quantite,
+        produit.prix = produitRecus.payload.exportVal().prix,
+        produit.image = this.afficherImage(produitRecus.payload.exportVal().nom)
+        this.produits.push(produit);
+        })
       });
-    })
-}
+  }
 }

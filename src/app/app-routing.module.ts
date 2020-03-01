@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./ajouter-produit/ajouter-produit.module').then( m => m.AjouterProduitPageModule)
   },
   {
-    path: 'afficher-produit/:nom', canActivate: [GardeConnexionService],
+    path: 'afficher-produit', canActivate: [GardeConnexionService],
     loadChildren: () => import('./afficher-produit/afficher-produit.module').then( m => m.AfficherProduitPageModule)
   },
 ];
