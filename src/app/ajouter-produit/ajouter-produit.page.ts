@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { LoadingController, AlertController } from '@ionic/angular';
+import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
   selector: 'app-produits',
@@ -11,13 +12,10 @@ import { LoadingController, AlertController } from '@ionic/angular';
 export class AjouterProduitPage implements OnInit {
   imageVide: string;
   image: string;
-  imagePath: string;
+  public nomImage: string;
   upload: any;
-  produit = {
-    nom: "",
-    quantite: undefined,
-    prix: undefined,
-  }
+  public produit: ProduitModele = new ProduitModele();
+
   constructor(
     private produitsService: ProduitsService,
     private camera: Camera,
@@ -39,29 +37,33 @@ export class AjouterProduitPage implements OnInit {
       message: 'Nous avons besoin d\'un nom de produit',
       buttons: ['OK']
     });
+
     if (this.produit.nom == '') {
       await alertNom.present();
     } else {
       await loading.present();
-      this.imagePath = 'Produits/' + this.produit.nom + '.jpg';
-      this.produitsService.createTask(produit).then(ref => {
-        this.produit = {
-          nom: '',
-          quantite: undefined,
-          prix: undefined,
-        }
-      });
+
 
       if (this.image == this.imageVide) {
         this.upload = '';
         await loading.dismiss();
         await alert.present();
       } else {
-        this.upload = this.produitsService.afSG.ref(this.imagePath).putString(this.image, 'data_url').
-          then(ref => { this.image = this.imageVide });
-        await loading.dismiss();
-        await alert.present();
+        this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
+        this.upload = this.produitsService.angularFireStorage.ref(this.nomImage).putString(this.image, 'data_url')
+          .then(ref => { this.image = this.imageVide })
+        this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+
+        //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
+
       }
+
+      this.produitsService.createProduit(this.produit).then(ref => {
+        this.produit = new ProduitModele;
+      });
+      await loading.dismiss();
+      await alert.present();
+
     }
   }
   async ajouterPhoto(source: string) {

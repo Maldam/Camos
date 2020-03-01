@@ -1,19 +1,22 @@
 <ion-header>
   <ion-toolbar color='primary'>
-    <ion-button id='ajouter' routerLink="/ajouter-produit">
-      <ion-icon name='add'></ion-icon>
-    </ion-button>
     <ion-title id='titre'>Liste des produits</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-fab id='ajouter' routerLink="/ajouter-produit" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <ion-list>
     <!-- <ion-item *ngFor="let produit of produits"  > -->
-      <ion-item routerLink="/afficher-produit"  *ngFor="let produit of produits" (click)="versVueProduit(produit)" >
+    <ion-item routerLink="/afficher-produit" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
 
       <ion-thumbnail slot="start">
-        <ion-img [src]="produit.image" (ionError)="imageDefaut($event)" ></ion-img>
+        <ion-img [src]="produit.imageURL" (ionError)="imageDefaut($event)"></ion-img>
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>
     </ion-item>

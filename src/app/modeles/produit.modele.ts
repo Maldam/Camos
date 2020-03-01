@@ -3,9 +3,9 @@ export class ProduitModele {
   nom: string;
   prix: number;
   quantite: number;
-  image:string;
+  imageURL: string;
 
   constructor(
-  ){} 
-  
+  ) { }
+
 }

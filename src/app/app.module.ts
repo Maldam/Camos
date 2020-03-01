@@ -14,7 +14,7 @@ import { ProduitsService } from './services/produits.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ConnexionService } from './services/connexion.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GardeConnexionService } from './services/garde-connexion.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -29,8 +29,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    
-    
+    FormsModule,
+    ReactiveFormsModule
+
+
   ],
   providers: [
     StatusBar,
@@ -39,10 +41,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ProduitsService,
     ConnexionService,
-    FormBuilder,
     AngularFirestore,
     GardeConnexionService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

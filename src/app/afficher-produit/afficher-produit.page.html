@@ -1,18 +1,34 @@
 <ion-header>
   <ion-toolbar color='primary'>
-    <ion-buttons id='retourProduits' slot="start" (click)="UpdateProduit(produit,'Si vous continuez, vous perdrez les modifications.')">
-      <ion-back-button  text="Page Produits"></ion-back-button>
+    <ion-buttons id='retourProduits' slot="start" (click)="bouttonRetour()">
+      <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-    
+
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="disposition">
-    <img [src]="produit.image"
+    <img [src]="produit.imageURL"
       onerror="src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';"
       alt="Missing Image" />
   </div>
-  <ion-item>
+
+  <form [formGroup]="form" novalidate>
+    <ion-item>
+      <ion-label position="floating">Nom</ion-label>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Quantite</ion-label>
+      <ion-textarea formControlName="quantiteForm" type="text" inputmode="number"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Prix</ion-label>
+      <ion-textarea formControlName="prixForm" type="text" inputmode="number"></ion-textarea>
+    </ion-item>
+  </form>
+
+  <!-- <ion-item>
     <ion-label position="floating">Nom</ion-label>
     <ion-input [(ngModel)]="produit.nom" (change)="estChange=true" type="string"></ion-input>
   </ion-item>
@@ -21,9 +37,9 @@
     <ion-input [(ngModel)]='produit.quantite' (change)="estChange=true" type="number"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating" >Prix</ion-label>
+    <ion-label position="floating">Prix</ion-label>
     <ion-input [(ngModel)]='produit.prix' (change)="estChange=true" type="number"></ion-input>
-  </ion-item>
+  </ion-item> -->
   <ion-button shape="round" color="danger" size="medium" (click)="RemoveProduit(produit)">
     <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
   </ion-button>
