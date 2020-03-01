@@ -41,7 +41,6 @@ export class AfficherProduitPage implements OnInit {
   }
   async UpdateProduit(produit: ProduitModele, errorMessage: string) {
 
-
     if (confirm(errorMessage)) {
 
       this.produit.nom = this.form.value.nomForm;
@@ -54,18 +53,6 @@ export class AfficherProduitPage implements OnInit {
     } else {
       //this.produit = this.produit2;
     }
-
-  }
-  bouttonRetour() {
-
-    this.produit = this.produit2;
-
-  }
-  sauvegardeDonnee() {
-    this.produit2.nom = this.produit.nom
-    this.produit2.quantite = this.produit.quantite
-    this.produit2.prix = this.produit.prix
-    this.produit2.imageURL = this.produit.imageURL
   }
   ngOnInit() {
     //this.sauvegardeDonnee();

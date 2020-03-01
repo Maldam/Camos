@@ -62,9 +62,10 @@ export class AjouterProduitPage implements OnInit {
         this.produit = new ProduitModele;
       });
       await loading.dismiss();
-      await alert.present();
+
 
     }
+    await alert.present();
   }
   async ajouterPhoto(source: string) {
     if (source == 'galerie') {
