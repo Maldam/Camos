@@ -9,8 +9,7 @@
 <ion-content>
   <div class="disposition">
     <img [src]="produit.imageURL"
-      onerror="src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';"
-      alt="Missing Image" />
+      onerror="src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';" alt="" />
   </div>
 
   <form [formGroup]="form" novalidate>
@@ -28,23 +27,28 @@
     </ion-item>
   </form>
 
-  <!-- <ion-item>
-    <ion-label position="floating">Nom</ion-label>
-    <ion-input [(ngModel)]="produit.nom" (change)="estChange=true" type="string"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Quantité</ion-label>
-    <ion-input [(ngModel)]='produit.quantite' (change)="estChange=true" type="number"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Prix</ion-label>
-    <ion-input [(ngModel)]='produit.prix' (change)="estChange=true" type="number"></ion-input>
-  </ion-item> -->
-  <ion-button shape="round" color="danger" size="medium" (click)="RemoveProduit(produit)">
+
+  <!-- <ion-button shape="round" color="danger" size="medium" (click)="RemoveProduit(produit)">
     <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
   </ion-button>
   <ion-button shape="round" color="success" size="medium" (click)="UpdateProduit(produit,'Êtes-vous sûr de vouloir modifier le produit?'
   )">
     <ion-icon src="\svg\save.svg" size="small" slot="icon-only"></ion-icon>
-  </ion-button>
+  </ion-button> -->
+
+
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="danger" (click)="RemoveProduit(produit)">
+      <ion-icon name="trash"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="UpdateProduit(produit,'Êtes-vous sûr de vouloir modifier le produit?')">
+      <ion-icon src="\svg\save.svg"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
 </ion-content>

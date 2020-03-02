@@ -12,11 +12,12 @@
   </ion-fab>
 
   <ion-list>
-    <!-- <ion-item *ngFor="let produit of produits"  > -->
     <ion-item routerLink="/afficher-produit" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
 
       <ion-thumbnail slot="start">
-        <ion-img [src]="produit.imageURL" (ionError)="imageDefaut($event)"></ion-img>
+        <img [src]="produit.imageURL"
+          onerror="src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';" alt="" />
+        <!-- (ionError)="imageDefaut($event)" -->
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>
     </ion-item>

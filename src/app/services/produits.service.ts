@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, SnapshotAction } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ProduitModele } from '../modeles/produit.modele';
 import { Observable } from 'rxjs';
@@ -44,7 +43,7 @@ export class ProduitsService {
   }
   public updateProduit(produit: ProduitModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Produits').update(produit.key, { nom: produit.nom, quantite: produit.quantite, prix: produit.prix }).then(
+      this.angularFireDatabase.list('Produits/').update(produit.key, { nom: produit.nom, quantite: produit.quantite, prix: produit.prix }).then(
         res => resolve(res),
         err => reject(err)
       )
@@ -52,9 +51,12 @@ export class ProduitsService {
     })
   }
   public deleteProduit(produit: ProduitModele): void {
-    this.angularFireDatabase.list('Produits').remove(produit.key)
-    firebase.storage().ref().child(produit.imageURL).delete().then(() => {
-    })
-      .catch(error => console.log("Pas d'image"));
+    this.angularFireDatabase.list('Produits/').remove(produit.key).then(() => {
+      if (produit.imageURL == undefined) {
+      } else {
+        this.angularFireStorage.ref('Produits/').child(produit.nom + '.jpg').delete()
+      }
+    }).catch(error => console.log(error));
   }
 }
+
