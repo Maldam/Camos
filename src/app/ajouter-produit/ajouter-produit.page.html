@@ -26,18 +26,18 @@
 
 
   <ion-item>
-    <ion-label>Nom</ion-label>
-    <ion-input [(ngModel)]="produit.nom" type="string" placeholder="coco nature"></ion-input>
+    <ion-label position="floating">Nom</ion-label>
+    <ion-input [(ngModel)]="produit.nom" type="string"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label>Quantité</ion-label>
-    <ion-input [(ngModel)]='produit.quantite' type="number" placeholder="1"></ion-input>
+    <ion-label position="floating">Quantité</ion-label>
+    <ion-input [(ngModel)]='produit.quantite' type="number"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label>Prix</ion-label>
-    <ion-input [(ngModel)]='produit.prix' type="number" placeholder="2"></ion-input>
+    <ion-label position="floating">Prix</ion-label>
+    <ion-input [(ngModel)]='produit.prix' type="number"></ion-input>
   </ion-item>
 
   <ion-button (click)="ajoutProduit(produit)" expand="block" color="primary">
