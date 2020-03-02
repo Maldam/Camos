@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProduitsService } from '../services/produits.service';
+import { ProduitsService } from '../../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { AngularFireStorageModule, AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController, AlertController } from '@ionic/angular';
@@ -12,7 +12,7 @@ import { LoadingController, AlertController } from '@ionic/angular';
 })
 
 export class Tab3Page implements OnInit {
-  
+
   ngOnInit() {
   }
 }

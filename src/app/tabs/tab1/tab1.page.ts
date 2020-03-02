@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ConnexionService } from '../services/connexion.service';
+import { ConnexionService } from '../../services/connexion.service';
 
 @Component({
   selector: 'app-tab1',
@@ -31,6 +31,5 @@ export class Tab1Page implements OnInit {
     this.connexionService.deconnexionUtilisateur();
   }
   ngOnInit(){
-    
   }
 }
