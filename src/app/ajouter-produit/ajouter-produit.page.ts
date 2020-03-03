@@ -10,10 +10,10 @@ import { ProduitModele } from '../modeles/produit.modele';
   styleUrls: ['./ajouter-produit.page.scss'],
 })
 export class AjouterProduitPage implements OnInit {
-  imageVide: string;
-  image: string;
+  public imageVide: string;
+  public image: string;
   public nomImage: string;
-  upload: any;
+  public upload: any;
   public produit: ProduitModele = new ProduitModele();
 
   constructor(
@@ -23,7 +23,7 @@ export class AjouterProduitPage implements OnInit {
     public alertController: AlertController,
   ) {
   }
-  async ajoutProduit(produit: AjouterProduitPage) {
+  public async ajoutProduit(produit: AjouterProduitPage) {
     const loading = await this.loadingController.create({
       //  duration: 2000
     });
@@ -37,7 +37,6 @@ export class AjouterProduitPage implements OnInit {
       message: 'Nous avons besoin d\'un nom de produit',
       buttons: ['OK']
     });
-
     if (this.produit.nom == '') {
       await alertNom.present();
     } else {
@@ -62,7 +61,7 @@ export class AjouterProduitPage implements OnInit {
       });
     }
   }
-  async ajouterPhoto(source: string) {
+  public async ajouterPhoto(source: string) {
     if (source == 'galerie') {
       const galerieImage = await this.openLibrary();
       this.image = 'data:image/jpg;base64,' + galerieImage;
@@ -71,7 +70,7 @@ export class AjouterProduitPage implements OnInit {
       this.image = 'data:image/jpg;base64,' + cameraImage;
     }
   }
-  async openLibrary() {
+  public async openLibrary() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -83,7 +82,7 @@ export class AjouterProduitPage implements OnInit {
     };
     return await this.camera.getPicture(options);
   }
-  async openCamera() {
+  public async openCamera() {
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -95,7 +94,7 @@ export class AjouterProduitPage implements OnInit {
     };
     return await this.camera.getPicture(options);
   }
-  ngOnInit() {
+  public ngOnInit() {
     this.imageVide = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
     this.image = this.imageVide;
   }

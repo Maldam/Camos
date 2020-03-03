@@ -15,17 +15,16 @@ export class ProduitsPage implements OnInit {
     public route: Router
   ) {
   }
-  getProduits() {
+  public getProduits() {
     this.produitsService.getProduits()
   }
-  imageDefaut(event: any) {
+  public imageDefaut(event: any) {
     event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
   }
-
-  versVueProduit(produit: ProduitModele) {
+  public versVueProduit(produit: ProduitModele) {
     this.route.navigate(["afficher-produit"], { state: { data: produit } });
   }
-  ngOnInit() {
+  public ngOnInit() {
     this.produitsService.getProduits().subscribe(produits => {
       this.produits = produits;
     });

@@ -9,19 +9,16 @@ import { ConnexionService } from '../services/connexion.service';
   styleUrls: ['./connexion.page.scss'],
 })
 export class ConnexionPage implements OnInit {
-
-  loginData = {
+  public loginData = {
     email: '',
     password: ''
   };
-
   constructor(
     public toastController: ToastController,
     public afAuth: AngularFireAuth,
     public connexionService: ConnexionService
   ) { }
-
-  connexion() {
+  public connexion() {
     this.connexionService.connexionUtilisateur(this.loginData.email, this.loginData.password).then(auth => {
       console.log('utilisateur connecté');
     })
@@ -34,7 +31,7 @@ export class ConnexionPage implements OnInit {
       password: ''
     };
   }
-  enregistrement() {
+  public enregistrement() {
     this.connexionService.creerUtilisateur(this.loginData.email, this.loginData.password).then(auth => {
       console.log('utilisateur connecté');
     })
@@ -47,8 +44,7 @@ export class ConnexionPage implements OnInit {
       password: ''
     };
   }
-
-  async errorMail() {
+  public async errorMail() {
     const toast = await this.toastController.create({
       message: 'Email ou mot de passe incorrect',
       duration: 2000,
@@ -56,6 +52,6 @@ export class ConnexionPage implements OnInit {
     });
     toast.present();
   }
-  ngOnInit() {
+  public ngOnInit() {
   }
 }

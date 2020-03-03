@@ -8,14 +8,12 @@ import { ConnexionService } from '../../services/connexion.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  userId: string;
-  mail: string;
-  method: any;
-  
+  public userId: string;
+  public mail: string;
+  public method: any;
   constructor(
     public afAuth: AngularFireAuth,
     public connexionService: ConnexionService
-    
   ) {
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -27,9 +25,9 @@ export class Tab1Page implements OnInit {
       }
     });
   }
-  deconnexion() {
+  public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }
-  ngOnInit(){
+  public ngOnInit() {
   }
 }

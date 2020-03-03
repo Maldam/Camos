@@ -5,15 +5,13 @@ import * as firebase from 'firebase/app';
 
 @Injectable()
 export class GardeConnexionService implements CanActivate {
-
   constructor(private router: Router) { }
-
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+  public canActivate(): Observable<boolean> | Promise<boolean> | boolean {
     return new Promise(
       (resolve, reject) => {
         firebase.auth().onAuthStateChanged(
           (user) => {
-            if(user) {
+            if (user) {
               resolve(true);
             } else {
               this.router.navigate(['/connexion']);

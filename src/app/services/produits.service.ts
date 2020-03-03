@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, SnapshotAction } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -13,7 +13,6 @@ export class ProduitsService {
     public angularFireStorage: AngularFireStorage,
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
-
   ) { }
   public createProduit(produit: ProduitModele) {
     return new Promise<any>((resolve, reject) => {

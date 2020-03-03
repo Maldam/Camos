@@ -3,7 +3,6 @@
     <ion-buttons id='retourProduits' slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -11,7 +10,6 @@
     <img [src]="produit.imageURL"
       onerror="src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';" alt="" />
   </div>
-
   <form [formGroup]="form" novalidate>
     <ion-item>
       <ion-label position="floating">Nom</ion-label>
@@ -32,7 +30,6 @@
       <ion-icon name="trash"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="success" (click)="UpdateProduit(produit,'Êtes-vous sûr de vouloir modifier le produit?')">
       <ion-icon src="\svg\save.svg"></ion-icon>

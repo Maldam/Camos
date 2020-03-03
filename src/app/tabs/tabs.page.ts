@@ -9,23 +9,16 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-
   constructor(
     private menu: MenuController,
     public toastController: ToastController,
     public afAuth: AngularFireAuth
-  ) {}
-
-  // logout() {
-  //   this.afAuth.auth.signOut();
-  // }
-
-  openFirst() {
+  ) { }
+  public openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
   }
 }
-
 export class MenuExample {
-constructor(private menu: MenuController) { } 
+  constructor(private menu: MenuController) { }
 }
