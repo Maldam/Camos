@@ -15,12 +15,9 @@ export class ProduitsPage implements OnInit {
     public route: Router
   ) {
   }
-  public getProduits() {
-    this.produitsService.getProduits()
-  }
-  public imageDefaut(event: any) {
-    event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
-  }
+  // public imageDefaut(event: any) {
+  //   event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
+  // }
   public versVueProduit(produit: ProduitModele) {
     this.route.navigate(["afficher-produit"], { state: { data: produit } });
   }

@@ -37,7 +37,7 @@ export class AjouterProduitPage implements OnInit {
       message: 'Nous avons besoin d\'un nom de produit',
       buttons: ['OK']
     });
-    if (this.produit.nom == '') {
+    if (this.produit.nom == undefined) {
       await alertNom.present();
     } else {
       await loading.present();
@@ -51,11 +51,8 @@ export class AjouterProduitPage implements OnInit {
         this.upload = this.produitsService.angularFireStorage.ref(this.nomImage).putString(this.image, 'data_url')
           .then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
         this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
-
         //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
-
       }
-
       this.produitsService.createProduit(this.produit).then(ref => {
         this.produit = new ProduitModele;
       });
@@ -95,7 +92,7 @@ export class AjouterProduitPage implements OnInit {
     return await this.camera.getPicture(options);
   }
   public ngOnInit() {
-    this.imageVide = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
+    this.imageVide = this.produit.imageURL;
     this.image = this.imageVide;
   }
 }

@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class ProduitsService {
+  public produit: ProduitModele = new ProduitModele();
+  public imageVide: string = this.produit.imageURL;
   constructor(
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
@@ -53,7 +55,10 @@ export class ProduitsService {
     this.angularFireDatabase.list('Produits/').remove(produit.key).then(() => {
       if (produit.imageURL == undefined) {
       } else {
-        this.angularFireStorage.storage.refFromURL(produit.imageURL).delete();
+        if (produit.imageURL == this.imageVide) {
+        } else {
+          this.angularFireStorage.storage.refFromURL(produit.imageURL).delete();
+        }
       }
     }).catch(error => console.log(error));
   }
