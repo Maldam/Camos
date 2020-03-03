@@ -43,7 +43,6 @@ export class AjouterProduitPage implements OnInit {
     } else {
       await loading.present();
 
-
       if (this.image == this.imageVide) {
         this.upload = '';
         await loading.dismiss();
@@ -51,7 +50,7 @@ export class AjouterProduitPage implements OnInit {
       } else {
         this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
         this.upload = this.produitsService.angularFireStorage.ref(this.nomImage).putString(this.image, 'data_url')
-          .then(ref => { this.image = this.imageVide })
+          .then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
         this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
 
         //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
@@ -61,11 +60,7 @@ export class AjouterProduitPage implements OnInit {
       this.produitsService.createProduit(this.produit).then(ref => {
         this.produit = new ProduitModele;
       });
-      await loading.dismiss();
-
-
     }
-    await alert.present();
   }
   async ajouterPhoto(source: string) {
     if (source == 'galerie') {
