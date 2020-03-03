@@ -41,21 +41,20 @@ export class AfficherProduitPage implements OnInit {
   }
   async UpdateProduit(produit: ProduitModele, errorMessage: string) {
 
-    if (confirm(errorMessage)) {
+    if (this.estChange) {
+      if (confirm(errorMessage)) {
 
-      this.produit.nom = this.form.value.nomForm;
-      this.produit.quantite = this.form.value.quantiteForm;
-      this.produit.prix = this.form.value.prixForm;
-      this.produitsService.updateProduit(produit)
+        this.produit.nom = this.form.value.nomForm;
+        this.produit.quantite = this.form.value.quantiteForm;
+        this.produit.prix = this.form.value.prixForm;
+        this.produitsService.updateProduit(produit)
 
-      //this.estChange = false
-      this.navCtrl.back();
-    } else {
-      //this.produit = this.produit2;
+        this.estChange = false
+        this.navCtrl.back();
+      }
     }
   }
   ngOnInit() {
-    //this.sauvegardeDonnee();
     this.form = this.formBuilder.group({
       nomForm: [this.produit.nom],
       quantiteForm: [this.produit.quantite],

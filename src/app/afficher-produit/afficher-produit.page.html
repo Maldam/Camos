@@ -15,15 +15,16 @@
   <form [formGroup]="form" novalidate>
     <ion-item>
       <ion-label position="floating">Nom</ion-label>
-      <ion-textarea formControlName="nomForm" type="text" inputmode="text"></ion-textarea>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Quantite</ion-label>
-      <ion-textarea formControlName="quantiteForm" type="text" inputmode="number"></ion-textarea>
+      <ion-textarea formControlName="quantiteForm" type="text" inputmode="number" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Prix</ion-label>
-      <ion-textarea formControlName="prixForm" type="text" inputmode="number"></ion-textarea>
+      <ion-textarea formControlName="prixForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
     </ion-item>
   </form>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
