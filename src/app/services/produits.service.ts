@@ -53,9 +53,10 @@ export class ProduitsService {
     this.angularFireDatabase.list('Produits/').remove(produit.key).then(() => {
       if (produit.imageURL == undefined) {
       } else {
-        this.angularFireStorage.ref('Produits/').child(produit.nom + '.jpg').delete()
+        this.angularFireStorage.storage.refFromURL(produit.imageURL).delete();
       }
     }).catch(error => console.log(error));
   }
 }
+
 
