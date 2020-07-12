@@ -2,6 +2,11 @@
   <ion-toolbar color='primary'>
     <ion-title id='titre'>Liste des produits</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)" >
+      
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-fab id='ajouter' routerLink="/ajouter-produit" vertical="bottom" horizontal="end" slot="fixed">
