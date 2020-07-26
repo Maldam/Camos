@@ -10,12 +10,19 @@ import { Observable } from 'rxjs';
 export class ProduitsService {
   public produit: ProduitModele = new ProduitModele();
   public imageVide: string = this.produit.imageURL;
+  public produits: Array<ProduitModele> = new Array<ProduitModele>();
+  public produits2: Array<ProduitModele>;
   constructor(
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
-  ) { }
+  ) { 
+    this.getProduits().subscribe(produits => {
+      this.produits2 = produits;
+    });
+
+  }
   public createProduit(produit: ProduitModele) {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Produits/').push(produit)
@@ -62,6 +69,7 @@ export class ProduitsService {
       }
     }).catch(error => console.log(error));
   }
+ public test(nomProduit: any){
+  return this.produits2.findIndex(x => x.nom === nomProduit)
+ }
 }
-
-

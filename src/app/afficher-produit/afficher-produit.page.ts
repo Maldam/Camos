@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from "@angular/forms";
@@ -18,7 +18,9 @@ export class AfficherProduitPage implements OnInit {
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public alertController: AlertController,
+
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -32,16 +34,30 @@ export class AfficherProduitPage implements OnInit {
       this.navCtrl.back()
     }
   }
+  
   public async UpdateProduit(produit: ProduitModele, errorMessage: string) {
+
+    const articleExiste = await this.alertController.create({
+      header: 'Attention',
+      message: 'Cet article existe déjà',
+      buttons: ['OK']
+    });   
+
     if (this.estChange) {
-      if (confirm(errorMessage)) {
-        this.produit.nom = this.form.value.nomForm;
-        this.produit.quantite = this.form.value.quantiteForm;
-        this.produit.prix = this.form.value.prixForm;
-        this.produitsService.updateProduit(produit)
-        this.estChange = false
-        this.navCtrl.back();
+      if (this.produitsService.test(this.form.value.nomForm) === -1){
+        if (confirm(errorMessage)) {
+          this.produit.nom = this.form.value.nomForm;
+          this.produit.quantite = this.form.value.quantiteForm;
+          this.produit.prix = this.form.value.prixForm;
+          this.produitsService.updateProduit(produit)
+          this.estChange = false
+          this.navCtrl.back();
+        }
+
+      } else {
+        await articleExiste.present();
       }
+      
     }
   }
   public ngOnInit() {

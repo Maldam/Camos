@@ -24,16 +24,11 @@ export class ProduitsPage implements OnInit {
   
   public rechercheProduit(ev: any){    
     this.produits = this.listeProduits
-    
     const val = ev.target.value;
-    console.log(val);
-    console.log(this.produits)
     if (val && val.trim() !== ''){
-      this.produits = this.produits.filter((item: any) => {
-        return (item.nom.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      this.produits = this.produits.filter((produit: any) => {
+        return (produit.nom.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
-      
-      console.log(this.produits)
     }
   }
 

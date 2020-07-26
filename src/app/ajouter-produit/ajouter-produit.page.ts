@@ -15,6 +15,7 @@ export class AjouterProduitPage implements OnInit {
   public nomImage: string;
   public upload: any;
   public produit: ProduitModele = new ProduitModele();
+  public produits: Array<ProduitModele> = new Array<ProduitModele>();
 
   constructor(
     private produitsService: ProduitsService,
@@ -37,25 +38,36 @@ export class AjouterProduitPage implements OnInit {
       message: 'Nous avons besoin d\'un nom de produit',
       buttons: ['OK']
     });
-    if (this.produit.nom == undefined) {
-      await alertNom.present();
-    } else {
-      await loading.present();
-
-      if (this.image == this.imageVide) {
-        this.upload = '';
-        await loading.dismiss();
-        await alert.present();
+    const articleExiste = await this.alertController.create({
+      header: 'Attention',
+      message: 'Cet article existe déjà',
+      buttons: ['OK']
+    }); 
+    //var index = this.produits.findIndex(x => x.nom === this.produit.nom)
+    //var index2 = this.produitsService.rechercheIndex()
+    var test = this.produitsService.test(this.produit.nom);  
+    if ( test === -1) {
+      if (this.produit.nom == undefined) {
+        await alertNom.present();
       } else {
-        this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
-        this.upload = this.produitsService.angularFireStorage.ref(this.nomImage).putString(this.image, 'data_url')
-          .then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
-        this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
-        //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
-      }
-      this.produitsService.createProduit(this.produit).then(ref => {
-        this.produit = new ProduitModele;
-      });
+        await loading.present();
+        if (this.image == this.imageVide) {
+          this.upload = '';
+          await loading.dismiss();
+          await alert.present();
+        } else {
+          this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
+          this.upload = this.produitsService.angularFireStorage.ref(this.nomImage).putString(this.image, 'data_url')
+            .then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
+          this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+          //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
+        } 
+        this.produitsService.createProduit(this.produit).then(ref => {
+          this.produit = new ProduitModele;
+        });
+      }   
+    } else {
+      await articleExiste.present();
     }
   }
   public async ajouterPhoto(source: string) {
