@@ -44,7 +44,7 @@ export class AfficherProduitPage implements OnInit {
     });   
 
     if (this.estChange) {
-      if (this.produitsService.test(this.form.value.nomForm) === -1){
+      if (this.produitsService.numeroIndex(this.form.value.nomForm) === -1){
         if (confirm(errorMessage)) {
           this.produit.nom = this.form.value.nomForm;
           this.produit.quantite = this.form.value.quantiteForm;

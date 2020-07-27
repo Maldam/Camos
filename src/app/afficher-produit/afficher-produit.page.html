@@ -6,8 +6,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="disposition">
-    <img [src]="produit.imageURL" alt="" />
+  <div class="disposition" (click)="versVueProduit(produit)">
+    <img [src]="produit.imageURL" alt=""/>
   </div>
   <form [formGroup]="form" novalidate>
     <ion-item>

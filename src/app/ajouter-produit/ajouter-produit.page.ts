@@ -45,7 +45,7 @@ export class AjouterProduitPage implements OnInit {
     }); 
     //var index = this.produits.findIndex(x => x.nom === this.produit.nom)
     //var index2 = this.produitsService.rechercheIndex()
-    var test = this.produitsService.test(this.produit.nom);  
+    var test = this.produitsService.numeroIndex(this.produit.nom);  
     if ( test === -1) {
       if (this.produit.nom == undefined) {
         await alertNom.present();

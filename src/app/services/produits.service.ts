@@ -69,7 +69,7 @@ export class ProduitsService {
       }
     }).catch(error => console.log(error));
   }
- public test(nomProduit: any){
+ public numeroIndex(nomProduit: any){
   return this.produits2.findIndex(x => x.nom === nomProduit)
  }
 }
