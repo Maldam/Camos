@@ -6,9 +6,13 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="disposition" (click)="versVueProduit(produit)">
+  <div class="disposition" >
     <img [src]="produit.imageURL" alt=""/>
   </div>
+  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(change)="estChange=true">
+    <ion-icon name="image" slot="start"></ion-icon>
+    Changer l'image
+  </ion-button>
   <form [formGroup]="form" novalidate>
     <ion-item>
       <ion-label position="floating">Nom</ion-label>

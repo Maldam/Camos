@@ -13,7 +13,7 @@ export class AjouterProduitPage implements OnInit {
   public imageVide: string;
   public image: string;
   public nomImage: string;
-  public upload: any;
+  //public upload: any;
   public produit: ProduitModele = new ProduitModele();
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
 
@@ -42,66 +42,40 @@ export class AjouterProduitPage implements OnInit {
       header: 'Attention',
       message: 'Cet article existe déjà',
       buttons: ['OK']
-    }); 
+    });
     //var index = this.produits.findIndex(x => x.nom === this.produit.nom)
     //var index2 = this.produitsService.rechercheIndex()
-    var test = this.produitsService.numeroIndex(this.produit.nom);  
-    if ( test === -1) {
+    var index = this.produitsService.numeroIndex(this.produit.nom);
+    if (index === -1) {
       if (this.produit.nom == undefined) {
         await alertNom.present();
       } else {
         await loading.present();
         if (this.image == this.imageVide) {
-          this.upload = '';
+          // this.upload = '';
           await loading.dismiss();
           await alert.present();
         } else {
           this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
-          this.upload = this.produitsService.angularFireStorage.ref(this.nomImage).putString(this.image, 'data_url')
-            .then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
+          this.produitsService.ajouterImage(this.nomImage, this.image).then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
           this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
           //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
-        } 
-        this.produitsService.createProduit(this.produit).then(ref => {
-          this.produit = new ProduitModele;
-        });
-      }   
+        }
+        this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele });
+      }
     } else {
       await articleExiste.present();
     }
   }
   public async ajouterPhoto(source: string) {
     if (source == 'galerie') {
-      const galerieImage = await this.openLibrary();
+      const galerieImage = await this.produitsService.openLibrary();
       this.image = 'data:image/jpg;base64,' + galerieImage;
     } else {
-      const cameraImage = await this.openCamera();
+      const cameraImage = await this.produitsService.openCamera();
       this.image = 'data:image/jpg;base64,' + cameraImage;
     }
-  }
-  public async openLibrary() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-    };
-    return await this.camera.getPicture(options);
-  }
-  public async openCamera() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      targetWidth: 1000,
-      targetHeight: 1000,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    };
-    return await this.camera.getPicture(options);
+    return this.image
   }
   public ngOnInit() {
     this.imageVide = this.produit.imageURL;

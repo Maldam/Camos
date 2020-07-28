@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ProduitModele } from '../modeles/produit.modele';
 import { Observable } from 'rxjs';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Injectable()
 export class ProduitsService {
@@ -12,11 +13,13 @@ export class ProduitsService {
   public imageVide: string = this.produit.imageURL;
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public produits2: Array<ProduitModele>;
+  public image: string;
   constructor(
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
+    private camera: Camera,
   ) { 
     this.getProduits().subscribe(produits => {
       this.produits2 = produits;
@@ -26,6 +29,15 @@ export class ProduitsService {
   public createProduit(produit: ProduitModele) {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Produits/').push(produit)
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        )
+    })
+  }
+  public ajouterImage(nomImage: string, image: string){
+    return new Promise<any>((resolve, reject) => {
+      this.angularFireStorage.ref(nomImage).putString(image, 'data_url')
         .then(
           res => resolve(res),
           err => reject(err)
@@ -72,4 +84,29 @@ export class ProduitsService {
  public numeroIndex(nomProduit: any){
   return this.produits2.findIndex(x => x.nom === nomProduit)
  }
+
+public async openLibrary() {
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    targetWidth: 1000,
+    targetHeight: 1000,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+  };
+  return await this.camera.getPicture(options);
+}
+public async openCamera() {
+  const options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.DATA_URL,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE,
+    targetWidth: 1000,
+    targetHeight: 1000,
+    sourceType: this.camera.PictureSourceType.CAMERA
+  };
+  return await this.camera.getPicture(options);
+}
 }

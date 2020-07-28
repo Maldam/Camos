@@ -14,6 +14,7 @@ export class AfficherProduitPage implements OnInit {
   public estChange: boolean = false;
   public form: FormGroup;
   public produit: ProduitModele = new ProduitModele();
+  public image: string;
   constructor(private produitsService: ProduitsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -60,6 +61,19 @@ export class AfficherProduitPage implements OnInit {
       
     }
   }
+
+  public async changerPhoto(source: string) {
+    if (source == 'galerie') {
+      const galerieImage = await this.produitsService.openLibrary();
+      this.image = 'data:image/jpg;base64,' + galerieImage;
+    } else {
+      const cameraImage = await this.produitsService.openCamera();
+      this.image = 'data:image/jpg;base64,' + cameraImage;
+    }
+    console.log(this.image)
+    return this.image
+  }
+
   public ngOnInit() {
     this.form = this.formBuilder.group({
       nomForm: [this.produit.nom],
