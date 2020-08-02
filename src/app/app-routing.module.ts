@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'afficher-client',
     loadChildren: () => import('./afficher-client/afficher-client.module').then( m => m.AfficherClientPageModule)
   },
+  {
+    path: 'ajouter-client',
+    loadChildren: () => import('./ajouter-client/ajouter-client.module').then( m => m.AjouterClientPageModule)
+  },
 
 ];
 @NgModule({
