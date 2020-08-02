@@ -12,9 +12,12 @@ import { FormGroup, FormBuilder } from "@angular/forms";
 })
 export class AfficherProduitPage implements OnInit {
   public estChange: boolean = false;
+  public imageChange: boolean = false;
+  public imageProduit: string;
   public form: FormGroup;
   public produit: ProduitModele = new ProduitModele();
   public image: string;
+  public imageOrigine: string;
   constructor(private produitsService: ProduitsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -28,6 +31,8 @@ export class AfficherProduitPage implements OnInit {
         this.produit = this.router.getCurrentNavigation().extras.state.data;
       }
     });
+      this.imageOrigine = this.produit.imageURL
+      this.imageProduit = this.imageOrigine
   }
   public async RemoveProduit(produit: ProduitModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + produit.nom + "?")) {
@@ -44,35 +49,38 @@ export class AfficherProduitPage implements OnInit {
       buttons: ['OK']
     });   
 
-    if (this.estChange) {
+    if (this.estChange || this.imageChange) {
       if (this.produitsService.numeroIndex(this.form.value.nomForm) === -1){
         if (confirm(errorMessage)) {
           this.produit.nom = this.form.value.nomForm;
           this.produit.quantite = this.form.value.quantiteForm;
           this.produit.prix = this.form.value.prixForm;
-          this.produitsService.updateProduit(produit)
-          this.estChange = false
+          this.produitsService.updateProduit(produit);
+          this.estChange = false;
           this.navCtrl.back();
+          if (this.imageChange) {
+            this.produitsService.deleteImage(this.imageOrigine)
+            var nomImage = 'Produits/' + this.produit.nom + '.jpg'
+            this.produitsService.ajouterImage(nomImage, this.produit.imageURL)
+            this.imageChange = false;
+            this.navCtrl.back();
+          }
         }
-
       } else {
         await articleExiste.present();
       }
-      
     }
   }
 
   public async changerPhoto(source: string) {
     if (source == 'galerie') {
       const galerieImage = await this.produitsService.openLibrary();
-      this.image = 'data:image/jpg;base64,' + galerieImage;
+      this.produit.imageURL = 'data:image/jpg;base64,' + galerieImage;
     } else {
       const cameraImage = await this.produitsService.openCamera();
-      this.image = 'data:image/jpg;base64,' + cameraImage;
+      this.produit.imageURL = 'data:image/jpg;base64,' + cameraImage;
     }
-    console.log(this.image)
-    return this.image
-  }
+ }
 
   public ngOnInit() {
     this.form = this.formBuilder.group({

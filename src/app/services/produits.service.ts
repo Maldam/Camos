@@ -76,7 +76,7 @@ export class ProduitsService {
       } else {
         if (produit.imageURL == this.imageVide) {
         } else {
-          this.angularFireStorage.storage.refFromURL(produit.imageURL).delete();
+          this.deleteImage(produit.imageURL)
         }
       }
     }).catch(error => console.log(error));
@@ -87,7 +87,10 @@ export class ProduitsService {
  } catch (error) {
    return -1
  }
-  
+ }
+
+ public deleteImage(imageASupprimer: any){
+  this.angularFireStorage.storage.refFromURL(imageASupprimer).delete();
  }
 
 public async openLibrary() {
