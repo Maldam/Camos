@@ -81,8 +81,13 @@ export class ProduitsService {
       }
     }).catch(error => console.log(error));
   }
- public numeroIndex(nomProduit: any){
+ public numeroIndex(nomProduit: any){try {
   return this.produits2.findIndex(x => x.nom === nomProduit)
+   
+ } catch (error) {
+   return -1
+ }
+  
  }
 
 public async openLibrary() {

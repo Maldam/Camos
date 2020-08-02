@@ -17,7 +17,10 @@
   <ion-list>
     <ion-item routerLink="/afficher-produit" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
       <ion-thumbnail slot="start">
-        <img [src]="produit.imageURL" alt="" />
+        <!--<img [src]="produit.imageURL" alt="" />-->
+
+        <ion-img [src]="produit.imageURL"></ion-img>
+
         <!-- (ionError)="imageDefaut($event)" -->
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>

@@ -13,7 +13,6 @@ export class AjouterProduitPage implements OnInit {
   public imageVide: string;
   public image: string;
   public nomImage: string;
-  //public upload: any;
   public produit: ProduitModele = new ProduitModele();
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
 
@@ -26,7 +25,6 @@ export class AjouterProduitPage implements OnInit {
   }
   public async ajoutProduit(produit: AjouterProduitPage) {
     const loading = await this.loadingController.create({
-      //  duration: 2000
     });
     const alert = await this.alertController.create({
       header: 'Félicitation',
@@ -43,8 +41,6 @@ export class AjouterProduitPage implements OnInit {
       message: 'Cet article existe déjà',
       buttons: ['OK']
     });
-    //var index = this.produits.findIndex(x => x.nom === this.produit.nom)
-    //var index2 = this.produitsService.rechercheIndex()
     var index = this.produitsService.numeroIndex(this.produit.nom);
     if (index === -1) {
       if (this.produit.nom == undefined) {
@@ -52,7 +48,6 @@ export class AjouterProduitPage implements OnInit {
       } else {
         await loading.present();
         if (this.image == this.imageVide) {
-          // this.upload = '';
           await loading.dismiss();
           await alert.present();
         } else {
