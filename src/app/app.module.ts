@@ -17,6 +17,9 @@ import { ConnexionService } from './services/connexion.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GardeConnexionService } from './services/garde-connexion.service';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Network } from '@ionic-native/network/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,17 +32,20 @@ import { AngularFirestore } from '@angular/fire/firestore';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Camera,
+    Network,
+    Dialogs,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ProduitsService,
     ConnexionService,
     AngularFirestore,
-    GardeConnexionService
+    GardeConnexionService,
   ],
   bootstrap: [AppComponent]
 })
