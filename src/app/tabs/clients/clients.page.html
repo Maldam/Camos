@@ -9,17 +9,17 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-fab id='ajouter' routerLink="/ajouter-produit" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab id='ajouter' routerLink="/ajouter-client" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <ion-list>
-    <ion-item routerLink="/afficher-produit" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
+    <ion-item routerLink="/afficher-client" *ngFor="let client of clients" (click)="versVueClient(client)">
       <ion-thumbnail slot="start">
-        <ion-img [src]="produit.imageURL"></ion-img>
+        <ion-img [src]="client.imageURL"></ion-img>
       </ion-thumbnail>
-      <ion-label>{{produit.nom}}</ion-label>
+      <ion-label>{{client.nom}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

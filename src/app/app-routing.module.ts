@@ -18,7 +18,11 @@ const routes: Routes = [
   {
     path: 'afficher-produit', canActivate: [GardeConnexionService],
     loadChildren: () => import('./afficher-produit/afficher-produit.module').then( m => m.AfficherProduitPageModule)
+  },  {
+    path: 'afficher-client',
+    loadChildren: () => import('./afficher-client/afficher-client.module').then( m => m.AfficherClientPageModule)
   },
+
 ];
 @NgModule({
   imports: [

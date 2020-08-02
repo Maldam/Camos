@@ -11,6 +11,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { firebaseConfig } from './app.firebase.config';
 import { AngularFireDatabaseModule } from '@angular/fire/database'
 import { ProduitsService } from './services/produits.service';
+import { ClientsService } from './services/clients.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { Camera } from '@ionic-native/camera/ngx';
 import { ConnexionService } from './services/connexion.service';
@@ -43,6 +44,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
     Dialogs,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ProduitsService,
+    ClientsService,
     ConnexionService,
     AngularFirestore,
     GardeConnexionService,
