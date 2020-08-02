@@ -1,4 +1,4 @@
-export class ProduitModele {
+export class ClientModele {
     public key: string;
     public nom: string;
     public prenom: string;

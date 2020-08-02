@@ -11,10 +11,8 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
   styleUrls: ['./produits.page.scss'],
 })
 export class ProduitsPage implements OnInit {
-
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public listeProduits: Array<ProduitModele> = new Array<ProduitModele>();
-  
   constructor(
     public produitsService: ProduitsService,
     public route: Router,
@@ -28,20 +26,12 @@ export class ProduitsPage implements OnInit {
     this.network.onConnect().subscribe(()=>
     {
       setTimeout(()=>{
-
       },2000);
-    });
-
-    
+    });  
   }
   // public imageDefaut(event: any) {
   //   event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
   // }
-  
-
-
-  
-
   public rechercheProduit(ev: any){    
     this.produits = this.listeProduits
     const val = ev.target.value;
@@ -51,7 +41,6 @@ export class ProduitsPage implements OnInit {
       })
     }
   }
-
   public versVueProduit(produit: ProduitModele) {
     this.route.navigate(["afficher-produit"], { state: { data: produit } });
   }
