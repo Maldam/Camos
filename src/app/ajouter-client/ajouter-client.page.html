@@ -1,9 +1,38 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>ajouter-client</ion-title>
+  <ion-toolbar color='primary'>
+    <ion-buttons id='retourclients' slot="start">
+      <ion-back-button defaultHref="/tabs/clients" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title id='titre'>Ajouter un client</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <div class="flex">
+    <div class="img-box">
+      <img [src]="image">
+    </div>
+  </div>
+  <ion-button (click)="ajouterPhoto('galerie')" color="tertiary" expand="block">
+    <ion-icon name="image" slot="start"></ion-icon>
+    Charger l'image
+  </ion-button>
+  <ion-button (click)="ajouterPhoto('camera')" color="secondary" expand="block">
+    <ion-icon name="camera" slot="start"></ion-icon>
+    Prenez une photo
+  </ion-button>
+  <ion-item>
+    <ion-label position="floating">Nom</ion-label>
+    <ion-input [(ngModel)]="client.nom" type="string"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Province</ion-label>
+    <ion-input [(ngModel)]='client.province' type="string"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Pays</ion-label>
+    <ion-input [(ngModel)]='client.pays' type="string"></ion-input>
+  </ion-item>
+  <ion-button (click)="ajoutClient(client)" expand="block" color="primary">
+    <ion-icon name="checkmark"></ion-icon>Ajouter
+  </ion-button>
 </ion-content>
