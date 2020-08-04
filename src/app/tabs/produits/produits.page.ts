@@ -29,9 +29,6 @@ export class ProduitsPage implements OnInit {
       },2000);
     });  
   }
-  // public imageDefaut(event: any) {
-  //   event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
-  // }
   public rechercheProduit(ev: any){    
     this.produits = this.listeProduits
     const val = ev.target.value;

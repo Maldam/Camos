@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,6 +13,8 @@ import { AfficherClientPage } from './afficher-client.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
+
     AfficherClientPageRoutingModule
   ],
   declarations: [AfficherClientPage]

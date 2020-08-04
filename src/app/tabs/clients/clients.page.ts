@@ -13,7 +13,9 @@ export class ClientsPage implements OnInit {
   constructor(
     public clientsService: ClientsService,
     public route: Router,
-  ) {}
+  
+  ) {
+  }
 
   public rechercheClient(ev: any){    
     this.clients = this.listeClients

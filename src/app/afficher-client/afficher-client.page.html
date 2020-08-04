@@ -1,9 +1,41 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>afficher-client</ion-title>
+  <ion-toolbar color='primary'>
+    <ion-buttons id='retourClients' slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <div class="disposition" >
+    <img [src]="client.imageURL" alt=""/>
+  </div>
+  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(change)="estChange=true">
+    <ion-icon name="image" slot="start"></ion-icon>
+    Changer l'image
+  </ion-button>
+  <form [formGroup]="form" novalidate>
+    <ion-item>
+      <ion-label position="floating">Nom</ion-label>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Province</ion-label>
+      <ion-textarea formControlName="provinceForm" type="text" inputmode="number" (change)="estChange=true">
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Pays</ion-label>
+      <ion-textarea formControlName="paysForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+  </form>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="danger" (click)="RemoveClient(client)">
+      <ion-icon name="trash"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="UpdateClient(client,'Êtes-vous sûr de vouloir modifier le client?')">
+      <ion-icon name="save"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
