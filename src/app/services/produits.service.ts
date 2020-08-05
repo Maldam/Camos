@@ -20,7 +20,7 @@ export class ProduitsService {
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
     private camera: Camera,
-  ) { 
+  ) {
     this.getProduits().subscribe(produits => {
       this.produits2 = produits;
     });
@@ -35,7 +35,7 @@ export class ProduitsService {
         )
     })
   }
-  public ajouterImage(nomImage: string, image: string){
+  public ajouterImage(nomImage: string, image: string) {
     return new Promise<any>((resolve, reject) => {
       this.angularFireStorage.ref(nomImage).putString(image, 'data_url')
         .then(
@@ -63,7 +63,7 @@ export class ProduitsService {
   }
   public updateProduit(produit: ProduitModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Produits/').update(produit.key, { nom: produit.nom, quantite: produit.quantite, prix: produit.prix }).then(
+      this.angularFireDatabase.list('Produits/').update(produit.key, { nom: produit.nom, quantite: produit.quantite, prix: produit.prix, imageURL: produit.imageURL }).then(
         res => resolve(res),
         err => reject(err)
       )
@@ -81,40 +81,41 @@ export class ProduitsService {
       }
     }).catch(error => console.log(error));
   }
- public numeroIndex(nomProduit: any){try {
-  return this.produits2.findIndex(x => x.nom === nomProduit)
-   
- } catch (error) {
-   return -1
- }
- }
+  public numeroIndex(nomProduit: any) {
+    try {
+      return this.produits2.findIndex(x => x.nom === nomProduit)
 
- public deleteImage(imageASupprimer: any){
-  this.angularFireStorage.storage.refFromURL(imageASupprimer).delete();
- }
+    } catch (error) {
+      return -1
+    }
+  }
 
-public async openLibrary() {
-  const options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    targetWidth: 1000,
-    targetHeight: 1000,
-    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-  };
-  return await this.camera.getPicture(options);
-}
-public async openCamera() {
-  const options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    targetWidth: 1000,
-    targetHeight: 1000,
-    sourceType: this.camera.PictureSourceType.CAMERA
-  };
-  return await this.camera.getPicture(options);
-}
+  public deleteImage(imageASupprimer: any) {
+    this.angularFireStorage.storage.refFromURL(imageASupprimer).delete();
+  }
+
+  public async openLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+    return await this.camera.getPicture(options);
+  }
+  public async openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+    return await this.camera.getPicture(options);
+  }
 }

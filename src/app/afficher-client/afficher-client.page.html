@@ -9,7 +9,7 @@
   <div class="disposition" >
     <img [src]="client.imageURL" alt=""/>
   </div>
-  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(change)="estChange=true">
+  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(click)="imageChange=true">
     <ion-icon name="image" slot="start"></ion-icon>
     Changer l'image
   </ion-button>

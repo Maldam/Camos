@@ -1,22 +1,22 @@
 <ion-header>
   <ion-toolbar color='primary'>
     <ion-buttons id='retourProduits' slot="start">
-      <ion-back-button text=""></ion-back-button>
+      <ion-back-button text="" ></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="disposition" >
-    <img [src]="produit.imageURL" alt=""/>
+    <img [src]="image" alt=""/>
   </div>
-  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(change)="estChange=true">
+  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(click)="imageChange=true">
     <ion-icon name="image" slot="start"></ion-icon>
     Changer l'image
   </ion-button>
   <form [formGroup]="form" novalidate>
     <ion-item>
       <ion-label position="floating">Nom</ion-label>
-      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Quantite</ion-label>
