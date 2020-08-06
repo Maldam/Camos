@@ -3,6 +3,7 @@ import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { ProduitModele } from '../modeles/produit.modele';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-produits',
@@ -47,12 +48,12 @@ export class AjouterProduitPage implements OnInit {
         await alertNom.present();
       } else {
         await loading.present();
-        if (this.image == this.imageVide) {
+        if (this.image == "") {
           await loading.dismiss();
           await alert.present();
         } else {
           this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
-          this.produitsService.ajouterImage(this.nomImage, this.image).then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
+          this.produitsService.ajouterImage(this.nomImage, this.image).then(ref => { this.image = undefined; loading.dismiss(); alert.present(); })
           this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
           //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
         }

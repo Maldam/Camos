@@ -9,7 +9,7 @@
 <ion-content>
   <div class="flex">
     <div class="img-box">
-      <img [src]="image">
+      <img [src]="image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
     </div>
   </div>
   <ion-button (click)="ajouterPhoto('galerie')" color="tertiary" expand="block">

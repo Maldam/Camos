@@ -19,7 +19,7 @@
       <ion-thumbnail slot="start">
         <!--<img [src]="produit.imageURL" alt="" />-->
 
-        <ion-img [src]="produit.imageURL"></ion-img>
+        <img [src]="produit.imageURL" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
 
         <!-- (ionError)="imageDefaut($event)" -->
       </ion-thumbnail>
