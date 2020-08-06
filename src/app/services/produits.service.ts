@@ -46,7 +46,7 @@ export class ProduitsService {
   }
   public getProduits(): Observable<Array<ProduitModele>> {
     return new Observable<Array<ProduitModele>>(observer => {
-      this.angularFireDatabase.list('Produits/').snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(produitsRecus => {
+      this.angularFireDatabase.list('Produits/').snapshotChanges(['child_added', 'child_removed', 'child_changed',]).subscribe(produitsRecus => {
         let produits: Array<ProduitModele> = new Array<ProduitModele>();
         produitsRecus.forEach(produitRecus => {
           let produit: ProduitModele = new ProduitModele();

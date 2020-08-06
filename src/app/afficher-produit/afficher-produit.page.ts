@@ -73,7 +73,9 @@ export class AfficherProduitPage implements OnInit {
     if (this.imageChange) {
       if (confirm(errorMessage)) {
         this.nouvelleImage();
+        this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
         this.produitsService.updateProduit(produit).then(ref => { this.navCtrl.back() });
+        this.imageChange = false;
       }
     }
   }
@@ -81,7 +83,11 @@ export class AfficherProduitPage implements OnInit {
     const loading = await this.loadingController.create({
     });
     await loading.present();
-    this.produitsService.deleteImage(this.imageOrigine)
+    try {
+      this.produitsService.deleteImage(this.imageOrigine)
+    } catch (error) {
+    console.log("Pas d'image présente")
+    }
     var nomImage = 'Produits/' + this.produit.nom + '.jpg'
     this.produitsService.ajouterImage(nomImage, this.image).then(ref => { loading.dismiss() })
     this.image = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
