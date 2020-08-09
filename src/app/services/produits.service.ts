@@ -46,7 +46,7 @@ export class ProduitsService {
   }
   public getProduits(): Observable<Array<ProduitModele>> {
     return new Observable<Array<ProduitModele>>(observer => {
-      this.angularFireDatabase.list('Produits/').snapshotChanges(['child_added', 'child_removed', 'child_changed',]).subscribe(produitsRecus => {
+      this.angularFireDatabase.list('Produits/').snapshotChanges(['child_added', 'child_removed', 'child_changed', 'child_moved']).subscribe(produitsRecus => {
         let produits: Array<ProduitModele> = new Array<ProduitModele>();
         produitsRecus.forEach(produitRecus => {
           let produit: ProduitModele = new ProduitModele();
@@ -65,7 +65,7 @@ export class ProduitsService {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Produits/').update(produit.key, { nom: produit.nom, quantite: produit.quantite, prix: produit.prix, imageURL: produit.imageURL }).then(
         res => resolve(res),
-        err => reject(err)
+        err => reject(err),
       )
       //firebase.storage().ref().child('Produits/' + produit.nom + '.jpg')
     })
