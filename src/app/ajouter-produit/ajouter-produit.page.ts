@@ -11,7 +11,7 @@ import { empty } from 'rxjs';
   styleUrls: ['./ajouter-produit.page.scss'],
 })
 export class AjouterProduitPage implements OnInit {
-  public imageVide: string;
+  public imageVide: string ='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
   public image: string;
   public nomImage: string;
   public produit: ProduitModele = new ProduitModele();
@@ -49,11 +49,12 @@ export class AjouterProduitPage implements OnInit {
       } else {
         await loading.present();
         if (this.image == "") {
+          //this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
           await loading.dismiss();
           await alert.present();
         } else {
           this.nomImage = 'Produits/' + this.produit.nom + '.jpg';
-          this.produitsService.ajouterImage(this.nomImage, this.image).then(ref => { this.image = undefined; loading.dismiss(); alert.present(); })
+          this.produitsService.ajouterImage(this.nomImage, this.image).then(ref => { this.image = this.imageVide; loading.dismiss(); alert.present(); })
           this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
           //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
         }
@@ -74,7 +75,7 @@ export class AjouterProduitPage implements OnInit {
     return this.image
   }
   public ngOnInit() {
-    this.imageVide = this.produit.imageURL;
-    this.image = this.imageVide;
+    //this.imageVide = this.produit.imageURL;
+    //this.image = this.imageVide;
   }
 }
