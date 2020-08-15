@@ -72,11 +72,11 @@ export class ProduitsService {
   }
   public deleteProduit(produit: ProduitModele): void {
     this.angularFireDatabase.list('Produits/').remove(produit.key).then(() => {
-      if (produit.imageURL == undefined) {
+      if (produit.imageURL == "") {
       } else {
         if (produit.imageURL == this.imageVide) {
         } else {
-          this.deleteImage(produit.imageURL)
+          this.deleteImage(produit)
         }
       }
     }).catch(error => console.log(error));
@@ -90,8 +90,9 @@ export class ProduitsService {
     }
   }
 
-  public deleteImage(imageASupprimer: any) {
-    this.angularFireStorage.storage.refFromURL(imageASupprimer).delete();
+  public deleteImage(produit: ProduitModele): void {
+    this.angularFireStorage.storage.refFromURL(produit.imageURL).delete();
+    //this.angularFireStorage.ref("Produits/test.jpg").delete();
   }
 
   public async openLibrary() {

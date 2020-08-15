@@ -19,6 +19,7 @@ export class AfficherProduitPage implements OnInit {
   public produit: ProduitModele = new ProduitModele();
   public image: string;
   public imageOrigine: string;
+  public produits: Array<ProduitModele> = new Array<ProduitModele>();
   constructor(private produitsService: ProduitsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -53,54 +54,53 @@ export class AfficherProduitPage implements OnInit {
       message: 'Nous avons besoin d\'un nom de produit',
       buttons: ['OK']
     });
-
-
     var changementNomOK = false;
     if (this.estChange) {
       if (this.form.value.nomForm === "") {
         await alertNom.present();
       } else {
-      if (this.nomChange) {
+        if (this.nomChange) {
           if (this.produitsService.numeroIndex(this.form.value.nomForm) === -1) {
             changementNomOK = true
           }
-      } else { changementNomOK = true }
-      if (changementNomOK) {
-        if (confirm(errorMessage)) {
-          await loading.present();
-         
-         
-          this.produit.nom = this.form.value.nomForm;
-          this.produit.quantite = this.form.value.quantiteForm;
-          this.produit.prix = this.form.value.prixForm;
-        
-          if (this.imageChange) {
-           await this.nouvelleImage()
-            this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+        } else { 
+          changementNomOK = true }
+        if (changementNomOK) {
+          if (confirm(errorMessage)) {
+            await loading.present();
+            produit.nom = this.form.value.nomForm;
+            produit.quantite = this.form.value.quantiteForm;
+            produit.prix = this.form.value.prixForm;
+            if (this.imageChange) { 
+              var nouveauNomImage = produit.nom + Date.now()
+              await this.nouvelleImage(produit,nouveauNomImage) 
+              produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+            }
+            await this.produitsService.updateProduit(produit).then(ref => {
+              loading.dismiss();
+            });
+            this.estChange = false;
+            this.nomChange = false;
+            this.imageChange = false;
           }
-         await this.produitsService.updateProduit(produit).then(ref => { loading.dismiss()});
-          this.estChange = false;
-          this.nomChange = false;
-          this.imageChange = false;
+        } else {
+          await articleExiste.present();
         }
-      } else {
-        await articleExiste.present();
       }
     }
   }
-  }
-  public async nouvelleImage() {
+  public async nouvelleImage(produit: ProduitModele,nouveauNomImage: string) {
     const loading = await this.loadingController.create({
     });
     await loading.present();
     try {
-      this.produitsService.deleteImage(this.imageOrigine)
+      this.produitsService.deleteImage(produit)
     } catch (error) {
       console.log("Pas d'image présente")
     }
-    var nomImage = 'Produits/' + this.produit.nom + '.jpg'
+    var nomImage = 'Produits/' + nouveauNomImage + '.jpg'
     await this.produitsService.ajouterImage(nomImage, this.image).then(ref => { loading.dismiss() })
-    this.image ='https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+    //this.image ='https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
     this.imageChange = false;
   }
   public async changerPhoto(source: string) {
@@ -115,12 +115,11 @@ export class AfficherProduitPage implements OnInit {
   public ngOnInit() {
     this.image = this.produit.imageURL
     this.imageOrigine = this.produit.imageURL
-   
+
     this.form = this.formBuilder.group({
       nomForm: [this.produit.nom],
       quantiteForm: [this.produit.quantite],
       prixForm: [this.produit.prix]
-      
     });
   }
 }
