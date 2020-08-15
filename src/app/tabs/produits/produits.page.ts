@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ProduitModele } from '../../modeles/produit.modele';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
-
 @Component({
   selector: 'app-produits',
   templateUrl: './produits.page.html',

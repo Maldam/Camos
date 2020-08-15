@@ -6,7 +6,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ClientModele } from '../modeles/client.modele';
 import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
 @Injectable()
 export class ClientsService {
   public client: ClientModele = new ClientModele();
@@ -20,11 +19,10 @@ export class ClientsService {
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
     private camera: Camera,
-  ) { 
+  ) {
     this.getClients().subscribe(clients => {
       this.clients2 = clients;
     });
-
   }
   public createClient(client: ClientModele) {
     return new Promise<any>((resolve, reject) => {
@@ -35,7 +33,7 @@ export class ClientsService {
         )
     })
   }
-  public ajouterImage(nomImage: string, image: string){
+  public ajouterImage(nomImage: string, image: string) {
     return new Promise<any>((resolve, reject) => {
       this.angularFireStorage.ref(nomImage).putString(image, 'data_url')
         .then(
@@ -52,8 +50,15 @@ export class ClientsService {
           let client: ClientModele = new ClientModele();
           client.key = clientRecus.key,
             client.nom = clientRecus.payload.exportVal().nom,
-            client.province = clientRecus.payload.exportVal().province,
+            client.prenom = clientRecus.payload.exportVal().prenom,
             client.pays = clientRecus.payload.exportVal().pays,
+            client.province = clientRecus.payload.exportVal().province,
+            client.codePostal = clientRecus.payload.exportVal().codePostal,
+            client.localite = clientRecus.payload.exportVal().localite,
+            client.rue = clientRecus.payload.exportVal().rue,
+            client.numero = clientRecus.payload.exportVal().numero,
+            client.boite = clientRecus.payload.exportVal().boite,
+
             client.imageURL = clientRecus.payload.exportVal().imageURL
           clients.push(client);
           observer.next(clients);
@@ -80,40 +85,38 @@ export class ClientsService {
       }
     }).catch(error => console.log(error));
   }
- public numeroIndex(nomClient: any){try {
-  return this.clients2.findIndex(x => x.nom === nomClient)
-   
- } catch (error) {
-   return -1
- }
- }
-
- public deleteImage(imageASupprimer: any){
-  this.angularFireStorage.storage.refFromURL(imageASupprimer).delete();
- }
-
-public async openLibrary() {
-  const options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    targetWidth: 1000,
-    targetHeight: 1000,
-    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
-  };
-  return await this.camera.getPicture(options);
-}
-public async openCamera() {
-  const options: CameraOptions = {
-    quality: 100,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
-    targetWidth: 1000,
-    targetHeight: 1000,
-    sourceType: this.camera.PictureSourceType.CAMERA
-  };
-  return await this.camera.getPicture(options);
-}
+  public numeroIndex(nomClient: any) {
+    try {
+      return this.clients2.findIndex(x => x.nom === nomClient)
+    } catch (error) {
+      return -1
+    }
+  }
+  public deleteImage(imageASupprimer: any) {
+    this.angularFireStorage.storage.refFromURL(imageASupprimer).delete();
+  }
+  public async openLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+    return await this.camera.getPicture(options);
+  }
+  public async openCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+    return await this.camera.getPicture(options);
+  }
 }

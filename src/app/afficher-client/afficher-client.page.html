@@ -1,31 +1,57 @@
 <ion-header>
   <ion-toolbar color='primary'>
-    <ion-buttons id='retourClients' slot="start">
-      <ion-back-button text=""></ion-back-button>
+    <ion-buttons id='retourProduits' slot="start">
+      <ion-back-button text="" ></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <div class="disposition" >
-    <img [src]="client.imageURL" alt=""/>
+    <img [src]="image" alt=""/>
   </div>
-  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(click)="imageChange=true">
+  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(click)="imageChange=true; estChange=true">
     <ion-icon name="image" slot="start"></ion-icon>
     Changer l'image
   </ion-button>
   <form [formGroup]="form" novalidate>
     <ion-item>
       <ion-label position="floating">Nom</ion-label>
-      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Province</ion-label>
-      <ion-textarea formControlName="provinceForm" type="text" inputmode="number" (change)="estChange=true">
+      <ion-label position="floating">Prénom</ion-label>
+      <ion-textarea formControlName="prenomForm" type="text" inputmode="text" (change)="estChange=true">
       </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Pays</ion-label>
-      <ion-textarea formControlName="paysForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName="paysForm" type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Province</ion-label>
+      <ion-textarea formControlName="provinceForm" type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Localité</ion-label>
+      <ion-textarea formControlName="localiteForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Code postal</ion-label>
+      <ion-textarea formControlName="codePostalForm" type="number" inputmode="number" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Rue</ion-label>
+      <ion-textarea formControlName="rueForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Numéro</ion-label>
+      <ion-textarea formControlName="numeroForm" type="number" inputmode="number" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Boite</ion-label>
+      <ion-textarea formControlName="boiteForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
     </ion-item>
   </form>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">

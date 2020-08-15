@@ -10,7 +10,7 @@ import { ClientModele } from '../modeles/client.modele';
   styleUrls: ['./ajouter-client.page.scss'],
 })
 export class AjouterClientPage implements OnInit {
-  public imageVide: string;
+  public imageVide: string = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1200px-Circle-icons-profile.svg.png';
   public image: string;
   public nomImage: string;
   public client: ClientModele = new ClientModele();
@@ -47,7 +47,7 @@ export class AjouterClientPage implements OnInit {
         await alertNom.present();
       } else {
         await loading.present();
-        if (this.image == this.imageVide) {
+        if (this.image == undefined) {
           await loading.dismiss();
           await alert.present();
         } else {
@@ -73,7 +73,7 @@ export class AjouterClientPage implements OnInit {
     return this.image
   }
   public ngOnInit() {
-    this.imageVide = this.client.imageURL;
-    this.image = this.imageVide;
+    //this.imageVide = this.client.imageURL;
+    //this.image = this.imageVide;
   }
 }

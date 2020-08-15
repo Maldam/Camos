@@ -6,7 +6,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ProduitModele } from '../modeles/produit.modele';
 import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
 @Injectable()
 export class ProduitsService {
   public produit: ProduitModele = new ProduitModele();
@@ -24,7 +23,6 @@ export class ProduitsService {
     this.getProduits().subscribe(produits => {
       this.produits2 = produits;
     });
-
   }
   public createProduit(produit: ProduitModele) {
     return new Promise<any>((resolve, reject) => {
@@ -84,17 +82,14 @@ export class ProduitsService {
   public numeroIndex(nomProduit: any) {
     try {
       return this.produits2.findIndex(x => x.nom === nomProduit)
-
     } catch (error) {
       return -1
     }
   }
-
   public deleteImage(produit: ProduitModele): void {
     this.angularFireStorage.storage.refFromURL(produit.imageURL).delete();
     //this.angularFireStorage.ref("Produits/test.jpg").delete();
   }
-
   public async openLibrary() {
     const options: CameraOptions = {
       quality: 100,

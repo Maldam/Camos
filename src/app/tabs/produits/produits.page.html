@@ -3,8 +3,7 @@
     <ion-title id='titre'>Liste des produits</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)" >
-      
+    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -18,9 +17,8 @@
     <ion-item routerLink="/afficher-produit" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
       <ion-thumbnail slot="start">
         <!--<img [src]="produit.imageURL" alt="" />-->
-
-        <img [src]="produit.imageURL" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
-
+        <img [src]="produit.imageURL"
+          onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
         <!-- (ionError)="imageDefaut($event)" -->
       </ion-thumbnail>
       <ion-label>{{produit.nom}}</ion-label>

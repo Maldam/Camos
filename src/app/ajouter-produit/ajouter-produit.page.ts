@@ -3,7 +3,6 @@ import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { ProduitModele } from '../modeles/produit.modele';
-import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-produits',

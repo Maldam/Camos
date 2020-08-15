@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ClientsService } from '../../services/clients.service';
 import { Router } from '@angular/router';
 import { ClientModele } from '../../modeles/client.modele';
+import { Network } from '@ionic-native/network/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
 @Component({
   selector: 'app-clients',
   templateUrl: 'clients.page.html',
@@ -13,10 +15,19 @@ export class ClientsPage implements OnInit {
   constructor(
     public clientsService: ClientsService,
     public route: Router,
-  
+    public network: Network,
+    public dialogs: Dialogs,
   ) {
+    this.network.onDisconnect().subscribe(()=>
+    {
+      this.dialogs.alert("pas de connexion à internet")
+    });
+    this.network.onConnect().subscribe(()=>
+    {
+      setTimeout(()=>{
+      },2000);
+    });  
   }
-
   public rechercheClient(ev: any){    
     this.clients = this.listeClients
     const val = ev.target.value;

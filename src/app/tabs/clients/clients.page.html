@@ -3,8 +3,7 @@
     <ion-title id='titre'>Clients</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheClient($event)" >
-      
+    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheClient($event)">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -17,7 +16,10 @@
   <ion-list>
     <ion-item routerLink="/afficher-client" *ngFor="let client of clients" (click)="versVueClient(client)">
       <ion-thumbnail slot="start">
-        <ion-img [src]="client.imageURL"></ion-img>
+        <!--<img [src]="client.imageURL" alt="" />-->
+        <img [src]="client.imageURL"
+          onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1200px-Circle-icons-profile.svg.png';">
+        <!-- (ionError)="imageDefaut($event)" -->
       </ion-thumbnail>
       <ion-label>{{client.nom}}</ion-label>
     </ion-item>
