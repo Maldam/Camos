@@ -48,7 +48,7 @@ export class AjouterProduitPage implements OnInit {
         await alertNom.present();
       } else {
         await loading.present();
-        if (this.image == "") {
+        if (this.image == undefined) {
           //this.image = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
           await loading.dismiss();
           await alert.present();
