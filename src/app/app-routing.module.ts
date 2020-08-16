@@ -26,6 +26,14 @@ const routes: Routes = [
     path: 'ajouter-client',
     loadChildren: () => import('./ajouter-client/ajouter-client.module').then( m => m.AjouterClientPageModule)
   },
+  {
+    path: 'ajouter-commande',
+    loadChildren: () => import('./ajouter-commande/ajouter-commande.module').then( m => m.AjouterCommandePageModule)
+  },
+  {
+    path: 'afficher-commande',
+    loadChildren: () => import('./afficher-commande/afficher-commande.module').then( m => m.AfficherCommandePageModule)
+  },
 
 ];
 @NgModule({
