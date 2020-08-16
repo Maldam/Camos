@@ -68,7 +68,16 @@ export class ClientsService {
   }
   public updateClient(client: ClientModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Clients/').update(client.key, { nom: client.nom, quantite: client.province, prix: client.pays }).then(
+      this.angularFireDatabase.list('Clients/').update(client.key, { nom: client.nom, 
+        prenom: client.prenom,
+        pays: client.pays,
+        province: client.province,
+        codePostal: client.codePostal,
+        localite: client.localite,
+        rue: client.rue,
+        numero: client.numero,
+        boite: client.boite, 
+        imageURL: client.imageURL }).then(
         res => resolve(res),
         err => reject(err)
       )
