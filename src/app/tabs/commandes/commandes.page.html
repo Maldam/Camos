@@ -6,6 +6,20 @@
       </ion-button>
     </ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheCommande($event)">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-fab id='ajouter' routerLink="/ajouter-commande" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-list>
+    <ion-item routerLink="/afficher-commande" *ngFor="let commande of commandes" (click)="versVueCommande(commande)">
+      <ion-label>{{commande.nom}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
