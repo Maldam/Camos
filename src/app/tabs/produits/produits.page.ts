@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ProduitModele } from '../../modeles/produit.modele';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
+import { ConnexionService } from '../../services/connexion.service';
 @Component({
   selector: 'app-produits',
   templateUrl: './produits.page.html',
@@ -17,6 +18,7 @@ export class ProduitsPage implements OnInit {
     public route: Router,
     public network: Network,
     public dialogs: Dialogs,
+    public connexionService: ConnexionService
   ) {
     this.network.onDisconnect().subscribe(()=>
     {
@@ -42,6 +44,9 @@ export class ProduitsPage implements OnInit {
   }
   public versVueProduit(produit: ProduitModele) {
     this.route.navigate(["afficher-produit"], { state: { data: produit } });
+  }
+  public deconnexion() {
+    this.connexionService.deconnexionUtilisateur();
   }
   public ngOnInit() {
     this.produitsService.getProduits().subscribe(produits => {

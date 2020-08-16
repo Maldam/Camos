@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ClientModele } from '../../modeles/client.modele';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
+import { ConnexionService } from 'src/app/services/connexion.service';
 @Component({
   selector: 'app-clients',
   templateUrl: 'clients.page.html',
@@ -17,6 +18,7 @@ export class ClientsPage implements OnInit {
     public route: Router,
     public network: Network,
     public dialogs: Dialogs,
+    public connexionService: ConnexionService,
   ) {
     this.network.onDisconnect().subscribe(()=>
     {
@@ -39,6 +41,9 @@ export class ClientsPage implements OnInit {
   }
   public versVueClient(client: ClientModele) {
     this.route.navigate(["afficher-client"], { state: { data: client } });
+  }
+  public deconnexion() {
+    this.connexionService.deconnexionUtilisateur();
   }
   public ngOnInit() {
     this.clientsService.getClients().subscribe(clients => {

@@ -1,6 +1,10 @@
 <ion-header>
   <ion-toolbar color='primary'>
-    <ion-title id='titre'>Liste des produits</ion-title>
+    <ion-title id='titre'>Liste des produits
+    <ion-button class="deconnexion" name=boutton (click)="deconnexion()" expand="block" color="primary">
+      <ion-icon name="power"></ion-icon>
+    </ion-button>
+  </ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)">
