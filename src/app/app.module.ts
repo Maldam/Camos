@@ -20,6 +20,7 @@ import { GardeConnexionService } from './services/garde-connexion.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
+import { CommandesService } from './services/commandes.service';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
     ProduitsService,
     ClientsService,
     ConnexionService,
+    CommandesService,
     AngularFirestore,
     GardeConnexionService,
   ],

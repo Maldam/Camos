@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ConnexionService } from '../../services/connexion.service';
+import { CommandesService } from 'src/app/services/commandes.service';
+import { Router } from '@angular/router';
+import { Network } from '@ionic-native/network/ngx';
+import { Dialogs } from '@ionic-native/dialogs/ngx';
+import { CommandeModele } from 'src/app/modeles/commande.modele';
 
 @Component({
   selector: 'app-commandes',
@@ -11,15 +16,16 @@ export class CommandesPage implements OnInit {
   public userId: string;
   public mail: string;
   public method: any;
-  public commandesService: CommandesService,
-    public route: Router,
-    public network: Network,
-    public dialogs: Dialogs,
+  
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
   constructor(
     public afAuth: AngularFireAuth,
-    public connexionService: ConnexionService
+    public connexionService: ConnexionService,
+    public commandesService: CommandesService,
+    public route: Router,
+    public network: Network,
+    public dialogs: Dialogs,
   ) {
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -40,14 +46,7 @@ export class CommandesPage implements OnInit {
       setTimeout(()=>{
       },2000);
     });  
-
-
-
-
   }
-
-
-
   public rechercheCommande(ev: any){    
     this.commandes = this.listeCommandes
     const val = ev.target.value;
