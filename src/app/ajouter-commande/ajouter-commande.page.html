@@ -11,7 +11,7 @@
     <ion-label position="floating">Numéro de la facture</ion-label>
     <ion-input [(ngModel)]="commande.numero" type="text" inputmode="text"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item (click)="choixClientModal()">
     <ion-label position="floating">Nom du client</ion-label>
     <ion-input [(ngModel)]='commande.nom' type="text" inputmode="text"></ion-input>
   </ion-item>

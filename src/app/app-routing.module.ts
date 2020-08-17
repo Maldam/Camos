@@ -34,6 +34,14 @@ const routes: Routes = [
     path: 'afficher-commande',
     loadChildren: () => import('./afficher-commande/afficher-commande.module').then( m => m.AfficherCommandePageModule)
   },
+  {
+    path: 'modal-client',
+    loadChildren: () => import('./modals/modal-client/modal-client.module').then( m => m.ModalClientPageModule)
+  },
+  {
+    path: 'modal-client',
+    loadChildren: () => import('./modals/modal-client/modal-client.module').then( m => m.ModalClientPageModule)
+  },
 
 ];
 @NgModule({

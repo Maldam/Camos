@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title id="titre">modal-client</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheClient($event)">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item routerLink="/ajouter-commande" *ngFor="let client of clients" (click)="versVueClient(client)">
+      <ion-label>{{client.nom}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

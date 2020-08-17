@@ -17,6 +17,7 @@ export class CommandesService {
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
     private camera: Camera,
+
   ) {
     this.getCommandes().subscribe(commandes => {
       this.commandes2 = commandes;

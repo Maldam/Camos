@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
 import { CommandesService } from '../services/commandes.service';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController,IonRouterOutlet } from '@ionic/angular';
+import { ClientModele } from '../modeles/client.modele';
+import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 
 @Component({
   selector: 'app-ajouter-commande',
@@ -11,11 +13,20 @@ import { LoadingController, AlertController } from '@ionic/angular';
 export class AjouterCommandePage implements OnInit {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
+  public clients: Array<ClientModele> = new Array<ClientModele>();
+  public groups: Array<{
+		type: string;
+		elements: Array<ClientModele>;
+  }> = new Array();
+  private groupTypes: Array<string> = new Array();
+
 
   constructor(
     private commandesService: CommandesService,
     public loadingController: LoadingController,
     public alertController: AlertController,
+    private modalController: ModalController,
+    //public ajoutClient: ModalClientPage,
   ) {
   }
   public async ajoutCommande(commande: AjouterCommandePage) {
@@ -50,6 +61,58 @@ export class AjouterCommandePage implements OnInit {
       await articleExiste.present();
     }
   }
+
+  public async choixClientModal() {
+    const modal = await this.modalController.create({
+      component: ModalClientPage,
+      cssClass: 'my-custom-class',
+    });
+     return await modal.present();
+  }
+
+
+  // public async choixClientModal(client: ClientModele) {
+	// 	const modal = await this.modalController.create({
+	// 		component: ModalClientPage,
+	// 		componentProps: {
+	// 			person: client ? client : new ClientModele(),
+	// 			update: client ? true : false
+	// 		}
+	// 	});
+
+	// 	modal.onWillDismiss().then(dataReturned => {
+	// 		client
+	// 			? dataReturned.data.removePerson
+	// 				? (this.clients = this.clients.filter(
+	// 						pers => pers !== dataReturned.data.person
+	// 				  ))
+	// 				: false
+	// 			: dataReturned.data.person
+	// 			? this.clients.push(dataReturned.data.person)
+	// 			: false;
+	// 		this.prepareGroups();
+	// 	});
+
+	// 	return await modal.present();
+	// }
+  // private prepareGroups(): void {
+	// 	this.groups = new Array();
+	// 	this.groupTypes.forEach(type => {
+	// 		this.groups.push({
+	// 			type: type,
+	// 			elements: this.clients.filter(
+	// 				client => client.nom === type && client.numero
+	// 			)
+	// 		});
+	// 	});
+	// }
+
+
+
+
+
+
   public ngOnInit() {
+    
   }
 }
