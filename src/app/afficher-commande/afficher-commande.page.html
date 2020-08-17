@@ -1,9 +1,30 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>afficher-commande</ion-title>
+  <ion-toolbar color='primary'>
+    <ion-buttons id='retourCommandes' slot="start">
+      <ion-back-button text="" ></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <form [formGroup]="form" novalidate>
+    <ion-item>
+      <ion-label position="floating">Numéro</ion-label>
+      <ion-textarea formControlName="numeroForm" type="text" inputmode="text" (change)="numeroChange=true; estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Nom</ion-label>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
+    </ion-item>
+  </form>
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button color="danger" (click)="RemoveCommande(commande)">
+      <ion-icon name="trash"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="UpdateCommande(commande,'Êtes-vous sûr de vouloir modifier le commande?')">
+      <ion-icon name="save"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -39,7 +39,7 @@ export class CommandesService {
           let commande: CommandeModele = new CommandeModele();
           commande.key = commandeRecus.key,
             commande.numero = commandeRecus.payload.exportVal().numero,
-            //commande.prenom = commandeRecus.payload.exportVal().prenom,
+            commande.nom = commandeRecus.payload.exportVal().nom,
             //commande.pays = commandeRecus.payload.exportVal().pays,
             //commande.province = commandeRecus.payload.exportVal().province,
             //commande.codePostal = commandeRecus.payload.exportVal().codePostal,
