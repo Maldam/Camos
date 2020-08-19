@@ -7,8 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AjouterCommandePageRoutingModule } from './ajouter-commande-routing.module';
 
 import { AjouterCommandePage } from './ajouter-commande.page';
-import { ModalClientPageModule } from '../modals/modal-client/modal-client.module';
-import { AjouterClientPage } from '../ajouter-client/ajouter-client.page';
+import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 
 @NgModule({
   imports: [
@@ -20,11 +19,7 @@ import { AjouterClientPage } from '../ajouter-client/ajouter-client.page';
     //ModalClientPageModule,
     AjouterCommandePageRoutingModule,
   ],
-  exports: [
-    ModalClientPageModule,
-    
-  ],
-  declarations: [AjouterCommandePage],
-  //entryComponents: [ModalClientPageModule]
+  declarations: [AjouterCommandePage, ModalClientPage],
+  entryComponents: [ModalClientPage]
 })
 export class AjouterCommandePageModule {}
