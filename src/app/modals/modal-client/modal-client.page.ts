@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ClientModele } from 'src/app/modeles/client.modele';
 import { ClientsService } from 'src/app/services/clients.service';
 import { Router } from '@angular/router';
@@ -34,11 +34,18 @@ export class ModalClientPage implements OnInit {
   public async versVueClient(client: ClientModele) {
     this.route.navigate(["ajouter-commande"], { state: { data: client } }
     );
-    await this.modalController.dismiss(this.commande.nom = client.nom),
+    await this.modalController.dismiss(this.commande.nom = client.nom)
     //this.ajoutClient.client.nom = client.nom,
-    console.log(this.commande.nom),
-    console.log(client.nom)
   }
+  @Input() public lunch: string;
+  public dinner = {
+    mainCourse: 'fried chicken',
+    desert: 'chocolate cake'
+  };
+  async closeModal() {
+    await this.modalController.dismiss(this.dinner);
+  }
+  
   public ngOnInit() {
     this.clientsService.getClients().subscribe(clients => {
       this.clients = clients;

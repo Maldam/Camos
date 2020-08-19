@@ -65,10 +65,24 @@ export class AjouterCommandePage implements OnInit {
   public async choixClientModal() {
     const modal = await this.modalController.create({
       component: ModalClientPage,
-      cssClass: 'my-custom-class',
+      componentProps: {
+        lunch: this.lunch
+      }
     });
-     return await modal.present();
+    modal.onWillDismiss().then(dataReturned => {
+      this.dinner = dataReturned.data;
+      console.log('Receive: ', this.dinner);
+    })
+     return await modal.present().then(_ => {
+       console.log('Sending: ', this.lunch)
+     });
   }
+
+  public lunch = {
+    mainCourse: 'steak',
+    desert: 'pudding'
+  };
+public dinner: string;
 
 
   // public async choixClientModal(client: ClientModele) {

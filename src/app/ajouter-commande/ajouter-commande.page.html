@@ -7,6 +7,14 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  
+  <ion-text>
+    <p>Lunch: <strong>{{lunch | json}}</strong></p>
+  </ion-text>
+  <ion-text>
+    <p>Dinner (modal data): <strong>{{dinner | json}}</strong></p>
+  </ion-text>
+
   <ion-item>
     <ion-label position="floating">Numéro de la facture</ion-label>
     <ion-input [(ngModel)]="commande.numero" type="text" inputmode="text"></ion-input>

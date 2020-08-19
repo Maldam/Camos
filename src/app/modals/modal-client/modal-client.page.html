@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title id="titre">modal-client</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheClient($event)">
@@ -9,6 +14,14 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-text>
+    <p>Lunch: <strong>{{lunch | json}}</strong></p>
+  </ion-text>
+  <ion-text>
+    <p>Dinner (modal data): <strong>{{dinner | json}}</strong></p>
+  </ion-text>
+  
   <ion-list>
     <ion-item routerLink="/ajouter-commande" *ngFor="let client of clients" (click)="versVueClient(client)">
       <ion-label>{{client.nom}}</ion-label>
