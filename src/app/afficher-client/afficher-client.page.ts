@@ -80,7 +80,7 @@ export class AfficherClientPage implements OnInit {
             client.numeroTelephone = this.form.value.numeroTelephoneForm;
             client.numeroGSM = this.form.value.numeroGSMForm;
             client.numeroFax = this.form.value.numeroFax;
-            client.Email = this.form.value.emailForm;
+            client.email = this.form.value.emailForm;
             client.notes= this.form.value.notesForm;
             if (this.imageChange) { 
               var nouveauNomImage = client.nom + Date.now()
@@ -141,7 +141,7 @@ export class AfficherClientPage implements OnInit {
       numeroTelephoneForm: [this.client.numeroTelephone],
       numeroGSMForm: [this.client.numeroGSM],
       numeroFaxForm: [this.client.numeroFax],
-      emailForm: [this.client.Email],
+      emailForm: [this.client.email],
       notesForm: [this.client.notes]
 
     });

@@ -39,16 +39,22 @@ export class CommandesService {
         commandesRecus.forEach(commandeRecus => {
           let commande: CommandeModele = new CommandeModele();
           commande.key = commandeRecus.key,
-            commande.numero = commandeRecus.payload.exportVal().numero,
-            commande.nom = commandeRecus.payload.exportVal().nom,
-            //commande.pays = commandeRecus.payload.exportVal().pays,
-            //commande.province = commandeRecus.payload.exportVal().province,
-            //commande.codePostal = commandeRecus.payload.exportVal().codePostal,
-            //commande.localite = commandeRecus.payload.exportVal().localite,
-            //commande.rue = commandeRecus.payload.exportVal().rue,
-            //commande.numero = commandeRecus.payload.exportVal().numero,
-            //commande.boite = commandeRecus.payload.exportVal().boite,
-            //commande.imageURL = commandeRecus.payload.exportVal().imageURL
+            commande.numeroFacture = commandeRecus.payload.exportVal().numeroFacture,
+            commande.nomClient = commandeRecus.payload.exportVal().nomClient,
+            commande.prenomClient = commandeRecus.payload.exportVal().prenomClient,
+            commande.paysClient = commandeRecus.payload.exportVal().paysClient,
+            commande.provinceClient = commandeRecus.payload.exportVal().provinceClient,
+            commande.codePostalClient = commandeRecus.payload.exportVal().codePostalClient,
+            commande.localiteClient = commandeRecus.payload.exportVal().localiteClient,
+            commande.rueClient = commandeRecus.payload.exportVal().rueClient,
+            commande.numeroClient = commandeRecus.payload.exportVal().numeroClient,
+            commande.boiteClient = commandeRecus.payload.exportVal().boiteClient,
+            commande.numeroTVAClient = commandeRecus.payload.exportVal().numeroTVAClient,
+            commande.numeroTelephoneClient = commandeRecus.payload.exportVal().numeroTelephoneClient,
+            commande.numeroGSMClient = commandeRecus.payload.exportVal().numeroGSMClient,
+            commande.numeroFaxClient = commandeRecus.payload.exportVal().numeroFaxClient,
+            commande.emailClient = commandeRecus.payload.exportVal().emailClient,
+            commande.notes = commandeRecus.payload.exportVal().notes,
           commandes.push(commande);
           observer.next(commandes);
         })
@@ -57,16 +63,23 @@ export class CommandesService {
   }
   public updateCommande(commande: CommandeModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Commandes/').update(commande.key, { nom: commande.numero,
-        //prenom: commande.prenom,
-        //pays: commande.pays,
-        //province: commande.province,
-        //codePostal: commande.codePostal,
-        //localite: commande.localite,
-        //rue: commande.rue,
-        //numero: commande.numero,
-        //boite: commande.boite, 
-        //imageURL: commande.imageURL
+      this.angularFireDatabase.list('Commandes/').update(commande.key, {
+        numeroFacture: commande.numeroFacture,
+        nomClient: commande.nomClient,
+        prenomClient: commande.prenomClient,
+        paysClient: commande.paysClient,
+        provinceClient: commande.provinceClient,
+        codePostalClient: commande.codePostalClient,
+        localiteClient: commande.localiteClient,
+        rueClient: commande.rueClient,
+        numeroClient: commande.numeroClient,
+        boiteClient: commande.boiteClient,
+        numeroTVAClient: commande.numeroTVAClient,
+        numeroTelephoneClient: commande.numeroTelephoneClient,
+        numeroGSMClient: commande.numeroGSMClient,
+        numeroFaxClient: commande.numeroFaxClient,
+        emailClient: commande.emailClient,
+        notes: commande.notes,
     
     }).then(
         res => resolve(res),
@@ -79,7 +92,7 @@ export class CommandesService {
   }
   public numeroIndex(numeroCommande: any) {
     try {
-      return this.commandes2.findIndex(x => x.numero === numeroCommande)
+      return this.commandes2.findIndex(x => x.numeroFacture === numeroCommande)
     } catch (error) {
       return -1
     }

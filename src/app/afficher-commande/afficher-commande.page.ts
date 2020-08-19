@@ -33,7 +33,7 @@ export class AfficherCommandePage implements OnInit {
     //this.image = this.commande.imageURL
   }
   public async RemoveCommande(commande: CommandeModele) {
-    if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nom + "?")) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
       this.commandesService.deleteCommande(commande);
       this.navCtrl.back()
     }
@@ -65,9 +65,22 @@ export class AfficherCommandePage implements OnInit {
         if (changementNomOK) {
           if (confirm(errorMessage)) {
             await loading.present();
-            commande.numero = this.form.value.numeroForm;
-            commande.nom = this.form.value.nomForm;
-
+            commande.numeroFacture = this.form.value.numeroFactureForm;
+            commande.nomClient = this.form.value.nomClientForm;
+            commande.prenomClient = this.form.value.prenomClientForm,
+            commande.paysClient = this.form.value.paysClientForm,
+            commande.provinceClient = this.form.value.provinceClientForm,
+            commande.codePostalClient = this.form.value.codePostalClientForm,
+            commande.localiteClient = this.form.value.localiteClientForm,
+            commande.rueClient = this.form.value.rueClientForm,
+            commande.numeroClient = this.form.value.numeroClientForm,
+            commande.boiteClient = this.form.value.boiteClientForm,
+            commande.numeroTVAClient = this.form.value.numeroTVAClientForm,
+            commande.numeroTelephoneClient = this.form.value.numeroTelephoneClientForm,
+            commande.numeroGSMClient = this.form.value.numeroGSMClientForm,
+            commande.numeroFaxClient = this.form.value.numeroFaxClientForm,
+            commande.emailClient = this.form.value.emailClientForm,
+            commande.notes = this.form.value.notesForm,
             await this.commandesService.updateCommande(commande).then(ref => {
               loading.dismiss();
             });
@@ -86,8 +99,22 @@ export class AfficherCommandePage implements OnInit {
 
 
     this.form = this.formBuilder.group({
-      numeroForm: [this.commande.numero],
-      nomForm: [this.commande.nom],
+      numeroFactureForm: [this.commande.numeroFacture],
+      nomClientForm: [this.commande.nomClient],
+      prenomClientForm: [this.commande.prenomClient],
+      paysClientForm: [this.commande.paysClient],
+      provinceClientForm: [this.commande.provinceClient],
+      codePostalClientForm: [this.commande.codePostalClient],
+      localiteClientForm: [this.commande.localiteClient],
+      rueClientForm: [this.commande.rueClient],
+      numeroClientForm: [this.commande.numeroClient],
+      boiteClientForm: [this.commande.boiteClient],
+      numeroTVAClientForm: [this.commande.numeroTVAClient],
+      numeroTelephoneClientForm: [this.commande.numeroTelephoneClient],
+      numeroGSMClientForm: [this.commande.numeroGSMClient],
+      numeroFaxClientForm: [this.commande.numeroFaxClient],
+      emailClientForm: [this.commande.emailClient],
+      notesForm: [this.commande.notes],
     });
   }
 }

@@ -48,15 +48,28 @@ export class AjouterCommandePage implements OnInit {
       message: 'Cette commande existe déjà',
       buttons: ['OK']
     });
-    var index = this.commandesService.numeroIndex(this.commande.numero);
+    var index = this.commandesService.numeroIndex(this.commande.numeroFacture);
     if (index === -1) {
-      if (this.commande.numero == undefined) {
+      if (this.commande.numeroFacture == undefined) {
         await alertNom.present();
       } else {
         await loading.present();
           
         } 
-        this.commande.nom = this.client.nom
+        this.commande.nomClient = this.client.nom,
+        this.commande.prenomClient = this.client.prenom,
+        this.commande.paysClient = this.client.pays,
+        this.commande.provinceClient = this.client.province,
+        this.commande.codePostalClient = this.client.codePostal,
+        this.commande.localiteClient = this.client.localite,
+        this.commande.rueClient = this.client.rue,
+        this.commande.numeroClient = this.client.numero,
+        this.commande.boiteClient = this.client.boite,
+        this.commande.numeroTVAClient = this.client.numeroTVA,
+        this.commande.numeroTelephoneClient = this.client.numeroTelephone,
+        this.commande.numeroGSMClient = this.client.numeroGSM,
+        this.commande.numeroFaxClient = this.client.numeroFax,
+        this.commande.emailClient = this.client.email,
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
         this.client = new ClientModele });
         await loading.dismiss();
