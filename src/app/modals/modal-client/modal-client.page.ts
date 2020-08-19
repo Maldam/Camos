@@ -32,18 +32,15 @@ export class ModalClientPage implements OnInit {
     }
   }
   public async versVueClient(client: ClientModele) {
-    this.route.navigate(["ajouter-commande"], { state: { data: client } }
-    );
-    await this.modalController.dismiss(this.commande.nom = client.nom)
+    
+    await this.modalController.dismiss(client)
     //this.ajoutClient.client.nom = client.nom,
   }
-  @Input() public lunch: string;
-  public dinner = {
-    mainCourse: 'fried chicken',
-    desert: 'chocolate cake'
-  };
+  //@Input() public lunch: string;
+  
+  
   async closeModal() {
-    await this.modalController.dismiss(this.dinner);
+    await this.modalController.dismiss();
   }
   
   public ngOnInit() {

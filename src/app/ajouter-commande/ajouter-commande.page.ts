@@ -14,6 +14,7 @@ export class AjouterCommandePage implements OnInit {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public clients: Array<ClientModele> = new Array<ClientModele>();
+  public client: ClientModele = new ClientModele();
   public groups: Array<{
 		type: string;
 		elements: Array<ClientModele>;
@@ -66,23 +67,18 @@ export class AjouterCommandePage implements OnInit {
     const modal = await this.modalController.create({
       component: ModalClientPage,
       componentProps: {
-        lunch: this.lunch
+       
       }
     });
     modal.onWillDismiss().then(dataReturned => {
-      this.dinner = dataReturned.data;
-      console.log('Receive: ', this.dinner);
+      this.client = dataReturned.data;
+ 
     })
      return await modal.present().then(_ => {
-       console.log('Sending: ', this.lunch)
      });
   }
 
-  public lunch = {
-    mainCourse: 'steak',
-    desert: 'pudding'
-  };
-public dinner: string;
+//public dinner: CommandeModele = new CommandeModele();
 
 
   // public async choixClientModal(client: ClientModele) {

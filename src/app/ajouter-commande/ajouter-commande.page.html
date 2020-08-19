@@ -8,12 +8,7 @@
 </ion-header>
 <ion-content>
   
-  <ion-text>
-    <p>Lunch: <strong>{{lunch | json}}</strong></p>
-  </ion-text>
-  <ion-text>
-    <p>Dinner (modal data): <strong>{{dinner | json}}</strong></p>
-  </ion-text>
+
 
   <ion-item>
     <ion-label position="floating">Numéro de la facture</ion-label>
@@ -21,7 +16,7 @@
   </ion-item>
   <ion-item (click)="choixClientModal()">
     <ion-label position="floating">Nom du client</ion-label>
-    <ion-input [(ngModel)]='commande.nom' type="text" inputmode="text"></ion-input>
+    <ion-input [(ngModel)]='client.nom' type="text" inputmode="text"></ion-input>
   </ion-item>
   <ion-button (click)="ajoutCommande(commande)" expand="block" color="primary">
     <ion-icon name="checkmark"></ion-icon>Ajouter

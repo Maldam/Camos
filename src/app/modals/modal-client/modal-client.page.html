@@ -15,12 +15,7 @@
 
 <ion-content>
 
-  <ion-text>
-    <p>Lunch: <strong>{{lunch | json}}</strong></p>
-  </ion-text>
-  <ion-text>
-    <p>Dinner (modal data): <strong>{{dinner | json}}</strong></p>
-  </ion-text>
+
   
   <ion-list>
     <ion-item routerLink="/ajouter-commande" *ngFor="let client of clients" (click)="versVueClient(client)">
