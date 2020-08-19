@@ -58,7 +58,12 @@ export class ClientsService {
             client.rue = clientRecus.payload.exportVal().rue,
             client.numero = clientRecus.payload.exportVal().numero,
             client.boite = clientRecus.payload.exportVal().boite,
-
+            client.numeroTVA = clientRecus.payload.exportVal().numeroTVA,
+            client.numeroTelephone = clientRecus.payload.exportVal().numeroTelephone,
+            client.numeroGSM = clientRecus.payload.exportVal().numeroGSM,
+            client.numeroFax = clientRecus.payload.exportVal().numeroFax,
+            client.Email = clientRecus.payload.exportVal().Email,
+            client.notes = clientRecus.payload.exportVal().notes,
             client.imageURL = clientRecus.payload.exportVal().imageURL
           clients.push(client);
           observer.next(clients);
@@ -68,7 +73,8 @@ export class ClientsService {
   }
   public updateClient(client: ClientModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Clients/').update(client.key, { nom: client.nom, 
+      this.angularFireDatabase.list('Clients/').update(client.key, { 
+        nom: client.nom, 
         prenom: client.prenom,
         pays: client.pays,
         province: client.province,
@@ -76,7 +82,13 @@ export class ClientsService {
         localite: client.localite,
         rue: client.rue,
         numero: client.numero,
-        boite: client.boite, 
+        boite: client.boite,
+        numeroTVA: client.numeroTVA,
+        numeroTelephone: client.numeroTelephone,
+        numeroGSM: client.numeroGSM,
+        numeroFax: client.numeroFax,
+        Email: client.Email,
+        notes: client.notes, 
         imageURL: client.imageURL }).then(
         res => resolve(res),
         err => reject(err)

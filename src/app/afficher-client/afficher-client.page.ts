@@ -76,6 +76,12 @@ export class AfficherClientPage implements OnInit {
             client.rue = this.form.value.rueForm;
             client.numero = this.form.value.numeroForm;
             client.boite = this.form.value.boiteForm;
+            client.numeroTVA = this.form.value.numeroTVAForm;
+            client.numeroTelephone = this.form.value.numeroTelephoneForm;
+            client.numeroGSM = this.form.value.numeroGSMForm;
+            client.numeroFax = this.form.value.numeroFax;
+            client.Email = this.form.value.emailForm;
+            client.notes= this.form.value.notesForm;
             if (this.imageChange) { 
               var nouveauNomImage = client.nom + Date.now()
               await this.nouvelleImage(client,nouveauNomImage) 
@@ -131,6 +137,13 @@ export class AfficherClientPage implements OnInit {
       rueForm:[this.client.rue],
       numeroForm:[this.client.numero],
       boiteForm:[this.client.boite],
+      numeroTVAForm: [this.client.numeroTVA],
+      numeroTelephoneForm: [this.client.numeroTelephone],
+      numeroGSMForm: [this.client.numeroGSM],
+      numeroFaxForm: [this.client.numeroFax],
+      emailForm: [this.client.Email],
+      notesForm: [this.client.notes]
+
     });
   }
 }

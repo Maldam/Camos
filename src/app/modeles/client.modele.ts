@@ -1,3 +1,5 @@
+import { EmailValidator } from '@angular/forms';
+
 export class ClientModele {
     public key: string;
     public nom: string;
@@ -9,6 +11,12 @@ export class ClientModele {
     public rue: string;
     public numero: number;
     public boite: string;
+    public numeroTVA: string;
+    public numeroTelephone: string;
+    public numeroGSM: string;
+    public numeroFax: string;
+    public Email: string;
+    public notes: string;
     public imageURL: string = "";
     constructor(
     ) { }
