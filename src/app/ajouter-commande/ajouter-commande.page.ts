@@ -54,10 +54,13 @@ export class AjouterCommandePage implements OnInit {
         await alertNom.present();
       } else {
         await loading.present();
-          await loading.dismiss();
-          await alert.present();
+          
         } 
-        this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele });
+        this.commande.nom = this.client.nom
+        this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
+        this.client = new ClientModele });
+        await loading.dismiss();
+          await alert.present();
     } else {
       await articleExiste.present();
     }
@@ -77,50 +80,6 @@ export class AjouterCommandePage implements OnInit {
      return await modal.present().then(_ => {
      });
   }
-
-//public dinner: CommandeModele = new CommandeModele();
-
-
-  // public async choixClientModal(client: ClientModele) {
-	// 	const modal = await this.modalController.create({
-	// 		component: ModalClientPage,
-	// 		componentProps: {
-	// 			person: client ? client : new ClientModele(),
-	// 			update: client ? true : false
-	// 		}
-	// 	});
-
-	// 	modal.onWillDismiss().then(dataReturned => {
-	// 		client
-	// 			? dataReturned.data.removePerson
-	// 				? (this.clients = this.clients.filter(
-	// 						pers => pers !== dataReturned.data.person
-	// 				  ))
-	// 				: false
-	// 			: dataReturned.data.person
-	// 			? this.clients.push(dataReturned.data.person)
-	// 			: false;
-	// 		this.prepareGroups();
-	// 	});
-
-	// 	return await modal.present();
-	// }
-  // private prepareGroups(): void {
-	// 	this.groups = new Array();
-	// 	this.groupTypes.forEach(type => {
-	// 		this.groups.push({
-	// 			type: type,
-	// 			elements: this.clients.filter(
-	// 				client => client.nom === type && client.numero
-	// 			)
-	// 		});
-	// 	});
-	// }
-
-
-
-
-
 
   public ngOnInit() {
     
