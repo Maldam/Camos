@@ -16,6 +16,7 @@ export class CommandeModele {
     public numeroFaxClient: string = "";
     public emailClient: string = "";
     public notes: string = "";
+    public nomProduit: string = "";
     constructor(
     ) { }
 }

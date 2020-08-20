@@ -57,8 +57,6 @@ export class AjouterCommandePage implements OnInit {
         await alertNom.present();
       } else {
         await loading.present();
-          
-        } 
         this.commande.nomClient = this.client.nom,
         this.commande.prenomClient = this.client.prenom,
         this.commande.paysClient = this.client.pays,
@@ -73,10 +71,14 @@ export class AjouterCommandePage implements OnInit {
         this.commande.numeroGSMClient = this.client.numeroGSM,
         this.commande.numeroFaxClient = this.client.numeroFax,
         this.commande.emailClient = this.client.email,
+        this.commande.nomProduit = this.produit.nom,
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
-        this.client = new ClientModele });
+        this.client = new ClientModele, this.produit = new ProduitModele });
+        
         await loading.dismiss();
           await alert.present();
+        } 
+        
     } else {
       await articleExiste.present();
     }

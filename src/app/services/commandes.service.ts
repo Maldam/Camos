@@ -55,6 +55,7 @@ export class CommandesService {
             commande.numeroFaxClient = commandeRecus.payload.exportVal().numeroFaxClient,
             commande.emailClient = commandeRecus.payload.exportVal().emailClient,
             commande.notes = commandeRecus.payload.exportVal().notes,
+            commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
           commandes.push(commande);
           observer.next(commandes);
         })
@@ -80,6 +81,7 @@ export class CommandesService {
         numeroFaxClient: commande.numeroFaxClient,
         emailClient: commande.emailClient,
         notes: commande.notes,
+        nomProduit: commande.nomProduit,
     
     }).then(
         res => resolve(res),
