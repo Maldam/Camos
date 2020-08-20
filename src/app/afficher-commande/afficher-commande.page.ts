@@ -40,6 +40,7 @@ export class AfficherCommandePage implements OnInit {
   public async RemoveCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
       this.commandesService.deleteCommande(commande);
+      this.commandesService.deleteCommandeProduit(this.commandesProduits)
       this.navCtrl.back()
     }
   }

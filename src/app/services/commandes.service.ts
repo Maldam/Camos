@@ -109,8 +109,11 @@ export class CommandesService {
         )
     })
   }
-  public deleteCommandeProduit(commandeProduit: CommandeProduitModele): void {
-    this.angularFireDatabase.list('CommandesProduits/').remove(commandeProduit.key).catch(error => console.log(error));
+  public deleteCommandeProduit(commandesProduits: any): void {
+    commandesProduits.forEach(commandeProduit => {
+      this.angularFireDatabase.list('CommandesProduits/').remove(commandeProduit.key).catch(error => console.log(error));
+    });
+    
   }
   public getCommandesProduits(): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
