@@ -77,7 +77,7 @@ export class AjouterCommandePage implements OnInit {
         this.commande.numeroFaxClient = this.client.numeroFax,
         this.commande.emailClient = this.client.email,
         this.commandeProduit.nom = this.produit.nom,
-        this.commandesService.createCommandeProduit(this.commandeProduit)
+        //this.commandesService.createCommandeProduit(this.commandeProduit)
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
         this.client = new ClientModele, this.produit = new ProduitModele });
         
@@ -113,6 +113,13 @@ export class AjouterCommandePage implements OnInit {
     });
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
+      this.commandeProduit.nom = this.produit.nom,
+      this.commandesProduits.push(this.commandeProduit)
+      this.commandeProduit.numeroFacture = this.commande.numeroFacture
+      this.commandesService.createCommandeProduit(this.commandeProduit)
+      
+      //console.log(this.commandeProduit)
+      //console.log(this.commandesProduits)
  
     })
      return await modal.present().then(_ => {
@@ -120,10 +127,10 @@ export class AjouterCommandePage implements OnInit {
   }
 
   public ngOnInit() {
-    this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
-      this.commandesProduits = commandesProduits;
-      this.listeCommandesProduits = this.commandesProduits;
-    });
+    //this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
+      //this.commandesProduits = commandesProduits;
+      //this.listeCommandesProduits = this.commandesProduits;
+    //});
 
   }
 }

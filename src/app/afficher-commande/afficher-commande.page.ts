@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommandesService } from '../services/commandes.service';
 import { NavController, LoadingController, AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 
 @Component({
   selector: 'app-afficher-commande',
@@ -17,6 +18,10 @@ export class AfficherCommandePage implements OnInit {
   public form: FormGroup;
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
+  public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  public commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+  public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>(); 
+
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -94,11 +99,18 @@ export class AfficherCommandePage implements OnInit {
       }
     }
   }
-
-
+  public rechercheCommande(ev: any){    
+    //this.commandesProduits = this.listeCommandesProduits
+    //const val = ev.target.value;
+    //console.log (val)
+    //if (ev && ev.trim() !== ''){
+      this.commandesProduits = this.commandesProduits.filter((commandesProduits: any) => {
+        return (commandesProduits.numeroFacture.toLowerCase().indexOf(ev.toLowerCase()) > -1);
+        
+      })
+    //}
+  }
   public ngOnInit() {
-
-
     this.form = this.formBuilder.group({
       numeroFactureForm: [this.commande.numeroFacture],
       nomClientForm: [this.commande.nomClient],
@@ -118,5 +130,12 @@ export class AfficherCommandePage implements OnInit {
       notesForm: [this.commande.notes],
       nomProduitForm: [this.commande.nomProduit],
     });
+    this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
+      this.commandesProduits = commandesProduits;
+      this.listeCommandesProduits = this.commandesProduits;
+      this.rechercheCommande(this.commande.numeroFacture)  
+    });
+      
+
   }
 }

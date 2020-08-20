@@ -73,10 +73,15 @@
       <ion-label position="floating">Notes</ion-label>
       <ion-textarea formControlName='notesForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Nom produit</ion-label>
-      <ion-textarea formControlName='nomProduitForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+    <ion-item (click)="choixProduitModal()">
+      <ion-label >Nom du produit</ion-label>
+      <!-- <ion-input [(ngModel)]='produit.nom' type="text" inputmode="text"></ion-input> -->
     </ion-item>
+    <ion-list>
+      <ion-item *ngFor="let commandeProduit of commandesProduits">
+        <ion-label>{{commandeProduit.nom}}</ion-label>
+      </ion-item>
+    </ion-list>
     <ion-item></ion-item>
   </form>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
