@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'modal-client',
     loadChildren: () => import('./modals/modal-client/modal-client.module').then( m => m.ModalClientPageModule)
   },
+  {
+    path: 'modal-produit',
+    loadChildren: () => import('./modals/modal-produit/modal-produit.module').then( m => m.ModalProduitPageModule)
+  },
 
 ];
 @NgModule({
