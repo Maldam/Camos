@@ -6,6 +6,7 @@ import { ClientModele } from '../modeles/client.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
+import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 
 @Component({
   selector: 'app-ajouter-commande',
@@ -13,10 +14,14 @@ import { ProduitModele } from '../modeles/produit.modele';
   styleUrls: ['./ajouter-commande.page.scss'],
 })
 export class AjouterCommandePage implements OnInit {
+  public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public clients: Array<ClientModele> = new Array<ClientModele>();
   public client: ClientModele = new ClientModele();
+  public commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+  public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele = new ProduitModele();
   public groups: Array<{
 		type: string;
@@ -71,7 +76,8 @@ export class AjouterCommandePage implements OnInit {
         this.commande.numeroGSMClient = this.client.numeroGSM,
         this.commande.numeroFaxClient = this.client.numeroFax,
         this.commande.emailClient = this.client.email,
-        this.commande.nomProduit = this.produit.nom,
+        this.commandeProduit.nom = this.produit.nom,
+        this.commandesService.createCommandeProduit(this.commandeProduit)
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
         this.client = new ClientModele, this.produit = new ProduitModele });
         
@@ -114,6 +120,10 @@ export class AjouterCommandePage implements OnInit {
   }
 
   public ngOnInit() {
-    
+    this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
+      this.commandesProduits = commandesProduits;
+      this.listeCommandesProduits = this.commandesProduits;
+    });
+
   }
 }

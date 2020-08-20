@@ -6,6 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { CommandeModele } from '../modeles/commande.modele';
 import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 @Injectable()
 export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
@@ -95,6 +96,43 @@ export class CommandesService {
   public numeroIndex(numeroCommande: any) {
     try {
       return this.commandes2.findIndex(x => x.numeroFacture === numeroCommande)
+    } catch (error) {
+      return -1
+    }
+  }
+  public createCommandeProduit(commandeProduit: CommandeProduitModele) {
+    return new Promise<any>((resolve, reject) => {
+      this.angularFireDatabase.list('CommandesProduits/').push(commandeProduit)
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        )
+    })
+  }
+  public deleteCommandeProduit(commandeProduit: CommandeProduitModele): void {
+    this.angularFireDatabase.list('CommandesProduits/').remove(commandeProduit.key).catch(error => console.log(error));
+  }
+  public getCommandesProduits(): Observable<Array<CommandeProduitModele>> {
+    return new Observable<Array<CommandeProduitModele>>(observer => {
+      this.angularFireDatabase.list('CommandesProduits/').snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(commandesProduitsRecus => {
+        let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+        commandesProduitsRecus.forEach(commandesProduitsRecus => {
+          let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+          commandeProduit.key = commandesProduitsRecus.key,
+          commandeProduit.nom = commandesProduitsRecus.payload.exportVal().nom,
+          commandeProduit.prix = commandesProduitsRecus.payload.exportVal().prix,
+          commandeProduit.quantite = commandesProduitsRecus.payload.exportVal().quantite,
+          commandeProduit.imageURL = commandesProduitsRecus.payload.exportVal().imageURL,
+          commandeProduit.numeroFacture = commandesProduitsRecus.payload.exportVal().numeroFacture,  
+          commandesProduits.push(commandeProduit);
+          observer.next(commandesProduits);
+        })
+      });
+    });
+  }
+  public numeroIndexCommandeProduit(numeroFacture: any) {
+    try {
+      return this.commandes2.findIndex(x => x.numeroFacture === numeroFacture)
     } catch (error) {
       return -1
     }
