@@ -77,7 +77,12 @@ export class AjouterCommandePage implements OnInit {
         this.commande.numeroFaxClient = this.client.numeroFax,
         this.commande.emailClient = this.client.email,
         this.commandeProduit.nom = this.produit.nom,
-        //this.commandesService.createCommandeProduit(this.commandeProduit)
+
+        this.commandesProduits.forEach(commandeProduit => {
+          this.commandesService.createCommandeProduit(commandeProduit).then(x=>console.log(commandeProduit))
+        });
+
+        
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
         this.client = new ClientModele, this.produit = new ProduitModele });
         
@@ -114,9 +119,14 @@ export class AjouterCommandePage implements OnInit {
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
       this.commandeProduit.nom = this.produit.nom,
+      this.commandeProduit.numeroFacture = this.commande.numeroFacture,
+      console.log(this.commandeProduit)
+      //var commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
       this.commandesProduits.push(this.commandeProduit)
-      this.commandeProduit.numeroFacture = this.commande.numeroFacture
-      this.commandesService.createCommandeProduit(this.commandeProduit)
+
+      //commandesProduits.forEach(commandeProduit => {
+      //  console.log(commandeProduit)
+    //  });
       
       //console.log(this.commandeProduit)
       //console.log(this.commandesProduits)
