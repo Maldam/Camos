@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>modal-produit</ion-title>
+    <ion-title id="titre">modal-produit</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+
+  
+  <ion-list>
+    <ion-item routerLink="/ajouter-commande" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
+      <ion-label>{{produit.nom}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

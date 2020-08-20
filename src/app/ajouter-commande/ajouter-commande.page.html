@@ -70,6 +70,10 @@
   <ion-label position="floating">Email</ion-label>
     <ion-input [(ngModel)]='client.email' type="email" inputmode="email"></ion-input>
   </ion-item>
+  <ion-item (click)="choixProduitModal()">
+    <ion-label position="floating">Nom du produit</ion-label>
+    <ion-input [(ngModel)]='produit.nom' type="text" inputmode="text"></ion-input>
+  </ion-item>
   <ion-item>
     <ion-label position="floating">Notes</ion-label>
     <ion-textarea [(ngModel)]='commande.notes' type="text" inputmode="text"></ion-textarea>

@@ -4,6 +4,8 @@ import { CommandesService } from '../services/commandes.service';
 import { LoadingController, AlertController, ModalController,IonRouterOutlet } from '@ionic/angular';
 import { ClientModele } from '../modeles/client.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
+import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
+import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
   selector: 'app-ajouter-commande',
@@ -15,6 +17,7 @@ export class AjouterCommandePage implements OnInit {
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public clients: Array<ClientModele> = new Array<ClientModele>();
   public client: ClientModele = new ClientModele();
+  public produit: ProduitModele = new ProduitModele();
   public groups: Array<{
 		type: string;
 		elements: Array<ClientModele>;
@@ -88,6 +91,20 @@ export class AjouterCommandePage implements OnInit {
     });
     modal.onWillDismiss().then(dataReturned => {
       this.client = dataReturned.data;
+ 
+    })
+     return await modal.present().then(_ => {
+     });
+  }
+  public async choixProduitModal() {
+    const modal = await this.modalController.create({
+      component: ModalProduitPage,
+      componentProps: {
+       
+      }
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      this.produit = dataReturned.data;
  
     })
      return await modal.present().then(_ => {

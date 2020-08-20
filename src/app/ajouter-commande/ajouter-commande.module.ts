@@ -8,6 +8,7 @@ import { AjouterCommandePageRoutingModule } from './ajouter-commande-routing.mod
 
 import { AjouterCommandePage } from './ajouter-commande.page';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
+import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { ModalClientPage } from '../modals/modal-client/modal-client.page';
     //ModalClientPageModule,
     AjouterCommandePageRoutingModule,
   ],
-  declarations: [AjouterCommandePage, ModalClientPage],
-  entryComponents: [ModalClientPage]
+  declarations: [AjouterCommandePage, ModalClientPage, ModalProduitPage],
+  entryComponents: [ModalClientPage, ModalProduitPage]
 })
 export class AjouterCommandePageModule {}
