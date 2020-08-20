@@ -81,6 +81,7 @@ export class AfficherCommandePage implements OnInit {
             commande.numeroFaxClient = this.form.value.numeroFaxClientForm,
             commande.emailClient = this.form.value.emailClientForm,
             commande.notes = this.form.value.notesForm,
+            commande.nomProduit = this.form.value.nomProduitForm,
             await this.commandesService.updateCommande(commande).then(ref => {
               loading.dismiss();
             });
@@ -115,6 +116,7 @@ export class AfficherCommandePage implements OnInit {
       numeroFaxClientForm: [this.commande.numeroFaxClient],
       emailClientForm: [this.commande.emailClient],
       notesForm: [this.commande.notes],
+      nomProduitForm: [this.commande.nomProduit],
     });
   }
 }
