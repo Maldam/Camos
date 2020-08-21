@@ -84,7 +84,7 @@ export class AjouterCommandePage implements OnInit {
 
         
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
-        this.client = new ClientModele, this.produit = new ProduitModele });
+        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits =  new Array<CommandeProduitModele>() });
         
         await loading.dismiss();
           await alert.present();
@@ -118,15 +118,12 @@ export class AjouterCommandePage implements OnInit {
     });
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
-      this.commandeProduit.nom = this.produit.nom,
-      this.commandeProduit.numeroFacture = this.commande.numeroFacture,
-      console.log(this.commandeProduit)
+      let commandeProduit : CommandeProduitModele = new CommandeProduitModele(); 
+      commandeProduit.nom = this.produit.nom,
+      commandeProduit.numeroFacture = this.commande.numeroFacture,
+      //console.log(commandeProduit)
       //var commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-      this.commandesProduits.push(this.commandeProduit)
-
-      //commandesProduits.forEach(commandeProduit => {
-      //  console.log(commandeProduit)
-    //  });
+      this.commandesProduits.push(commandeProduit)
       
       //console.log(this.commandeProduit)
       //console.log(this.commandesProduits)
