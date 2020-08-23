@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  
+
 
 
   <ion-item>
@@ -52,32 +52,49 @@
   </ion-item>
   <ion-item>
     <ion-label position="floating">Numéro de TVA</ion-label>
-      <ion-input [(ngModel)]='client.numeroTVA' type="text" inputmode="text"></ion-input>
-    </ion-item>
+    <ion-input [(ngModel)]='client.numeroTVA' type="text" inputmode="text"></ion-input>
+  </ion-item>
   <ion-item>
-  <ion-label position="floating">Numéro de téléphone</ion-label>
+    <ion-label position="floating">Numéro de téléphone</ion-label>
     <ion-input [(ngModel)]='client.numeroTelephone' type="text" inputmode="text"></ion-input>
   </ion-item>
   <ion-item>
-  <ion-label position="floating">Numéro de GSM</ion-label>
+    <ion-label position="floating">Numéro de GSM</ion-label>
     <ion-input [(ngModel)]='client.numeroGSM' type="text" inputmode="text"></ion-input>
   </ion-item>
   <ion-item>
-  <ion-label position="floating">Numéro de fax</ion-label>
+    <ion-label position="floating">Numéro de fax</ion-label>
     <ion-input [(ngModel)]='client.numeroFax' type="text" inputmode="text"></ion-input>
   </ion-item>
   <ion-item>
-  <ion-label position="floating">Email</ion-label>
+    <ion-label position="floating">Email</ion-label>
     <ion-input [(ngModel)]='client.email' type="email" inputmode="email"></ion-input>
   </ion-item>
+
   <ion-item (click)="choixProduitModal()">
-    <ion-label >Nom du produit</ion-label>
+    <ion-label>Nom du produit</ion-label>
     <!-- <ion-input [(ngModel)]='produit.nom' type="text" inputmode="text"></ion-input> -->
   </ion-item>
-  <ion-list>
-    <ion-item *ngFor="let commandeProduit of commandesProduits">
-      <ion-label>{{commandeProduit.nom}}</ion-label>
+  <!--  -->
+    <ion-list>
+      <ion-item *ngFor="let commandeProduit of commandesProduits">
+        <ion-label>{{commandeProduit.nom}}</ion-label>
+      
+        <!-- <form [formGroup]="form" novalidate> -->
+      <ion-note>
+        <ion-label position="floating">Quantité</ion-label>
+        <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantiteEstChange(commandeProduit)">
+        </ion-textarea>
+      </ion-note>
+    <!-- </form> -->
+      <ion-note slot="end">
+        <ion-label position="floating">Prix</ion-label>
+        <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number">
+        </ion-textarea>
+      </ion-note>
+    
     </ion-item>
+  <!--  -->
   </ion-list>
   <ion-item>
     <ion-label position="floating">Notes</ion-label>
@@ -86,4 +103,5 @@
   <ion-button (click)="ajoutCommande(commande)" expand="block" color="primary">
     <ion-icon name="checkmark"></ion-icon>Ajouter
   </ion-button>
+
 </ion-content>

@@ -7,6 +7,8 @@ import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ajouter-commande',
@@ -14,6 +16,7 @@ import { CommandeProduitModele } from '../modeles/commande-produit.modele';
   styleUrls: ['./ajouter-commande.page.scss'],
 })
 export class AjouterCommandePage implements OnInit {
+  public form: FormGroup;
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
@@ -29,13 +32,13 @@ export class AjouterCommandePage implements OnInit {
   }> = new Array();
   private groupTypes: Array<string> = new Array();
 
-
   constructor(
     private commandesService: CommandesService,
+    public route: Router,
     public loadingController: LoadingController,
     public alertController: AlertController,
+    private formBuilder: FormBuilder,
     private modalController: ModalController,
-    //public ajoutClient: ModalClientPage,
   ) {
   }
   public async ajoutCommande(commande: AjouterCommandePage) {
@@ -77,14 +80,15 @@ export class AjouterCommandePage implements OnInit {
         this.commande.numeroFaxClient = this.client.numeroFax,
         this.commande.emailClient = this.client.email,
         this.commandeProduit.nom = this.produit.nom,
-
+    
         this.commandesProduits.forEach(commandeProduit => {
           this.commandesService.createCommandeProduit(commandeProduit).then(x=>console.log(commandeProduit))
         });
-
-        
+       
         this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
-        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits =  new Array<CommandeProduitModele>() });
+        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits =  new Array<CommandeProduitModele>(),
+        this.commande.numeroFacture = String(Date.now())  
+      });
         
         await loading.dismiss();
           await alert.present();
@@ -99,12 +103,10 @@ export class AjouterCommandePage implements OnInit {
     const modal = await this.modalController.create({
       component: ModalClientPage,
       componentProps: {
-       
       }
     });
     modal.onWillDismiss().then(dataReturned => {
       this.client = dataReturned.data;
- 
     })
      return await modal.present().then(_ => {
      });
@@ -118,26 +120,20 @@ export class AjouterCommandePage implements OnInit {
     });
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
-      let commandeProduit : CommandeProduitModele = new CommandeProduitModele(); 
+      let commandeProduit : CommandeProduitModele = new CommandeProduitModele();
       commandeProduit.nom = this.produit.nom,
       commandeProduit.numeroFacture = this.commande.numeroFacture,
-      //console.log(commandeProduit)
-      //var commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+      commandeProduit.prix = this.produit.prix
       this.commandesProduits.push(commandeProduit)
-      
-      //console.log(this.commandeProduit)
-      //console.log(this.commandesProduits)
- 
+
     })
      return await modal.present().then(_ => {
      });
   }
-
+  public quantiteEstChange(commandeProduit: CommandeProduitModele){
+    this.commandeProduit.prix=commandeProduit.prix
+  }
   public ngOnInit() {
-    //this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
-      //this.commandesProduits = commandesProduits;
-      //this.listeCommandesProduits = this.commandesProduits;
-    //});
-
+    this.commande.numeroFacture = String(Date.now())
   }
 }
