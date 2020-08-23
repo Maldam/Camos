@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
 import { CommandesService } from '../services/commandes.service';
-import { LoadingController, AlertController, ModalController,IonRouterOutlet } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController, IonRouterOutlet } from '@ionic/angular';
 import { ClientModele } from '../modeles/client.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
@@ -9,6 +9,7 @@ import { ProduitModele } from '../modeles/produit.modele';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ProduitsService } from '../services/produits.service';
 
 @Component({
   selector: 'app-ajouter-commande',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./ajouter-commande.page.scss'],
 })
 export class AjouterCommandePage implements OnInit {
-  public form: FormGroup;
+  //public form: FormGroup;
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
@@ -27,8 +28,8 @@ export class AjouterCommandePage implements OnInit {
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele = new ProduitModele();
   public groups: Array<{
-		type: string;
-		elements: Array<ClientModele>;
+    type: string;
+    elements: Array<ClientModele>;
   }> = new Array();
   private groupTypes: Array<string> = new Array();
 
@@ -37,7 +38,6 @@ export class AjouterCommandePage implements OnInit {
     public route: Router,
     public loadingController: LoadingController,
     public alertController: AlertController,
-    private formBuilder: FormBuilder,
     private modalController: ModalController,
   ) {
   }
@@ -66,34 +66,44 @@ export class AjouterCommandePage implements OnInit {
       } else {
         await loading.present();
         this.commande.nomClient = this.client.nom,
-        this.commande.prenomClient = this.client.prenom,
-        this.commande.paysClient = this.client.pays,
-        this.commande.provinceClient = this.client.province,
-        this.commande.codePostalClient = this.client.codePostal,
-        this.commande.localiteClient = this.client.localite,
-        this.commande.rueClient = this.client.rue,
-        this.commande.numeroClient = this.client.numero,
-        this.commande.boiteClient = this.client.boite,
-        this.commande.numeroTVAClient = this.client.numeroTVA,
-        this.commande.numeroTelephoneClient = this.client.numeroTelephone,
-        this.commande.numeroGSMClient = this.client.numeroGSM,
-        this.commande.numeroFaxClient = this.client.numeroFax,
-        this.commande.emailClient = this.client.email,
-        this.commandeProduit.nom = this.produit.nom,
-    
-        this.commandesProduits.forEach(commandeProduit => {
-          this.commandesService.createCommandeProduit(commandeProduit).then(x=>console.log(commandeProduit))
+          this.commande.prenomClient = this.client.prenom,
+          this.commande.paysClient = this.client.pays,
+          this.commande.provinceClient = this.client.province,
+          this.commande.codePostalClient = this.client.codePostal,
+          this.commande.localiteClient = this.client.localite,
+          this.commande.rueClient = this.client.rue,
+          this.commande.numeroClient = this.client.numero,
+          this.commande.boiteClient = this.client.boite,
+          this.commande.numeroTVAClient = this.client.numeroTVA,
+          this.commande.numeroTelephoneClient = this.client.numeroTelephone,
+          this.commande.numeroGSMClient = this.client.numeroGSM,
+          this.commande.numeroFaxClient = this.client.numeroFax,
+          this.commande.emailClient = this.client.email,
+          this.commandeProduit.produitNom = this.produit.nom,
+          this.commandeProduit.produitKey = this.produit.key,
+
+
+          this.commandesProduits.forEach(commandeProduit => {
+            this.commandesService.createCommandeProduit(commandeProduit).then(x => {})
+          });
+
+        this.commandesService.createCommande(this.commande).then(ref => {
+          this.commande = new CommandeModele
+          this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
+            this.commande.numeroFacture = String(Date.now())
         });
-       
-        this.commandesService.createCommande(this.commande).then(ref => { this.commande = new CommandeModele
-        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits =  new Array<CommandeProduitModele>(),
-        this.commande.numeroFacture = String(Date.now())  
-      });
+        this.commandesProduits.forEach(commandeProduit => {
+          let produit: ProduitModele = new ProduitModele();
+          produit.key = commandeProduit.produitKey;
+          produit.quantite = commandeProduit.quantite;
+          this.commandesService.updateProduit(produit)
+        });
         
+
         await loading.dismiss();
-          await alert.present();
-        } 
-        
+        await alert.present();
+      }
+
     } else {
       await articleExiste.present();
     }
@@ -108,30 +118,31 @@ export class AjouterCommandePage implements OnInit {
     modal.onWillDismiss().then(dataReturned => {
       this.client = dataReturned.data;
     })
-     return await modal.present().then(_ => {
-     });
+    return await modal.present().then(_ => {
+    });
   }
   public async choixProduitModal() {
     const modal = await this.modalController.create({
       component: ModalProduitPage,
       componentProps: {
-       
+
       }
     });
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
-      let commandeProduit : CommandeProduitModele = new CommandeProduitModele();
-      commandeProduit.nom = this.produit.nom,
-      commandeProduit.numeroFacture = this.commande.numeroFacture,
-      commandeProduit.prix = this.produit.prix
+      let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+      commandeProduit.produitNom = this.produit.nom,
+        commandeProduit.numeroFacture = this.commande.numeroFacture,
+        commandeProduit.prix = this.produit.prix,
+        commandeProduit.produitKey = this.produit.key,
       this.commandesProduits.push(commandeProduit)
 
     })
-     return await modal.present().then(_ => {
-     });
+    return await modal.present().then(_ => {
+    });
   }
-  public quantiteEstChange(commandeProduit: CommandeProduitModele){
-    this.commandeProduit.prix=commandeProduit.prix
+  public quantiteEstChange(commandeProduit: CommandeProduitModele) {
+    this.commandeProduit.prix = commandeProduit.prix
   }
   public ngOnInit() {
     this.commande.numeroFacture = String(Date.now())

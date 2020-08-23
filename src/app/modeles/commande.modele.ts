@@ -17,6 +17,8 @@ export class CommandeModele {
     public emailClient: string = "";
     public notes: string = "";
     public nomProduit: string = "";
+    public pourcentageTotal: number = 0;
+    public montantFacture: number = 0;
     constructor(
     ) { }
 }

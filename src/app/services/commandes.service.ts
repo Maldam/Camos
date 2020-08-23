@@ -7,12 +7,18 @@ import { CommandeModele } from '../modeles/commande.modele';
 import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
+import { ProduitModele } from '../modeles/produit.modele';
+import { ProduitsService } from './produits.service';
+import { ProduitsPage } from '../tabs/produits/produits.page';
 @Injectable()
 export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public commandes2: Array<CommandeModele>;
+  public produits: Array<ProduitModele> = new Array<ProduitModele>();
+  public listeProduits: Array<ProduitModele> = new Array<ProduitModele>();
   constructor(
+    public produitsService: ProduitsService,
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
     public angularFirestore: AngularFirestore,
@@ -57,6 +63,8 @@ export class CommandesService {
             commande.emailClient = commandeRecus.payload.exportVal().emailClient,
             commande.notes = commandeRecus.payload.exportVal().notes,
             commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
+            commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
+            commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
           commandes.push(commande);
           observer.next(commandes);
         })
@@ -83,6 +91,8 @@ export class CommandesService {
         emailClient: commande.emailClient,
         notes: commande.notes,
         nomProduit: commande.nomProduit,
+        pourcentageTotal: commande.pourcentageTotal,
+        montantFacture: commande.montantFacture,
     
     }).then(
         res => resolve(res),
@@ -122,16 +132,40 @@ export class CommandesService {
         commandesProduitsRecus.forEach(commandesProduitsRecus => {
           let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
           commandeProduit.key = commandesProduitsRecus.key,
-          commandeProduit.nom = commandesProduitsRecus.payload.exportVal().nom,
+          commandeProduit.produitNom = commandesProduitsRecus.payload.exportVal().nom,
           commandeProduit.prix = commandesProduitsRecus.payload.exportVal().prix,
           commandeProduit.quantite = commandesProduitsRecus.payload.exportVal().quantite,
           commandeProduit.imageURL = commandesProduitsRecus.payload.exportVal().imageURL,
-          commandeProduit.numeroFacture = commandesProduitsRecus.payload.exportVal().numeroFacture,  
+          commandeProduit.numeroFacture = commandesProduitsRecus.payload.exportVal().numeroFacture,
+          commandeProduit.produitKey = commandesProduitsRecus.payload.exportVal().produitKey,
+          commandeProduit.pourcentageProduit = commandesProduitsRecus.payload.exportVal().pourcentageProduit, 
           commandesProduits.push(commandeProduit);
           observer.next(commandesProduits);
         })
       });
     });
+  }
+  public updateProduit(produit: ProduitModele): Promise<void> {
+    
+    //let produits: Array<ProduitModele> = new Array<ProduitModele>();
+    
+    this.produitsService.getProduits().subscribe(produits => {
+      this.produits = produits;
+      this.listeProduits = this.produits;
+    });
+
+    this.produits.find(e => e.key === produit.key)
+  
+    return new Promise<any>((resolve, reject) => {
+     
+
+
+      this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: produit.quantite}).then(
+        res => resolve(res),
+        err => reject(err),
+      )
+      //firebase.storage().ref().child('Produits/' + produit.nom + '.jpg')
+    })
   }
   public numeroIndexCommandeProduit(numeroFacture: any) {
     try {

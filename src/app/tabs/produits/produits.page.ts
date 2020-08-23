@@ -20,15 +20,15 @@ export class ProduitsPage implements OnInit {
     public dialogs: Dialogs,
     public connexionService: ConnexionService
   ) {
-    this.network.onDisconnect().subscribe(()=>
-    {
-      this.dialogs.alert("pas de connexion à internet")
-    });
-    this.network.onConnect().subscribe(()=>
-    {
-      setTimeout(()=>{
-      },2000);
-    });  
+    // this.network.onDisconnect().subscribe(()=>
+    // {
+    //   this.dialogs.alert("pas de connexion à internet")
+    // });
+    // this.network.onConnect().subscribe(()=>
+    // {
+    //   setTimeout(()=>{
+    //   },2000);
+    // });  
   }
   // public imageDefaut(event: any) {
   //   event.target.src = 'https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';
