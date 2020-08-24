@@ -13,7 +13,7 @@
   </ion-item>
   <ion-item (click)="choixClientModal()">
     <ion-label position="floating">Nom du client</ion-label>
-    <ion-input [(ngModel)]='client.nom' type="text" inputmode="text" ></ion-input>
+    <ion-input [(ngModel)]='client.nom' type="text" inputmode="text"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Prénom du client</ion-label>
@@ -72,7 +72,7 @@
   </ion-item>
     <ion-list>
       <ion-item *ngFor="let commandeProduit of commandesProduits">
-        <ion-label>{{commandeProduit.nom}}</ion-label>
+        <ion-label>{{commandeProduit.produitNom}}</ion-label>
       <ion-note>
         <ion-label position="floating">Quantité</ion-label>
         <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit)">

@@ -85,7 +85,7 @@ export class AjouterCommandePage implements OnInit {
           this.total = null,
             this.commande = new CommandeModele
           this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
-            this.commande.numeroFacture = String(Date.now())
+            this.commande.numeroFacture = Date.now()
         });
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
@@ -140,7 +140,7 @@ export class AjouterCommandePage implements OnInit {
     this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
   }
   public ngOnInit() {
-    this.commande.numeroFacture = String(Date.now())
+    this.commande.numeroFacture = Date.now()
     this.client.nom = ""
   }
 }
