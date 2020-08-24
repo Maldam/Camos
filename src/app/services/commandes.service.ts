@@ -10,6 +10,8 @@ import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ProduitsService } from './produits.service';
 import { ProduitsPage } from '../tabs/produits/produits.page';
+import * as firebase from 'firebase/app';
+
 @Injectable()
 export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
@@ -145,27 +147,36 @@ export class CommandesService {
       });
     });
   }
-  public updateProduit(produit: ProduitModele): Promise<void> {
-    
-    //let produits: Array<ProduitModele> = new Array<ProduitModele>();
-    
-    this.produitsService.getProduits().subscribe(produits => {
-      this.produits = produits;
-      this.listeProduits = this.produits;
-    });
+  public updateProduit(produit: ProduitModele) {
 
-    this.produits.find(e => e.key === produit.key)
+    var total
+  var ref = firebase.database().ref('Produits/');
+  ref.child(produit.key).on("value",function(snapshot){
+    console.log(snapshot.val());
+    total = snapshot.exportVal().quantite
+  })
+  console.log(total)
+
+    
+    // //let produits: Array<ProduitModele> = new Array<ProduitModele>();
+    
+    // this.produitsService.getProduits().subscribe(produits => {
+    //   this.produits = produits;
+    //   this.listeProduits = this.produits;
+    // });
+
+    // this.produits.find(e => e.key === produit.key)
   
-    return new Promise<any>((resolve, reject) => {
+    // return new Promise<any>((resolve, reject) => {
      
 
-
-      this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: produit.quantite}).then(
-        res => resolve(res),
-        err => reject(err),
-      )
-      //firebase.storage().ref().child('Produits/' + produit.nom + '.jpg')
-    })
+var resultat = total-produit.quantite
+       this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: resultat}).then(x=>console.log(resultat))
+    //     res => resolve(res),
+    //     err => reject(err),
+    //   )
+    //   //firebase.storage().ref().child('Produits/' + produit.nom + '.jpg')
+    // })
   }
   public numeroIndexCommandeProduit(numeroFacture: any) {
     try {
