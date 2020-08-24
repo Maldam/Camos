@@ -5,11 +5,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { CommandeModele } from '../modeles/commande.modele';
 import { Observable } from 'rxjs';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ProduitsService } from './produits.service';
-import { ProduitsPage } from '../tabs/produits/produits.page';
 import * as firebase from 'firebase/app';
 
 @Injectable()
@@ -17,16 +15,12 @@ export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public commandes2: Array<CommandeModele>;
-  public produits: Array<ProduitModele> = new Array<ProduitModele>();
-  public listeProduits: Array<ProduitModele> = new Array<ProduitModele>();
   constructor(
     public produitsService: ProduitsService,
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
-    private camera: Camera,
-
   ) {
     this.getCommandes().subscribe(commandes => {
       this.commandes2 = commandes;
@@ -67,7 +61,7 @@ export class CommandesService {
             commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
             commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
             commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
-          commandes.push(commande);
+            commandes.push(commande);
           observer.next(commandes);
         })
       });
@@ -95,8 +89,7 @@ export class CommandesService {
         nomProduit: commande.nomProduit,
         pourcentageTotal: commande.pourcentageTotal,
         montantFacture: commande.montantFacture,
-    
-    }).then(
+      }).then(
         res => resolve(res),
         err => reject(err)
       )
@@ -125,7 +118,6 @@ export class CommandesService {
     commandesProduits.forEach(commandeProduit => {
       this.angularFireDatabase.list('CommandesProduits/').remove(commandeProduit.key).catch(error => console.log(error));
     });
-    
   }
   public getCommandesProduits(): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
@@ -134,49 +126,27 @@ export class CommandesService {
         commandesProduitsRecus.forEach(commandesProduitsRecus => {
           let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
           commandeProduit.key = commandesProduitsRecus.key,
-          commandeProduit.produitNom = commandesProduitsRecus.payload.exportVal().nom,
-          commandeProduit.prix = commandesProduitsRecus.payload.exportVal().prix,
-          commandeProduit.quantite = commandesProduitsRecus.payload.exportVal().quantite,
-          commandeProduit.imageURL = commandesProduitsRecus.payload.exportVal().imageURL,
-          commandeProduit.numeroFacture = commandesProduitsRecus.payload.exportVal().numeroFacture,
-          commandeProduit.produitKey = commandesProduitsRecus.payload.exportVal().produitKey,
-          commandeProduit.pourcentageProduit = commandesProduitsRecus.payload.exportVal().pourcentageProduit, 
-          commandesProduits.push(commandeProduit);
+            commandeProduit.produitNom = commandesProduitsRecus.payload.exportVal().nom,
+            commandeProduit.prix = commandesProduitsRecus.payload.exportVal().prix,
+            commandeProduit.quantite = commandesProduitsRecus.payload.exportVal().quantite,
+            commandeProduit.imageURL = commandesProduitsRecus.payload.exportVal().imageURL,
+            commandeProduit.numeroFacture = commandesProduitsRecus.payload.exportVal().numeroFacture,
+            commandeProduit.produitKey = commandesProduitsRecus.payload.exportVal().produitKey,
+            commandeProduit.pourcentageProduit = commandesProduitsRecus.payload.exportVal().pourcentageProduit,
+            commandesProduits.push(commandeProduit);
           observer.next(commandesProduits);
         })
       });
     });
   }
   public updateProduit(produit: ProduitModele) {
-
     var total
-  var ref = firebase.database().ref('Produits/');
-  ref.child(produit.key).on("value",function(snapshot){
-    console.log(snapshot.val());
-    total = snapshot.exportVal().quantite
-  })
-  console.log(total)
-
-    
-    // //let produits: Array<ProduitModele> = new Array<ProduitModele>();
-    
-    // this.produitsService.getProduits().subscribe(produits => {
-    //   this.produits = produits;
-    //   this.listeProduits = this.produits;
-    // });
-
-    // this.produits.find(e => e.key === produit.key)
-  
-    // return new Promise<any>((resolve, reject) => {
-     
-
-var resultat = total-produit.quantite
-       this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: resultat}).then(x=>console.log(resultat))
-    //     res => resolve(res),
-    //     err => reject(err),
-    //   )
-    //   //firebase.storage().ref().child('Produits/' + produit.nom + '.jpg')
-    // })
+    var ref = firebase.database().ref('Produits/');
+    ref.child(produit.key).on("value", function (snapshot) {
+      total = snapshot.exportVal().quantite
+    })
+    var resultat = total - produit.quantite
+    this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: resultat })
   }
   public numeroIndexCommandeProduit(numeroFacture: any) {
     try {
