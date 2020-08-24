@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
 import { CommandesService } from '../services/commandes.service';
-import { LoadingController, AlertController, ModalController, IonRouterOutlet } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { ClientModele } from '../modeles/client.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProduitsService } from '../services/produits.service';
 
 @Component({
   selector: 'app-ajouter-commande',
@@ -17,7 +15,6 @@ import { ProduitsService } from '../services/produits.service';
   styleUrls: ['./ajouter-commande.page.scss'],
 })
 export class AjouterCommandePage implements OnInit {
-  //public form: FormGroup;
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
@@ -27,12 +24,8 @@ export class AjouterCommandePage implements OnInit {
   public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele = new ProduitModele();
-  public groups: Array<{
-    type: string;
-    elements: Array<ClientModele>;
-  }> = new Array();
-  private groupTypes: Array<string> = new Array();
-
+  public total: number = null;
+  
   constructor(
     private commandesService: CommandesService,
     public route: Router,
@@ -88,6 +81,7 @@ export class AjouterCommandePage implements OnInit {
           });
 
         this.commandesService.createCommande(this.commande).then(ref => {
+          this.total = null,
           this.commande = new CommandeModele
           this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
             this.commande.numeroFacture = String(Date.now())
@@ -142,7 +136,16 @@ export class AjouterCommandePage implements OnInit {
     });
   }
   public quantiteEstChange(commandeProduit: CommandeProduitModele) {
-    this.commandeProduit.prix = commandeProduit.prix
+    //this.commandeProduit.prix = commandeProduit.prix
+    this.calculPrix()
+  }
+  public prixEstChange(commandeProduit: CommandeProduitModele) {
+    //this.commandeProduit.prix = commandeProduit.prix
+    this.calculPrix()
+  }
+  public calculPrix(){
+    this.total=null;
+    this.commandesProduits.forEach(element => { this.total += element.quantite*element.prix});
   }
   public ngOnInit() {
     this.commande.numeroFacture = String(Date.now())
