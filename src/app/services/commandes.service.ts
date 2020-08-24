@@ -116,6 +116,13 @@ export class CommandesService {
   }
   public deleteCommandeProduit(commandesProduits: any): void {
     commandesProduits.forEach(commandeProduit => {
+       var total : number;
+     var ref = firebase.database().ref('Produits/');
+     ref.child(commandeProduit.produitKey).on("value", function (snapshot) {
+       total = snapshot.exportVal().quantite
+     })
+     var resultat: number = Number(total) + Number(commandeProduit.quantite)
+     this.angularFireDatabase.list('Produits/').update(commandeProduit.produitKey, { quantite: resultat })
       this.angularFireDatabase.list('CommandesProduits/').remove(commandeProduit.key).catch(error => console.log(error));
     });
   }
@@ -140,12 +147,12 @@ export class CommandesService {
     });
   }
   public updateProduit(produit: ProduitModele) {
-    var total
+    var total : number;
     var ref = firebase.database().ref('Produits/');
     ref.child(produit.key).on("value", function (snapshot) {
       total = snapshot.exportVal().quantite
     })
-    var resultat = total - produit.quantite
+    var resultat: number = total - produit.quantite
     this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: resultat })
   }
   public numeroIndexCommandeProduit(numeroFacture: any) {
