@@ -1,7 +1,7 @@
 export class CommandeModele {
     public key: string;
     public numeroFacture: string;
-    public nomClient: string;
+    public nomClient: string = null;
     public prenomClient: string = "";
     public paysClient: string = "";
     public provinceClient: string = "";

@@ -5,7 +5,6 @@ import { ProduitsService } from 'src/app/services/produits.service';
 import { CommandesService } from 'src/app/services/commandes.service';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-
 @Component({
   selector: 'app-modal-produit',
   templateUrl: './modal-produit.page.html',
@@ -18,7 +17,6 @@ export class ModalProduitPage implements OnInit {
   public commande: CommandeModele = new CommandeModele();
   constructor(public produitsService: ProduitsService,
     public commandesService: CommandesService,
-    //public ajoutProduit: AjouterProduitPage,
     public route: Router,
     private modalController: ModalController,) { }
   public rechercheProduit(ev: any) {
@@ -31,17 +29,11 @@ export class ModalProduitPage implements OnInit {
     }
   }
   public async versVueProduit(produit: ProduitModele) {
-
     await this.modalController.dismiss(produit)
-    //this.ajoutProduit.produit.nom = produit.nom,
   }
-  //@Input() public lunch: string;
-
-
   async closeModal() {
-    await this.modalController.dismiss();
+    await this.modalController.dismiss(this.produit);
   }
-
   public ngOnInit() {
     this.produitsService.getProduits().subscribe(produits => {
       this.produits = produits;

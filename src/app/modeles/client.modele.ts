@@ -2,7 +2,7 @@ import { EmailValidator } from '@angular/forms';
 
 export class ClientModele {
     public key: string;
-    public nom: string;
+    public nom: string = null;
     public prenom: string = "";
     public pays: string = "";
     public province: string = "";

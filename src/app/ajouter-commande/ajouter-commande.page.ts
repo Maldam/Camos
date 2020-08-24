@@ -25,7 +25,8 @@ export class AjouterCommandePage implements OnInit {
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele = new ProduitModele();
   public total: number = null;
-  
+  public estChange: boolean = false;
+
   constructor(
     private commandesService: CommandesService,
     public route: Router,
@@ -57,6 +58,7 @@ export class AjouterCommandePage implements OnInit {
       if (this.commande.numeroFacture == undefined) {
         await alertNom.present();
       } else {
+
         await loading.present();
         this.commande.nomClient = this.client.nom,
           this.commande.prenomClient = this.client.prenom,
@@ -75,14 +77,13 @@ export class AjouterCommandePage implements OnInit {
           this.commandeProduit.produitNom = this.produit.nom,
           this.commandeProduit.produitKey = this.produit.key,
 
-
           this.commandesProduits.forEach(commandeProduit => {
-            this.commandesService.createCommandeProduit(commandeProduit).then(x => {})
+            this.commandesService.createCommandeProduit(commandeProduit).then(x => { })
           });
 
         this.commandesService.createCommande(this.commande).then(ref => {
           this.total = null,
-          this.commande = new CommandeModele
+            this.commande = new CommandeModele
           this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
             this.commande.numeroFacture = String(Date.now())
         });
@@ -92,7 +93,6 @@ export class AjouterCommandePage implements OnInit {
           produit.quantite = commandeProduit.quantite;
           this.commandesService.updateProduit(produit)
         });
-        
 
         await loading.dismiss();
         await alert.present();
@@ -105,49 +105,42 @@ export class AjouterCommandePage implements OnInit {
 
   public async choixClientModal() {
     const modal = await this.modalController.create({
-      component: ModalClientPage,
-      componentProps: {
-      }
+      component: ModalClientPage
+ 
     });
     modal.onWillDismiss().then(dataReturned => {
       this.client = dataReturned.data;
     })
-    return await modal.present().then(_ => {
-    });
+    return await modal.present()
   }
   public async choixProduitModal() {
     const modal = await this.modalController.create({
       component: ModalProduitPage,
-      componentProps: {
 
-      }
     });
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
+      if(this.produit.nom !== null){
       let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
       commandeProduit.produitNom = this.produit.nom,
         commandeProduit.numeroFacture = this.commande.numeroFacture,
         commandeProduit.prix = this.produit.prix,
         commandeProduit.produitKey = this.produit.key,
-      this.commandesProduits.push(commandeProduit)
-
+        this.commandesProduits.push(commandeProduit)
+      }
     })
-    return await modal.present().then(_ => {
-    });
+    return await modal.present()
   }
-  public quantiteEstChange(commandeProduit: CommandeProduitModele) {
+  public quantitePrixEstChange(commandeProduit: CommandeProduitModele) {
     //this.commandeProduit.prix = commandeProduit.prix
     this.calculPrix()
   }
-  public prixEstChange(commandeProduit: CommandeProduitModele) {
-    //this.commandeProduit.prix = commandeProduit.prix
-    this.calculPrix()
-  }
-  public calculPrix(){
-    this.total=null;
-    this.commandesProduits.forEach(element => { this.total += element.quantite*element.prix});
+  public calculPrix() {
+    this.total = null;
+    this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
   }
   public ngOnInit() {
     this.commande.numeroFacture = String(Date.now())
+    this.client.nom = ""
   }
 }
