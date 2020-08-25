@@ -133,11 +133,26 @@ export class AjouterCommandePage implements OnInit {
   }
   public quantitePrixEstChange(commandeProduit: CommandeProduitModele) {
     //this.commandeProduit.prix = commandeProduit.prix
-    this.calculPrix()
+    this.calculPrix("ajouter")
   }
-  public calculPrix() {
+  public calculPrix(action) {
+    if(action === "ajouter"){
     this.total = null;
     this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+  } else {
+    console.log(this.total)
+    this.total = this.total-action.prix*action.quantite
+    console.log(this.total)
+  }
+  }
+  deleteProduit(produit: any) {
+  this.calculPrix(produit)
+  const index = this.commandesProduits.indexOf(produit, 0);
+if (index > -1) {
+  this.commandesProduits.splice(index, 1);
+  
+}
+    
   }
   public ngOnInit() {
     this.commande.numeroFacture = Date.now()
