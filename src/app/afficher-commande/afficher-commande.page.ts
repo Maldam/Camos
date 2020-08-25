@@ -101,9 +101,7 @@ export class AfficherCommandePage implements OnInit {
   }
   public rechercheCommande(ev: any){    
       this.commandesProduits = this.commandesProduits.filter((commandesProduits: any) => {
-        console.log(this.commandesProduits)
         return (commandesProduits.numeroFacture.toLowerCase().indexOf(ev.toLowerCase()) > -1);
-        
       })
   }
   public ngOnInit() {
