@@ -133,7 +133,7 @@ export class CommandesService {
         commandesProduitsRecus.forEach(commandesProduitsRecus => {
           let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
           commandeProduit.key = commandesProduitsRecus.key,
-            commandeProduit.produitNom = commandesProduitsRecus.payload.exportVal().nom,
+            commandeProduit.produitNom = commandesProduitsRecus.payload.exportVal().produitNom,
             commandeProduit.prix = commandesProduitsRecus.payload.exportVal().prix,
             commandeProduit.quantite = commandesProduitsRecus.payload.exportVal().quantite,
             commandeProduit.imageURL = commandesProduitsRecus.payload.exportVal().imageURL,

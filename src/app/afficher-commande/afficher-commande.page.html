@@ -74,7 +74,7 @@
       <ion-label position="floating">Notes</ion-label>
       <ion-textarea formControlName='notesForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
     </ion-item>
-
+  </form>
 
    <ion-item (click)="choixProduitModal()">
     <ion-label color='primary'>Ajouter un produit</ion-label>
@@ -84,7 +84,7 @@
   <ion-item-sliding>
     
       <ion-item >
-        <ion-label>{{commandeProduit.nom}}</ion-label>
+        <ion-label>{{commandeProduit.produitNom}}</ion-label>
       <ion-note>
         <ion-label position="floating">Quantité</ion-label>
         <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit)">
@@ -109,7 +109,7 @@
     
     
     <ion-item></ion-item>
-  </form>
+  
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveCommande(commande)">
       <ion-icon name="trash"></ion-icon>
