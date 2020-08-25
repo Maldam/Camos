@@ -74,15 +74,40 @@
       <ion-label position="floating">Notes</ion-label>
       <ion-textarea formControlName='notesForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
     </ion-item>
-    <ion-item (click)="choixProduitModal()">
-      <ion-label >Nom du produit</ion-label>
-      <!-- <ion-input [(ngModel)]='produit.nom' type="text" inputmode="text"></ion-input> -->
-    </ion-item>
-    <ion-list>
-      <ion-item *ngFor="let commandeProduit of commandesProduits">
+
+
+   <ion-item (click)="choixProduitModal()">
+    <ion-label color='primary'>Ajouter un produit</ion-label>
+  </ion-item>
+  
+  <ion-card *ngFor="let commandeProduit of commandesProduits">
+  <ion-item-sliding>
+    
+      <ion-item >
         <ion-label>{{commandeProduit.nom}}</ion-label>
-      </ion-item>
-    </ion-list>
+      <ion-note>
+        <ion-label position="floating">Quantité</ion-label>
+        <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit)">
+        </ion-textarea>
+      </ion-note>
+      <ion-note slot="end">
+        <ion-label position="floating">Prix</ion-label>
+        <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit)">
+        </ion-textarea>
+      </ion-note>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="deleteProduit(commandeProduit)" >
+        <ion-icon name="trash" slot="icon-only"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+    
+  </ion-item-sliding>
+</ion-card>
+  
+    
+    
     <ion-item></ion-item>
   </form>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">

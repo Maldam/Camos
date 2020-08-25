@@ -35,7 +35,6 @@ export class AfficherCommandePage implements OnInit {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
       }
     });
-    //this.image = this.commande.imageURL
   }
   public async RemoveCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
@@ -101,15 +100,11 @@ export class AfficherCommandePage implements OnInit {
     }
   }
   public rechercheCommande(ev: any){    
-    //this.commandesProduits = this.listeCommandesProduits
-    //const val = ev.target.value;
-    //console.log (val)
-    //if (ev && ev.trim() !== ''){
       this.commandesProduits = this.commandesProduits.filter((commandesProduits: any) => {
+        console.log(this.commandesProduits)
         return (commandesProduits.numeroFacture.toLowerCase().indexOf(ev.toLowerCase()) > -1);
         
       })
-    //}
   }
   public ngOnInit() {
     this.form = this.formBuilder.group({
@@ -129,14 +124,12 @@ export class AfficherCommandePage implements OnInit {
       numeroFaxClientForm: [this.commande.numeroFaxClient],
       emailClientForm: [this.commande.emailClient],
       notesForm: [this.commande.notes],
-      nomProduitForm: [this.commande.nomProduit],
+      //nomProduitForm: [this.commande.nomProduit],
     });
     this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.listeCommandesProduits = this.commandesProduits;
       this.rechercheCommande(this.commande.numeroFacture)  
     });
-      
-
   }
 }
