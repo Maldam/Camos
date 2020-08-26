@@ -140,9 +140,7 @@ export class AjouterCommandePage implements OnInit {
     this.total = null;
     this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
   } else {
-    console.log(this.total)
     this.total = this.total-action.prix*action.quantite
-    console.log(this.total)
   }
   }
   deleteProduit(produit: any) {

@@ -28,6 +28,8 @@ export class AfficherCommandePage implements OnInit {
   public produit: ProduitModele;
   public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public client: ClientModele;
+  public total: number = null ;
+
 
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
@@ -37,6 +39,7 @@ export class AfficherCommandePage implements OnInit {
     public loadingController: LoadingController,
     public alertController: AlertController,
     private modalController: ModalController,
+    
   ) {
 
     this.activatedRoute.queryParams.subscribe(() => {
@@ -143,6 +146,37 @@ export class AfficherCommandePage implements OnInit {
     return await modal.present()
   }
 
+  deleteProduit(produit: any) {
+    this.calculPrix(produit)
+    const index = this.commandesProduits.indexOf(produit, 0);
+  if (index > -1) {
+    this.commandesProduits.splice(index, 1);    
+  } 
+ }
+
+ public calculPrix(action) {
+  console.log(action)
+  action.array.forEach(element => {
+console.log(element)    
+  });
+  if(action === "somme"){
+    this.total = null;
+    
+
+console.log(this.commandesProduits.forEach(element => {console.log("1")}))  
+
+   // this.commandesProduits.forEach(element => { console.log(element)
+     // this.total += element.quantite * element.prix })
+    //this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
+  }
+  if(action === "ajouter"){
+  //this.total = null;
+  //this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+} else {
+  //this.total = this.total-action.prix*action.quantite
+}
+}
+
 
   public rechercheCommande(commandesProduits){
     //console.log(this.commande.numeroFacture)
@@ -193,9 +227,11 @@ export class AfficherCommandePage implements OnInit {
       emailClientForm: [this.commande.emailClient],
       notesForm: [this.commande.notes],
     });
+  
     //console.log(this.commande.numeroFacture)
     this.commandesService.getCommandesProduits(this.commande.numeroFacture).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
+      
     });
     
   }
