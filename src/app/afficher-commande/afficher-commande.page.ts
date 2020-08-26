@@ -69,6 +69,7 @@ export class AfficherCommandePage implements OnInit {
       message: 'Nous avons besoin d\'un nom de commande',
       buttons: ['OK']
     });
+
     var changementNomOK = false;
     if (this.estChange) {
       if (this.form.value.nomForm === "") {
@@ -116,6 +117,9 @@ export class AfficherCommandePage implements OnInit {
       this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
         this.commandesService.createCommandeProduit(nouvelArticleAjoute).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>() })
       });
+    }
+    if (this.produitASupprimer.length>0){
+      this.commandesService.deleteCommandeProduit(this.produitASupprimer)
     }
   }
   public async choixClientModal() {
