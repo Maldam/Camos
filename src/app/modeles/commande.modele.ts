@@ -5,10 +5,10 @@ export class CommandeModele {
     public prenomClient: string = "";
     public paysClient: string = "";
     public provinceClient: string = "";
-    public codePostalClient: number = null;
+    public codePostalClient: number = 0;
     public localiteClient: string = "";
     public rueClient: string = "";
-    public numeroClient: number = null;
+    public numeroClient: number = 0;
     public boiteClient: string = "";
     public numeroTVAClient: string = "";
     public numeroTelephoneClient: string = "";

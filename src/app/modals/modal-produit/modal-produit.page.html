@@ -12,13 +12,9 @@
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
-
-  
   <ion-list>
-    <ion-item routerLink="/ajouter-commande" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
+    <ion-item *ngFor="let produit of produits" (click)="versVueProduit(produit)">
       <ion-label>{{produit.nom}}</ion-label>
     </ion-item>
   </ion-list>

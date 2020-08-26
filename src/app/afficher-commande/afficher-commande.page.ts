@@ -30,6 +30,7 @@ export class AfficherCommandePage implements OnInit {
     public loadingController: LoadingController,
     public alertController: AlertController,
   ) {
+
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
@@ -39,7 +40,7 @@ export class AfficherCommandePage implements OnInit {
   public async RemoveCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
       this.commandesService.deleteCommande(commande);
-      this.commandesService.deleteCommandeProduit(this.commandesProduits)
+      this.commandesService.deleteCommandeProduit(this.listeCommandesProduits)
       this.navCtrl.back()
     }
   }
@@ -99,11 +100,17 @@ export class AfficherCommandePage implements OnInit {
       }
     }
   }
-  public rechercheCommande(ev: any){    
-      this.commandesProduits = this.commandesProduits.filter((commandesProduits: any) => {
-        return (commandesProduits.numeroFacture.toLowerCase().indexOf(ev.toLowerCase()) > -1);
+  public rechercheCommande(commandesProduits){
+    //console.log(this.commande.numeroFacture)
+    //console.log(commandesProduits)
+
+    this.commandesProduits = commandesProduits.filter((commandeProduit: CommandeProduitModele) => {
+      console.log(commandeProduit.numeroFacture)
+
+        return (String(commandeProduit.numeroFacture).toLowerCase().indexOf(String(this.commande.numeroFacture).toLowerCase()) > -1);
       })
-  }
+    }
+
   public ngOnInit() {
     this.form = this.formBuilder.group({
       numeroFactureForm: [this.commande.numeroFacture],
@@ -122,12 +129,12 @@ export class AfficherCommandePage implements OnInit {
       numeroFaxClientForm: [this.commande.numeroFaxClient],
       emailClientForm: [this.commande.emailClient],
       notesForm: [this.commande.notes],
-      //nomProduitForm: [this.commande.nomProduit],
     });
-    this.commandesService.getCommandesProduits().subscribe(commandesProduits => {
+    //console.log(this.commande.numeroFacture)
+    this.commandesService.getCommandesProduits(this.commande.numeroFacture).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
-      this.listeCommandesProduits = this.commandesProduits;
-      this.rechercheCommande(this.commande.numeroFacture)  
     });
+    
   }
+  
 }

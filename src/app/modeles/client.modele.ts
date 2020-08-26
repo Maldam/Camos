@@ -6,10 +6,10 @@ export class ClientModele {
     public prenom: string = "";
     public pays: string = "";
     public province: string = "";
-    public codePostal: number = null;
+    public codePostal: number = 0;
     public localite: string = "";
     public rue: string = "";
-    public numero: number = null;
+    public numero: number = 0;
     public boite: string = "";
     public numeroTVA: string = "";
     public numeroTelephone: string = "";
