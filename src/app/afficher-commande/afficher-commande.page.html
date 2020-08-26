@@ -15,8 +15,8 @@
         (change)="numeroChange=true; estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Nom</ion-label>
-      <ion-textarea formControlName="nomClientForm" type="text" inputmode="text" (change)="estChange=true">
+      <ion-label position="floating" >Nom</ion-label>
+      <ion-textarea (click)="choixClientModal()" formControlName="nomClientForm" type="text" inputmode="text" (change)="estChange=true">
       </ion-textarea>
     </ion-item>
     <ion-item>

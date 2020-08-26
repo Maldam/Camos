@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
+import { ModalClientPage } from '../modals/modal-client/modal-client.page';
+import { ClientModele } from '../modeles/client.modele';
 
 @Component({
   selector: 'app-afficher-commande',
@@ -25,6 +27,7 @@ export class AfficherCommandePage implements OnInit {
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele;
   public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  public client: ClientModele;
 
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
@@ -110,6 +113,37 @@ export class AfficherCommandePage implements OnInit {
       });
     }
   }
+  public async choixClientModal() {
+    const modal = await this.modalController.create({
+      component: ModalClientPage
+ 
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      this.client = dataReturned.data;
+      this.form = this.formBuilder.group({
+        numeroFactureForm: [this.commande.numeroFacture],
+        nomClientForm: [this.client.nom],
+        prenomClientForm: [this.client.prenom],
+        paysClientForm: [this.client.pays],
+        provinceClientForm: [this.client.province],
+        codePostalClientForm: [this.client.codePostal],
+        localiteClientForm: [this.client.localite],
+        rueClientForm: [this.client.rue],
+        numeroClientForm: [this.client.numero],
+        boiteClientForm: [this.client.boite],
+        numeroTVAClientForm: [this.client.numero],
+        numeroTelephoneClientForm: [this.client.numero],
+        numeroGSMClientForm: [this.client.numero],
+        numeroFaxClientForm: [this.client.numero],
+        emailClientForm: [this.client.email],
+        notesForm: [this.commande.notes],
+      });
+      this.estChange=true
+    })
+    return await modal.present()
+  }
+
+
   public rechercheCommande(commandesProduits){
     //console.log(this.commande.numeroFacture)
     //console.log(commandesProduits)
