@@ -15,12 +15,9 @@ import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    //TextAvatarModule,
 		ReactiveFormsModule,
-    //ModalClientPageModule,
     AjouterCommandePageRoutingModule,
   ],
-  declarations: [AjouterCommandePage, ModalClientPage, ModalProduitPage],
-  entryComponents: [ModalClientPage, ModalProduitPage]
+  declarations: [AjouterCommandePage]
 })
 export class AjouterCommandePageModule {}

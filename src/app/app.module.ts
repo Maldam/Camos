@@ -21,6 +21,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { CommandesService } from './services/commandes.service';
+import { ModalClientPageModule } from './modals/modal-client/modal-client.module';
+import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.module';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { CommandesService } from './services/commandes.service';
     AngularFireStorageModule,
     FormsModule,
     ReactiveFormsModule,
-    
+    ModalClientPageModule,
+    ModalProduitPageModule
     
   ],
   providers: [
@@ -55,3 +58,4 @@ import { CommandesService } from './services/commandes.service';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
