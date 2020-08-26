@@ -65,6 +65,7 @@ export class CommandesPage implements OnInit {
   public ngOnInit() {
     this.commandesService.getCommandes().subscribe(commandes => {
       this.commandes = commandes;
+      //this.commandes.forEach(e=>{console.log(e)})
       this.commandes.sort((a,b) => b.numeroFacture - a.numeroFacture);
       this.listeCommandes = this.commandes;
     });

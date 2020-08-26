@@ -67,6 +67,23 @@ export class CommandesService {
       });
     });
   }
+  public updateListeProduit(commandeProduit: CommandeProduitModele): Promise<void>{
+    return new Promise<any>((resolve, reject) => {
+      this.angularFireDatabase.list('CommandesProduits/').update(commandeProduit.key, {
+        produitNom: commandeProduit.produitNom,
+        prix: commandeProduit.prix,
+        quantite: commandeProduit.quantite,
+        imageURL: commandeProduit.imageURL,
+        produitKey: commandeProduit.produitKey,
+        pourcentageProduit: commandeProduit.pourcentageProduit,
+        numeroFacture: commandeProduit.numeroFacture,
+      }).then(
+        res => resolve(res),
+        err => reject(err)
+      )
+    })
+
+  }
   public updateCommande(commande: CommandeModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Commandes/').update(commande.key, {
@@ -131,7 +148,9 @@ export class CommandesService {
     return new Observable<Array<CommandeProduitModele>>(observer => {
       let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
       firebase.database().ref('/CommandesProduits/').orderByChild('numeroFacture').equalTo(numeroFacture).on('child_added', (snapshot) => {
+
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+
         commandeProduit.key = snapshot.key,
           commandeProduit.produitNom = snapshot.exportVal().produitNom,
           commandeProduit.prix = snapshot.exportVal().prix,
@@ -142,8 +161,21 @@ export class CommandesService {
           commandeProduit.numeroFacture = snapshot.exportVal().numeroFacture,
         commandesProduits.push(commandeProduit);
       })
+      //console.log(commandesProduits.length)
+
       observer.next(commandesProduits);
     })
+
+
+    // return this.angularFirestore.collection('CommandesProduits', ref => {
+    //   let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+    //   query = query.where('numeroFacture', '==', numeroFacture);
+    //   console.log(query)
+    //   return query;
+    // }).snapshotChanges();
+
+
+
   }
   public updateProduit(produit: ProduitModele) {
     var total: number;
