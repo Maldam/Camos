@@ -127,11 +127,11 @@ export class CommandesService {
     });
   }
 
-  public getCommandesProduits(numeroFacture): Observable<Array<CommandeProduitModele>> {
+  public getCommandesProduits(numeroFacture: number): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
       let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-      let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
       firebase.database().ref('/CommandesProduits/').orderByChild('numeroFacture').equalTo(numeroFacture).on('child_added', (snapshot) => {
+        let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.key = snapshot.key,
           commandeProduit.produitNom = snapshot.exportVal().produitNom,
           commandeProduit.prix = snapshot.exportVal().prix,
@@ -140,12 +140,9 @@ export class CommandesService {
           commandeProduit.produitKey = snapshot.exportVal().produitKey,
           commandeProduit.pourcentageProduit = snapshot.exportVal().pourcentageProduit,
           commandeProduit.numeroFacture = snapshot.exportVal().numeroFacture,
-          console.log(commandeProduit)
         commandesProduits.push(commandeProduit);
-        console.log(commandesProduits)
       })
       observer.next(commandesProduits);
-      console.log(commandesProduits)
     })
   }
   public updateProduit(produit: ProduitModele) {
