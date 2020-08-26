@@ -80,6 +80,34 @@
    <ion-item (click)="choixProduitModal()">
     <ion-label color='primary'>Ajouter un produit</ion-label>
   </ion-item>
+
+  <ion-card *ngFor="let nouvelArticleAjoute of nouveauxArticlesAjoutes">
+    <ion-item-sliding>
+      
+        <ion-item >
+          <ion-label>{{nouvelArticleAjoute.produitNom}}</ion-label>
+        <ion-note>
+          <ion-label position="floating">Quantité</ion-label>
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit)">
+          </ion-textarea>
+        </ion-note>
+        <ion-note slot="end">
+          <ion-label position="floating">Prix</ion-label>
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit)">
+          </ion-textarea>
+        </ion-note>
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteProduit(commandeProduit)" >
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      
+    </ion-item-sliding>
+  </ion-card>
+
+
   
   <ion-card *ngFor="let commandeProduit of commandesProduits">
   <ion-item-sliding>

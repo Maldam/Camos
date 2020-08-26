@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommandesService } from '../services/commandes.service';
-import { NavController, LoadingController, AlertController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
+import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
+import { ProduitModele } from '../modeles/produit.modele';
 
 @Component({
   selector: 'app-afficher-commande',
@@ -20,7 +22,9 @@ export class AfficherCommandePage implements OnInit {
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-  public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>(); 
+  public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  public produit: ProduitModele;
+  public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
 
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
@@ -29,6 +33,7 @@ export class AfficherCommandePage implements OnInit {
     private formBuilder: FormBuilder,
     public loadingController: LoadingController,
     public alertController: AlertController,
+    private modalController: ModalController,
   ) {
 
     this.activatedRoute.queryParams.subscribe(() => {
@@ -40,7 +45,7 @@ export class AfficherCommandePage implements OnInit {
   public async RemoveCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
       this.commandesService.deleteCommande(commande);
-      this.commandesService.deleteCommandeProduit(this.listeCommandesProduits)
+      this.commandesService.deleteCommandeProduit(this.commandesProduits)
       this.navCtrl.back()
     }
   }
@@ -99,6 +104,11 @@ export class AfficherCommandePage implements OnInit {
         }
       }
     }
+    if(this.nouveauxArticlesAjoutes.length > 0){
+      this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
+        this.commandesService.createCommandeProduit(nouvelArticleAjoute).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>()})
+      });
+    }
   }
   public rechercheCommande(commandesProduits){
     //console.log(this.commande.numeroFacture)
@@ -109,6 +119,25 @@ export class AfficherCommandePage implements OnInit {
 
         return (String(commandeProduit.numeroFacture).toLowerCase().indexOf(String(this.commande.numeroFacture).toLowerCase()) > -1);
       })
+    }
+    public async choixProduitModal() {
+      const modal = await this.modalController.create({
+        component: ModalProduitPage,
+  
+      });
+      modal.onWillDismiss().then(dataReturned => {
+        this.produit = dataReturned.data;
+        if(this.produit.nom !== null){
+        let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+        commandeProduit.produitNom = this.produit.nom,
+          commandeProduit.numeroFacture = this.commande.numeroFacture,
+          commandeProduit.prix = this.produit.prix,
+          commandeProduit.produitKey = this.produit.key,
+          //this.commandesProduits.push(commandeProduit)
+          this.nouveauxArticlesAjoutes.push(commandeProduit)
+        }
+      })
+      return await modal.present()
     }
 
   public ngOnInit() {
