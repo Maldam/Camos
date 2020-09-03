@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { CommandeModele } from 'src/app/modeles/commande.modele';
+import { CommandeProduitModele } from 'src/app/modeles/commande-produit.modele';
 
 @Component({
   selector: 'app-commandes',
@@ -57,7 +58,8 @@ export class CommandesPage implements OnInit {
     }
   }
   public versVueCommande(commande: CommandeModele) {
-    this.route.navigate(["afficher-commande"], { state: { data: commande } });
+
+    this.route.navigate(["afficher-commande"], { state: { data: commande} });
   }
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();

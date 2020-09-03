@@ -67,7 +67,7 @@ export class CommandesService {
       });
     });
   }
-  public updateListeProduit(commandeProduit: CommandeProduitModele): Promise<void>{
+  public updateListeProduit(commandeProduit: CommandeProduitModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('CommandesProduits/').update(commandeProduit.key, {
         produitNom: commandeProduit.produitNom,
@@ -144,39 +144,60 @@ export class CommandesService {
     });
   }
 
+
+
   public getCommandesProduits(numeroFacture: number): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
-      let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-      firebase.database().ref('/CommandesProduits/').orderByChild('numeroFacture').equalTo(numeroFacture).on('child_added', (snapshot) => {
-
-        let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-
-        commandeProduit.key = snapshot.key,
-          commandeProduit.produitNom = snapshot.exportVal().produitNom,
-          commandeProduit.prix = snapshot.exportVal().prix,
-          commandeProduit.quantite = snapshot.exportVal().quantite,
-          commandeProduit.imageURL = snapshot.exportVal().imageURL,
-          commandeProduit.produitKey = snapshot.exportVal().produitKey,
-          commandeProduit.pourcentageProduit = snapshot.exportVal().pourcentageProduit,
-          commandeProduit.numeroFacture = snapshot.exportVal().numeroFacture,
-        commandesProduits.push(commandeProduit);
-      })
-      //console.log(commandesProduits.length)
-
-      observer.next(commandesProduits);
-    })
-
-
-    // return this.angularFirestore.collection('CommandesProduits', ref => {
-    //   let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-    //   query = query.where('numeroFacture', '==', numeroFacture);
-    //   console.log(query)
-    //   return query;
-    // }).snapshotChanges();
+    this.angularFireDatabase.list('CommandesProduits/', ref => ref.orderByChild('numeroFacture').equalTo(numeroFacture)).snapshotChanges().subscribe(
+     commandesRecus => {
+        let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+        commandesRecus.forEach(commandeRecus => {
+          let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
 
 
 
+          commandeProduit.key = commandeRecus.key,
+            commandeProduit.produitNom = commandeRecus.payload.exportVal().produitNom,
+            commandeProduit.prix = commandeRecus.payload.exportVal().prix,
+            commandeProduit.quantite = commandeRecus.payload.exportVal().quantite,
+            commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
+            commandeProduit.produitKey = commandeRecus.payload.exportVal().produitKey,
+            commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
+            commandeProduit.numeroFacture = commandeRecus.payload.exportVal().numeroFacture,
+            commandesProduits.push(commandeProduit);
+          
+        })
+        observer.next(commandesProduits);
+      });
+    });
   }
+
+  // public getCommandesProduits(numeroFacture: number): Observable<Array<CommandeProduitModele>> {
+  //   return new Observable<Array<CommandeProduitModele>>(observer => {
+  //     let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  //     firebase.database().ref('/CommandesProduits/').orderByChild('numeroFacture').equalTo(numeroFacture).on('child_added', (snapshot) => {
+
+  //       let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+
+  //       commandeProduit.key = snapshot.key,
+  //         commandeProduit.produitNom = snapshot.exportVal().produitNom,
+  //         commandeProduit.prix = snapshot.exportVal().prix,
+  //         commandeProduit.quantite = snapshot.exportVal().quantite,
+  //         commandeProduit.imageURL = snapshot.exportVal().imageURL,
+  //         commandeProduit.produitKey = snapshot.exportVal().produitKey,
+  //         commandeProduit.pourcentageProduit = snapshot.exportVal().pourcentageProduit,
+  //         commandeProduit.numeroFacture = snapshot.exportVal().numeroFacture,
+  //       commandesProduits.push(commandeProduit);
+  //     })
+
+
+  //     observer.next(commandesProduits);
+  //   })
+  //}
+
+
+
+
   public updateProduit(produit: ProduitModele) {
     var total: number;
     var ref = firebase.database().ref('Produits/');
