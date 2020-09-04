@@ -50,7 +50,7 @@ export class ClientsService {
           let client: ClientModele = new ClientModele();
           client.key = clientRecus.key,
             client.nom = clientRecus.payload.exportVal().nom,
-            client.prenom = clientRecus.payload.exportVal().prenom,
+            client.pseudo = clientRecus.payload.exportVal().pseudo,
             client.pays = clientRecus.payload.exportVal().pays,
             client.province = clientRecus.payload.exportVal().province,
             client.codePostal = clientRecus.payload.exportVal().codePostal,
@@ -75,7 +75,7 @@ export class ClientsService {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Clients/').update(client.key, { 
         nom: client.nom, 
-        prenom: client.prenom,
+        pseudo: client.pseudo,
         pays: client.pays,
         province: client.province,
         codePostal: client.codePostal,

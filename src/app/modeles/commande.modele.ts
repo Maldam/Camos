@@ -2,7 +2,7 @@ export class CommandeModele {
     public key: string;
     public numeroCommande: number = null;
     public nomClient: string = null;
-    public prenomClient: string = "";
+    public pseudoClient: string = "";
     public paysClient: string = "";
     public provinceClient: string = "";
     public codePostalClient: number = 0;

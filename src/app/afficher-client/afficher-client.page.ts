@@ -68,7 +68,7 @@ export class AfficherClientPage implements OnInit {
           if (confirm(errorMessage)) {
             await loading.present();
             client.nom = this.form.value.nomForm;
-            client.prenom = this.form.value.prenomForm;
+            client.pseudo = this.form.value.pseudoForm;
             client.pays = this.form.value.paysForm;
             client.province = this.form.value.provinceForm;
             client.codePostal = this.form.value.codePostalForm;
@@ -129,7 +129,7 @@ export class AfficherClientPage implements OnInit {
 
     this.form = this.formBuilder.group({
       nomForm: [this.client.nom],
-      prenomForm: [this.client.prenom],
+      pseudoForm: [this.client.pseudo],
       paysForm: [this.client.pays],
       provinceForm:[this.client.province],
       codePostalForm:[this.client.codePostal],

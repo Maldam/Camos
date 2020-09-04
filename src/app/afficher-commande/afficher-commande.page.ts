@@ -88,7 +88,7 @@ export class AfficherCommandePage implements OnInit {
           //if (confirm(errorMessage)) {
             commande.numeroCommande = this.form.value.numeroCommandeForm;
             commande.nomClient = this.form.value.nomClientForm;
-            commande.prenomClient = this.form.value.prenomClientForm,
+            commande.pseudoClient = this.form.value.pseudoClientForm,
               commande.paysClient = this.form.value.paysClientForm,
               commande.provinceClient = this.form.value.provinceClientForm,
               commande.codePostalClient = this.form.value.codePostalClientForm,
@@ -143,7 +143,7 @@ export class AfficherCommandePage implements OnInit {
         this.form = this.formBuilder.group({
           numeroCommandeForm: [this.commande.numeroCommande],
           nomClientForm: [client.nom],
-          prenomClientForm: [client.prenom],
+          pseudoClientForm: [client.pseudo],
           paysClientForm: [client.pays],
           provinceClientForm: [client.province],
           codePostalClientForm: [client.codePostal],
@@ -214,7 +214,7 @@ export class AfficherCommandePage implements OnInit {
     this.form = this.formBuilder.group({
       numeroCommandeForm: [this.commande.numeroCommande],
       nomClientForm: [this.commande.nomClient],
-      prenomClientForm: [this.commande.prenomClient],
+      pseudoClientForm: [this.commande.pseudoClient],
       paysClientForm: [this.commande.paysClient],
       provinceClientForm: [this.commande.provinceClient],
       codePostalClientForm: [this.commande.codePostalClient],

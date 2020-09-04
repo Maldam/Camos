@@ -53,7 +53,7 @@ export class CommandesPage implements OnInit {
     const val = ev.target.value;
     if (val && val.trim() !== ''){
       this.commandes = this.commandes.filter((commande: any) => {
-        return (String(commande.numeroCommande).toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (String(commande.numeroCommande).toLowerCase().indexOf(val.toLowerCase()) > -1 || commande.nomClient.toLowerCase().indexOf(val.toLowerCase()) > -1 );
       })
     }
   }

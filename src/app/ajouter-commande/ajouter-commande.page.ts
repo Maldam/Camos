@@ -61,7 +61,7 @@ export class AjouterCommandePage implements OnInit {
 
         await loading.present();
         this.commande.nomClient = this.client.nom,
-          this.commande.prenomClient = this.client.prenom,
+          this.commande.pseudoClient = this.client.pseudo,
           this.commande.paysClient = this.client.pays,
           this.commande.provinceClient = this.client.province,
           this.commande.codePostalClient = this.client.codePostal,
