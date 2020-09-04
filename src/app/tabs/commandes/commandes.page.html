@@ -19,7 +19,7 @@
   </ion-fab>
   <ion-list>
     <ion-item routerLink="/afficher-commande" *ngFor="let commande of commandes" (click)="versVueCommande(commande)">
-      <ion-label>{{commande.numeroFacture}}</ion-label>
+      <ion-label>{{commande.numeroCommande}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

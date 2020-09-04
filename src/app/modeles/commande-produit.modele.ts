@@ -6,7 +6,7 @@ export class CommandeProduitModele {
     public imageURL: string = "";
     public produitKey: string;
     public pourcentageProduit: number = 0;
-    public numeroFacture: number = null;
+    public numeroCommande: number = null;
     constructor(
     ) { }
   }

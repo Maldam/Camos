@@ -53,7 +53,7 @@ export class CommandesPage implements OnInit {
     const val = ev.target.value;
     if (val && val.trim() !== ''){
       this.commandes = this.commandes.filter((commande: any) => {
-        return (commande.numeroFacture.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (String(commande.numeroCommande).toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }
@@ -68,7 +68,7 @@ export class CommandesPage implements OnInit {
     this.commandesService.getCommandes().subscribe(commandes => {
       this.commandes = commandes;
       //this.commandes.forEach(e=>{console.log(e)})
-      this.commandes.sort((a,b) => b.numeroFacture - a.numeroFacture);
+      this.commandes.sort((a,b) => b.numeroCommande - a.numeroCommande);
       this.listeCommandes = this.commandes;
     });
   }

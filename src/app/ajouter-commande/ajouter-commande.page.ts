@@ -53,9 +53,9 @@ export class AjouterCommandePage implements OnInit {
       message: 'Cette commande existe déjà',
       buttons: ['OK']
     });
-    var index = this.commandesService.numeroIndex(this.commande.numeroFacture);
+    var index = this.commandesService.numeroIndex(this.commande.numeroCommande);
     if (index === -1) {
-      if (this.commande.numeroFacture == undefined) {
+      if (this.commande.numeroCommande == undefined) {
         await alertNom.present();
       } else {
 
@@ -85,7 +85,7 @@ export class AjouterCommandePage implements OnInit {
           this.total = null,
             this.commande = new CommandeModele
           this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
-            this.commande.numeroFacture = Date.now()
+            this.commande.numeroCommande = Date.now()
         });
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
@@ -123,7 +123,7 @@ export class AjouterCommandePage implements OnInit {
       if(this.produit.nom !== null){
       let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
       commandeProduit.produitNom = this.produit.nom,
-        commandeProduit.numeroFacture = this.commande.numeroFacture,
+        commandeProduit.numeroCommande = this.commande.numeroCommande,
         commandeProduit.prix = this.produit.prix,
         commandeProduit.produitKey = this.produit.key,
         this.commandesProduits.push(commandeProduit)
@@ -153,7 +153,7 @@ if (index > -1) {
     
   }
   public ngOnInit() {
-    this.commande.numeroFacture = Date.now()
+    this.commande.numeroCommande = Date.now()
     this.client.nom = ""
   }
 }

@@ -86,7 +86,7 @@ export class AfficherCommandePage implements OnInit {
         }
         if (changementNomOK) {
           //if (confirm(errorMessage)) {
-            commande.numeroFacture = this.form.value.numeroFactureForm;
+            commande.numeroCommande = this.form.value.numeroCommandeForm;
             commande.nomClient = this.form.value.nomClientForm;
             commande.prenomClient = this.form.value.prenomClientForm,
               commande.paysClient = this.form.value.paysClientForm,
@@ -139,10 +139,9 @@ export class AfficherCommandePage implements OnInit {
     modal.onWillDismiss().then(dataReturned => {
       var client: ClientModele;
       client = dataReturned.data;
-      console.log(client.nom);
       if (client.nom !== null) {
         this.form = this.formBuilder.group({
-          numeroFactureForm: [this.commande.numeroFacture],
+          numeroCommandeForm: [this.commande.numeroCommande],
           nomClientForm: [client.nom],
           prenomClientForm: [client.prenom],
           paysClientForm: [client.pays],
@@ -189,8 +188,6 @@ export class AfficherCommandePage implements OnInit {
   }
   public calculPrix() {
     this.total = null
-   console.log(this.commandesProduits)
-   console.log(this.nouveauxArticlesAjoutes)
       this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
       this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
     }
@@ -205,7 +202,7 @@ export class AfficherCommandePage implements OnInit {
       if (this.produit.nom !== null) {
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
-          commandeProduit.numeroFacture = this.commande.numeroFacture,
+          commandeProduit.numeroCommande = this.commande.numeroCommande,
           commandeProduit.prix = this.produit.prix,
           commandeProduit.produitKey = this.produit.key,
           this.nouveauxArticlesAjoutes.push(commandeProduit)
@@ -215,7 +212,7 @@ export class AfficherCommandePage implements OnInit {
   }
   public ngOnInit() {
     this.form = this.formBuilder.group({
-      numeroFactureForm: [this.commande.numeroFacture],
+      numeroCommandeForm: [this.commande.numeroCommande],
       nomClientForm: [this.commande.nomClient],
       prenomClientForm: [this.commande.prenomClient],
       paysClientForm: [this.commande.paysClient],
@@ -232,7 +229,7 @@ export class AfficherCommandePage implements OnInit {
       emailClientForm: [this.commande.emailClient],
       notesForm: [this.commande.notes],
     });
-    this.commandesService.getCommandesProduits(this.commande.numeroFacture).subscribe(commandesProduits => {
+    this.commandesService.getCommandesProduits(this.commande.numeroCommande).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits; 
       //this.total=0
       this.calculPrix()

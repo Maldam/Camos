@@ -42,7 +42,7 @@ export class CommandesService {
         commandesRecus.forEach(commandeRecus => {
           let commande: CommandeModele = new CommandeModele();
           commande.key = commandeRecus.key,
-            commande.numeroFacture = commandeRecus.payload.exportVal().numeroFacture,
+            commande.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
             commande.nomClient = commandeRecus.payload.exportVal().nomClient,
             commande.prenomClient = commandeRecus.payload.exportVal().prenomClient,
             commande.paysClient = commandeRecus.payload.exportVal().paysClient,
@@ -76,7 +76,7 @@ export class CommandesService {
         imageURL: commandeProduit.imageURL,
         produitKey: commandeProduit.produitKey,
         pourcentageProduit: commandeProduit.pourcentageProduit,
-        numeroFacture: commandeProduit.numeroFacture,
+        numeroCommande: commandeProduit.numeroCommande,
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -87,7 +87,7 @@ export class CommandesService {
   public updateCommande(commande: CommandeModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Commandes/').update(commande.key, {
-        numeroFacture: commande.numeroFacture,
+        numeroCommande: commande.numeroCommande,
         nomClient: commande.nomClient,
         prenomClient: commande.prenomClient,
         paysClient: commande.paysClient,
@@ -117,7 +117,7 @@ export class CommandesService {
   }
   public numeroIndex(numeroCommande: any) {
     try {
-      return this.commandes2.findIndex(x => x.numeroFacture === numeroCommande)
+      return this.commandes2.findIndex(x => x.numeroCommande === numeroCommande)
     } catch (error) {
       return -1
     }
@@ -146,9 +146,9 @@ export class CommandesService {
 
 
 
-  public getCommandesProduits(numeroFacture: number): Observable<Array<CommandeProduitModele>> {
+  public getCommandesProduits(numeroCommande: number): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
-    this.angularFireDatabase.list('CommandesProduits/', ref => ref.orderByChild('numeroFacture').equalTo(numeroFacture)).snapshotChanges().subscribe(
+    this.angularFireDatabase.list('CommandesProduits/', ref => ref.orderByChild('numeroCommande').equalTo(numeroCommande)).snapshotChanges().subscribe(
      commandesRecus => {
         let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
         commandesRecus.forEach(commandeRecus => {
@@ -163,7 +163,7 @@ export class CommandesService {
             commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
             commandeProduit.produitKey = commandeRecus.payload.exportVal().produitKey,
             commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
-            commandeProduit.numeroFacture = commandeRecus.payload.exportVal().numeroFacture,
+            commandeProduit.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
             commandesProduits.push(commandeProduit);
           
         })
@@ -172,10 +172,10 @@ export class CommandesService {
     });
   }
 
-  // public getCommandesProduits(numeroFacture: number): Observable<Array<CommandeProduitModele>> {
+  // public getCommandesProduits(numeroCommande: number): Observable<Array<CommandeProduitModele>> {
   //   return new Observable<Array<CommandeProduitModele>>(observer => {
   //     let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-  //     firebase.database().ref('/CommandesProduits/').orderByChild('numeroFacture').equalTo(numeroFacture).on('child_added', (snapshot) => {
+  //     firebase.database().ref('/CommandesProduits/').orderByChild('numeroCommande').equalTo(numeroCommande).on('child_added', (snapshot) => {
 
   //       let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
 
@@ -186,7 +186,7 @@ export class CommandesService {
   //         commandeProduit.imageURL = snapshot.exportVal().imageURL,
   //         commandeProduit.produitKey = snapshot.exportVal().produitKey,
   //         commandeProduit.pourcentageProduit = snapshot.exportVal().pourcentageProduit,
-  //         commandeProduit.numeroFacture = snapshot.exportVal().numeroFacture,
+  //         commandeProduit.numeroCommande = snapshot.exportVal().numeroCommande,
   //       commandesProduits.push(commandeProduit);
   //     })
 
@@ -207,9 +207,9 @@ export class CommandesService {
     var resultat: number = total - produit.quantite
     this.angularFireDatabase.list('Produits/').update(produit.key, { quantite: resultat })
   }
-  public numeroIndexCommandeProduit(numeroFacture: any) {
+  public numeroIndexCommandeProduit(numeroCommande: any) {
     try {
-      return this.commandes2.findIndex(x => x.numeroFacture === numeroFacture)
+      return this.commandes2.findIndex(x => x.numeroCommande === numeroCommande)
     } catch (error) {
       return -1
     }
