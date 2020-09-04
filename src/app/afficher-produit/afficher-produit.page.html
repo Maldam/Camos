@@ -8,7 +8,8 @@
 </ion-header>
 <ion-content>
   <div class="disposition" >
-    <img [src]="image" alt=""/>
+    <img [src]="image" 
+    onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';" alt=""/>
   </div>
   <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(click)="imageChange=true; estChange=true">
     <ion-icon name="image" slot="start"></ion-icon>
