@@ -93,12 +93,12 @@
           <ion-label>{{nouvelArticleAjoute.produitNom}}</ion-label>
         <ion-note>
           <ion-label position="floating">Quantité</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(nouvelArticleAjoute,1)">
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
         <ion-note slot="end">
           <ion-label position="floating">Prix</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(nouvelArticleAjoute,1)">
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
       </ion-item>
@@ -121,12 +121,12 @@
         <ion-label>{{commandeProduit.produitNom}}</ion-label>
       <ion-note>
         <ion-label position="floating">Quantité</ion-label>
-        <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit,2)">
+        <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
         </ion-textarea>
       </ion-note>
       <ion-note slot="end">
         <ion-label position="floating">Prix</ion-label>
-        <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit,2)">
+        <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
         </ion-textarea>
       </ion-note>
     </ion-item>

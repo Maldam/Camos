@@ -70,22 +70,23 @@ export class AfficherCommandePage implements OnInit {
       buttons: ['OK']
     });
     var changementNomOK = false;
-    if (confirm(errorMessage)) {
+    //if (confirm(errorMessage)) {
     await loading.present();
     if (this.estChange) {
-      if (this.form.value.nomForm === "") {
-        loading.dismiss();
-        await alertNom.present();
-      } else {
-        if (this.numeroChange) {
-          if (this.commandesService.numeroIndex(this.form.value.nomForm) === -1) {
+      if (confirm(errorMessage)) {
+        if (this.form.value.nomForm === "") {
+          loading.dismiss();
+          await alertNom.present();
+        } else {
+          if (this.numeroChange) {
+            if (this.commandesService.numeroIndex(this.form.value.nomForm) === -1) {
+              changementNomOK = true
+            }
+          } else {
             changementNomOK = true
           }
-        } else {
-          changementNomOK = true
-        }
-        if (changementNomOK) {
-          //if (confirm(errorMessage)) {
+          if (changementNomOK) {
+            //if (confirm(errorMessage)) {
             commande.numeroCommande = this.form.value.numeroCommandeForm;
             commande.nomClient = this.form.value.nomClientForm;
             commande.pseudoClient = this.form.value.pseudoClientForm,
@@ -108,30 +109,32 @@ export class AfficherCommandePage implements OnInit {
               });
             this.estChange = false;
             this.numeroChange = false;
-          //}
-        } else {
-          await articleExiste.present();
+            //}
+          } else {
+            await articleExiste.present();
+          }
+        }
+        //}
+        if (this.nouveauxArticlesAjoutes.length > 0) {
+          this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
+            this.commandesService.createCommandeProduit(nouvelArticleAjoute).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>(), this.calculPrix() }
+            )
+          });
+        }
+        if (this.articlesModifies.length > 0) {
+          this.articlesModifies.forEach(element => {
+            this.commandesService.updateListeProduit(element).then(x => { this.articlesModifies = new Array<CommandeProduitModele>() })
+          });
+        }
+        if (this.produitASupprimer.length > 0) {
+          this.commandesService.deleteCommandeProduit(this.produitASupprimer)
+          this.produitASupprimer = new Array<CommandeProduitModele>()
         }
       }
     }
-    if (this.nouveauxArticlesAjoutes.length > 0) {
-      this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
-        this.commandesService.createCommandeProduit(nouvelArticleAjoute).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>(), this.calculPrix()}
-       )
-      });
-    }
-    if (this.articlesModifies.length > 0){
-      this.articlesModifies.forEach(element => {
-        this.commandesService.updateListeProduit(element).then(x=>{this.articlesModifies = new Array<CommandeProduitModele>()})
-      });
-    }
-    if (this.produitASupprimer.length > 0) {
-      this.commandesService.deleteCommandeProduit(this.produitASupprimer)
-      this.produitASupprimer = new Array<CommandeProduitModele>()
-    }
     loading.dismiss();
+    // }
   }
-}
   public async choixClientModal() {
     const modal = await this.modalController.create({
       component: ModalClientPage
@@ -179,20 +182,20 @@ export class AfficherCommandePage implements OnInit {
       }
     }
   }
-  public quantitePrixEstChange(commandeProduit: CommandeProduitModele,i: number) {
+  public quantitePrixEstChange(commandeProduit: CommandeProduitModele, i: number) {
     //this.commandeProduit.prix = commandeProduit.prix
-    if(i===2){
+    if (i === 2) {
       this.articlesModifies.push(commandeProduit)
     }
     this.calculPrix()
   }
   public calculPrix() {
     this.total = null
-      this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
-      this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
-    }
-    
-  
+    this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
+    this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+  }
+
+
   public async choixProduitModal() {
     const modal = await this.modalController.create({
       component: ModalProduitPage,
@@ -230,7 +233,7 @@ export class AfficherCommandePage implements OnInit {
       notesForm: [this.commande.notes],
     });
     this.commandesService.getCommandesProduits(this.commande.numeroCommande).subscribe(commandesProduits => {
-      this.commandesProduits = commandesProduits; 
+      this.commandesProduits = commandesProduits;
       //this.total=0
       this.calculPrix()
     });
