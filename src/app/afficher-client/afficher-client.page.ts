@@ -79,7 +79,7 @@ export class AfficherClientPage implements OnInit {
             client.numeroTVA = this.form.value.numeroTVAForm;
             client.numeroTelephone = this.form.value.numeroTelephoneForm;
             client.numeroGSM = this.form.value.numeroGSMForm;
-            client.numeroFax = this.form.value.numeroFax;
+            client.numeroFax = this.form.value.numeroFaxForm;
             client.email = this.form.value.emailForm;
             client.notes= this.form.value.notesForm;
             if (this.imageChange) { 

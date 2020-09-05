@@ -205,7 +205,7 @@ export class AfficherCommandePage implements OnInit {
       if (this.produit.nom !== null) {
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
-          commandeProduit.keyCommande = this.commande.key,
+          commandeProduit.numeroCommande = this.commande.numeroCommande,
           commandeProduit.prix = this.produit.prix,
           commandeProduit.keyProduit = this.produit.key,
           this.nouveauxArticlesAjoutes.push(commandeProduit)
@@ -234,7 +234,6 @@ export class AfficherCommandePage implements OnInit {
     });
     this.commandesService.getCommandesProduits(this.commande.numeroCommande).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
-      //this.total=0
       this.calculPrix()
     });
   }

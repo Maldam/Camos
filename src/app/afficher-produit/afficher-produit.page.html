@@ -30,6 +30,41 @@
       <ion-textarea formControlName="prixForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
     </ion-item>
   </form>
+  
+
+
+  <ion-radio-group [value]='produit.type'>
+    <ion-list-header>
+      <ion-label>Type de produit</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-item>
+        <ion-label>Alimentaire</ion-label>
+        <ion-radio slot="end" color="primary" value="Alimentaires" (click)="estChange=true" (ionSelect)="typeProduit('Alimentaires')" ></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Non alimentaire</ion-label>
+        <ion-radio slot="end" color="secondary" value="NonAlimentaires" (click)="estChange=true" (ionSelect)="typeProduit('NonAlimentaires')"></ion-radio>
+      </ion-item>
+    </ion-item>
+  </ion-radio-group>
+  <ion-item *ngIf="typeProduitStatus">
+    <ion-label position="floating">Catégorie</ion-label>
+    <ion-select [(ngModel)]='produit.categorie' interface="popover" (click)="estChange=true" [selectedText]="produit.categorie" (ionChange)="ajouterNouvelleCategorie(produit.categorie)">
+      <ion-select-option *ngFor="let categorieProduit of categoriesProduits" [value]="categorieProduit" >{{categorieProduit}}</ion-select-option>
+      <ion-select-option>Nouvelle catégorie</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="categorieProduitStatus">
+    <ion-label position="floating">Nom de la nouvelle catégorie</ion-label>
+    <ion-input [(ngModel)]="nouvelleCategorie" type="string"></ion-input>
+  </ion-item>
+  <ion-item></ion-item>
+
+
+
+
+
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveProduit(produit)">
       <ion-icon name="trash"></ion-icon>

@@ -6,6 +6,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ProduitModele } from '../modeles/produit.modele';
 import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { analytics } from 'firebase';
+import { type } from 'os';
 @Injectable()
 export class ProduitsService {
   public produit: ProduitModele = new ProduitModele();
@@ -53,6 +55,8 @@ export class ProduitsService {
             produit.quantite = produitRecus.payload.exportVal().quantite,
             produit.prix = produitRecus.payload.exportVal().prix,
             produit.imageURL = produitRecus.payload.exportVal().imageURL
+            produit.categorie = produitRecus.payload.exportVal().categorie
+            produit.type = produitRecus.payload.exportVal().type
           produits.push(produit);
           observer.next(produits);
         })
@@ -61,7 +65,14 @@ export class ProduitsService {
   }
   public updateProduit(produit: ProduitModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Produits/').update(produit.key, { nom: produit.nom, quantite: produit.quantite, prix: produit.prix, imageURL: produit.imageURL }).then(
+      this.angularFireDatabase.list('Produits/').update(produit.key, { 
+        nom: produit.nom, 
+        quantite: produit.quantite, 
+        prix: produit.prix, 
+        imageURL: produit.imageURL,
+        categorie: produit.categorie,
+        type: produit.type
+      }).then(
         res => resolve(res),
         err => reject(err),
       )
@@ -113,5 +124,28 @@ export class ProduitsService {
       sourceType: this.camera.PictureSourceType.CAMERA
     };
     return await this.camera.getPicture(options);
+  }
+  public createCategorieProduit(CategorieProduit) {
+    console.log("ici")
+    return new Promise<any>((resolve, reject) => {
+      this.angularFireDatabase.list('CategoriesProduits/Alimentaires').push(CategorieProduit)
+        .then(
+          res => resolve(res),
+          err => reject(err)
+        )
+    })
+  }
+  public getCategoriesProduits(typeProduit): Observable<Array<any>> {
+    return new Observable<Array<ProduitModele>>(observer => {
+    this.angularFireDatabase.list('CategoriesProduits/'+typeProduit).snapshotChanges(['child_added', 'child_removed', 'child_changed', 'child_moved']).subscribe(produitsRecus => {
+      let categoriesProduits: Array<any> = new Array<any>();
+      produitsRecus.forEach(produitRecus => {
+        let categorieProduit: any = null;
+        categorieProduit = produitRecus.payload.val()
+        categoriesProduits.push(categorieProduit);
+      })
+      observer.next(categoriesProduits);
+    });
+  });
   }
 }

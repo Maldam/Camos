@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color='primary'>
     <ion-buttons id='retourProduits' slot="start">
-      <ion-back-button defaultHref="/produits" text=""></ion-back-button>
+      <ion-back-button defaultHref="tabs/produits" text=""></ion-back-button>
     </ion-buttons>
     <ion-title id='titre'>Ajouter un produit</ion-title>
   </ion-toolbar>
@@ -9,7 +9,8 @@
 <ion-content>
   <div class="flex">
     <div class="img-box">
-      <img [src]="image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
+      <img [src]="image"
+        onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
     </div>
   </div>
   <ion-button (click)="ajouterPhoto('galerie')" color="tertiary" expand="block">
@@ -31,6 +32,32 @@
   <ion-item>
     <ion-label position="floating">Prix</ion-label>
     <ion-input [(ngModel)]='produit.prix' type="number"></ion-input>
+  </ion-item>
+  <ion-radio-group value='Alimentaire'>
+    <ion-list-header>
+      <ion-label>Type de produit</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-item>
+        <ion-label>Alimentaire</ion-label>
+        <ion-radio slot="end" color="primary" value="Alimentaire" (ionSelect)="typeProduit('Alimentaires')"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Non alimentaire</ion-label>
+        <ion-radio slot="end" color="secondary" value="NonAlimentaire" (ionSelect)="typeProduit('NonAlimentaires')"></ion-radio>
+      </ion-item>
+    </ion-item>
+  </ion-radio-group>
+  <ion-item *ngIf="typeProduitStatus">
+    <ion-label position="floating">Catégorie</ion-label>
+    <ion-select [(ngModel)]='produit.categorie' interface="popover" (ionChange)="ajouterNouvelleCategorie(produit.categorie)" >
+      <ion-select-option *ngFor="let categorieProduit of categoriesProduits">{{categorieProduit}}</ion-select-option>
+      <ion-select-option>Nouvelle catégorie</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngIf="categorieProduitStatus">
+    <ion-label  position="floating">Nom de la nouvelle catégorie</ion-label>
+    <ion-input [(ngModel)]="nouvelleCategorie" type="string"></ion-input>
   </ion-item>
   <ion-button (click)="ajoutProduit(produit)" expand="block" color="primary">
     <ion-icon name="checkmark"></ion-icon>Ajouter

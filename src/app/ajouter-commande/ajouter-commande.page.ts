@@ -8,7 +8,6 @@ import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-ajouter-commande',
   templateUrl: './ajouter-commande.page.html',
@@ -58,7 +57,6 @@ export class AjouterCommandePage implements OnInit {
       if (this.commande.numeroCommande == undefined) {
         await alertNom.present();
       } else {
-
         await loading.present();
         this.commande.nomClient = this.client.nom,
           this.commande.pseudoClient = this.client.pseudo,
@@ -76,11 +74,10 @@ export class AjouterCommandePage implements OnInit {
           this.commande.emailClient = this.client.email,
           this.commandeProduit.produitNom = this.produit.nom,
           this.commandeProduit.keyProduit = this.produit.key,
-
           this.commandesProduits.forEach(commandeProduit => {
-            this.commandesService.createCommandeProduit(commandeProduit).then(x => { })
+            this.commandesService.createCommandeProduit(commandeProduit).then(x => { 
+          })
           });
-
         this.commandesService.createCommande(this.commande).then(ref => {
           this.total = null,
             this.commande = new CommandeModele
@@ -93,20 +90,16 @@ export class AjouterCommandePage implements OnInit {
           produit.quantite = commandeProduit.quantite;
           this.commandesService.updateProduit(produit)
         });
-
         await loading.dismiss();
         await alert.present();
       }
-
     } else {
       await articleExiste.present();
     }
   }
-
   public async choixClientModal() {
     const modal = await this.modalController.create({
       component: ModalClientPage
- 
     });
     modal.onWillDismiss().then(dataReturned => {
       this.client = dataReturned.data;
@@ -116,41 +109,37 @@ export class AjouterCommandePage implements OnInit {
   public async choixProduitModal() {
     const modal = await this.modalController.create({
       component: ModalProduitPage,
-
     });
     modal.onWillDismiss().then(dataReturned => {
       this.produit = dataReturned.data;
-      if(this.produit.nom !== null){
-      let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-      commandeProduit.produitNom = this.produit.nom,
-        commandeProduit.keyCommande = this.commande.key,
-        commandeProduit.prix = this.produit.prix,
-        commandeProduit.keyProduit = this.produit.key,
-        this.commandesProduits.push(commandeProduit)
+      if (this.produit.nom !== null) {
+        let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+        commandeProduit.produitNom = this.produit.nom,
+          commandeProduit.numeroCommande = this.commande.numeroCommande,
+          commandeProduit.prix = this.produit.prix,
+          commandeProduit.keyProduit = this.produit.key,
+          this.commandesProduits.push(commandeProduit)
       }
     })
     return await modal.present()
   }
   public quantitePrixEstChange(commandeProduit: CommandeProduitModele) {
-    //this.commandeProduit.prix = commandeProduit.prix
     this.calculPrix("ajouter")
   }
   public calculPrix(action) {
-    if(action === "ajouter"){
-    this.total = null;
-    this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
-  } else {
-    this.total = this.total-action.prix*action.quantite
-  }
+    if (action === "ajouter") {
+      this.total = null;
+      this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+    } else {
+      this.total = this.total - action.prix * action.quantite
+    }
   }
   deleteProduit(produit: any) {
-  this.calculPrix(produit)
-  const index = this.commandesProduits.indexOf(produit, 0);
-if (index > -1) {
-  this.commandesProduits.splice(index, 1);
-  
-}
-    
+    this.calculPrix(produit)
+    const index = this.commandesProduits.indexOf(produit, 0);
+    if (index > -1) {
+      this.commandesProduits.splice(index, 1);
+    }
   }
   public ngOnInit() {
     this.commande.numeroCommande = Date.now()

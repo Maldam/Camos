@@ -7,7 +7,7 @@ export class CommandeProduitModele {
     public keyProduit: string;
     public pourcentageProduit: number = 0;
     public date: number = 0;
-    public keyCommande: string = null;
+    public numeroCommande: number = null;
     constructor(
     ) { }
   }

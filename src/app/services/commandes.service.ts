@@ -9,7 +9,6 @@ import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ProduitsService } from './produits.service';
 import * as firebase from 'firebase/app';
-
 @Injectable()
 export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
@@ -74,15 +73,14 @@ export class CommandesService {
         prix: commandeProduit.prix,
         quantite: commandeProduit.quantite,
         imageURL: commandeProduit.imageURL,
-        produitKey: commandeProduit.keyProduit,
+        keyProduit: commandeProduit.keyProduit,
         pourcentageProduit: commandeProduit.pourcentageProduit,
-        numeroCommande: commandeProduit.keyCommande,
+        numeroCommande: commandeProduit.numeroCommande,
       }).then(
         res => resolve(res),
         err => reject(err)
       )
     })
-
   }
   public updateCommande(commande: CommandeModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
@@ -124,6 +122,8 @@ export class CommandesService {
   }
   public createCommandeProduit(commandeProduit: CommandeProduitModele) {
     return new Promise<any>((resolve, reject) => {
+      console.log(commandeProduit.numeroCommande)
+      
       this.angularFireDatabase.list('CommandesProduits/').push(commandeProduit)
         .then(
           res => resolve(res),
@@ -135,69 +135,35 @@ export class CommandesService {
     commandesProduits.forEach(commandeProduit => {
       var total: number;
       var ref = firebase.database().ref('Produits/');
-      ref.child(commandeProduit.produitKey).on("value", function (snapshot) {
+      ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
         total = snapshot.exportVal().quantite
       })
       var resultat: number = Number(total) + Number(commandeProduit.quantite)
-      this.angularFireDatabase.list('Produits/').update(commandeProduit.produitKey, { quantite: resultat })
+      this.angularFireDatabase.list('Produits/').update(commandeProduit.keyProduit, { quantite: resultat })
       this.angularFireDatabase.list('CommandesProduits/').remove(commandeProduit.key).catch(error => console.log(error));
     });
   }
-
-
-
   public getCommandesProduits(numeroCommande: number): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
-    this.angularFireDatabase.list('CommandesProduits/', ref => ref.orderByChild('numeroCommande').equalTo(numeroCommande)).snapshotChanges().subscribe(
-     commandesRecus => {
-        let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-        commandesRecus.forEach(commandeRecus => {
-          let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-
-
-
-          commandeProduit.key = commandeRecus.key,
-            commandeProduit.produitNom = commandeRecus.payload.exportVal().produitNom,
-            commandeProduit.prix = commandeRecus.payload.exportVal().prix,
-            commandeProduit.quantite = commandeRecus.payload.exportVal().quantite,
-            commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
-            commandeProduit.keyProduit = commandeRecus.payload.exportVal().produitKey,
-            commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
-            commandeProduit.keyCommande = commandeRecus.payload.exportVal().numeroCommande,
-            commandesProduits.push(commandeProduit);
-          
-        })
-        observer.next(commandesProduits);
-      });
+      this.angularFireDatabase.list('CommandesProduits/', ref => ref.orderByChild('numeroCommande').equalTo(numeroCommande)).snapshotChanges().subscribe(
+        commandesRecus => {
+          let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+          commandesRecus.forEach(commandeRecus => {
+            let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
+            commandeProduit.key = commandeRecus.key,
+              commandeProduit.produitNom = commandeRecus.payload.exportVal().produitNom,
+              commandeProduit.prix = commandeRecus.payload.exportVal().prix,
+              commandeProduit.quantite = commandeRecus.payload.exportVal().quantite,
+              commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
+              commandeProduit.keyProduit = commandeRecus.payload.exportVal().keyProduit,
+              commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
+              commandeProduit.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+              commandesProduits.push(commandeProduit);
+          })
+          observer.next(commandesProduits);
+        });
     });
   }
-
-  // public getCommandesProduits(numeroCommande: number): Observable<Array<CommandeProduitModele>> {
-  //   return new Observable<Array<CommandeProduitModele>>(observer => {
-  //     let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-  //     firebase.database().ref('/CommandesProduits/').orderByChild('numeroCommande').equalTo(numeroCommande).on('child_added', (snapshot) => {
-
-  //       let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-
-  //       commandeProduit.key = snapshot.key,
-  //         commandeProduit.produitNom = snapshot.exportVal().produitNom,
-  //         commandeProduit.prix = snapshot.exportVal().prix,
-  //         commandeProduit.quantite = snapshot.exportVal().quantite,
-  //         commandeProduit.imageURL = snapshot.exportVal().imageURL,
-  //         commandeProduit.produitKey = snapshot.exportVal().produitKey,
-  //         commandeProduit.pourcentageProduit = snapshot.exportVal().pourcentageProduit,
-  //         commandeProduit.numeroCommande = snapshot.exportVal().numeroCommande,
-  //       commandesProduits.push(commandeProduit);
-  //     })
-
-
-  //     observer.next(commandesProduits);
-  //   })
-  //}
-
-
-
-
   public updateProduit(produit: ProduitModele) {
     var total: number;
     var ref = firebase.database().ref('Produits/');

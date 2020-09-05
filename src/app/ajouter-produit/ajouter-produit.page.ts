@@ -15,6 +15,10 @@ export class AjouterProduitPage implements OnInit {
   public nomImage: string;
   public produit: ProduitModele = new ProduitModele();
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
+  public categoriesProduits: Array<any> = new Array<any>()
+  public typeProduitStatus: boolean = false
+  public categorieProduitStatus: boolean = false
+  public nouvelleCategorie: string  ="";
 
   constructor(
     private produitsService: ProduitsService,
@@ -57,6 +61,11 @@ export class AjouterProduitPage implements OnInit {
           this.produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + this.produit.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
           //this.produitsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
         }
+        if(this.categorieProduitStatus){
+          this.produit.categorie = this.nouvelleCategorie
+          this.produitsService.createCategorieProduit(this.produit.categorie)
+          this.categorieProduitStatus=false
+        }
         this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele });
       }
     } else {
@@ -73,8 +82,20 @@ export class AjouterProduitPage implements OnInit {
     }
     return this.image
   }
+  public typeProduit(typeProduit){
+    this.typeProduitStatus = true
+    this.categorieProduitStatus = false
+    this.produit.type = typeProduit
+    this.produitsService.getCategoriesProduits(typeProduit).subscribe(categoriesProduits => {
+      this.categoriesProduits = categoriesProduits;
+    });
+  }
+  ajouterNouvelleCategorie(value){
+  if(value === "Nouvelle catégorie"){
+    //this.produit.categorie=""
+    this.categorieProduitStatus = true
+    }
+  }
   public ngOnInit() {
-    //this.imageVide = this.produit.imageURL;
-    //this.image = this.imageVide;
   }
 }
