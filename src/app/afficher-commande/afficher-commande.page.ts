@@ -205,9 +205,9 @@ export class AfficherCommandePage implements OnInit {
       if (this.produit.nom !== null) {
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
-          commandeProduit.numeroCommande = this.commande.numeroCommande,
+          commandeProduit.keyCommande = this.commande.key,
           commandeProduit.prix = this.produit.prix,
-          commandeProduit.produitKey = this.produit.key,
+          commandeProduit.keyProduit = this.produit.key,
           this.nouveauxArticlesAjoutes.push(commandeProduit)
       }
     })

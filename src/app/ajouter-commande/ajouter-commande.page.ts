@@ -75,7 +75,7 @@ export class AjouterCommandePage implements OnInit {
           this.commande.numeroFaxClient = this.client.numeroFax,
           this.commande.emailClient = this.client.email,
           this.commandeProduit.produitNom = this.produit.nom,
-          this.commandeProduit.produitKey = this.produit.key,
+          this.commandeProduit.keyProduit = this.produit.key,
 
           this.commandesProduits.forEach(commandeProduit => {
             this.commandesService.createCommandeProduit(commandeProduit).then(x => { })
@@ -89,7 +89,7 @@ export class AjouterCommandePage implements OnInit {
         });
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
-          produit.key = commandeProduit.produitKey;
+          produit.key = commandeProduit.keyProduit;
           produit.quantite = commandeProduit.quantite;
           this.commandesService.updateProduit(produit)
         });
@@ -123,9 +123,9 @@ export class AjouterCommandePage implements OnInit {
       if(this.produit.nom !== null){
       let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
       commandeProduit.produitNom = this.produit.nom,
-        commandeProduit.numeroCommande = this.commande.numeroCommande,
+        commandeProduit.keyCommande = this.commande.key,
         commandeProduit.prix = this.produit.prix,
-        commandeProduit.produitKey = this.produit.key,
+        commandeProduit.keyProduit = this.produit.key,
         this.commandesProduits.push(commandeProduit)
       }
     })

@@ -44,7 +44,7 @@ export class CommandesService {
           commande.key = commandeRecus.key,
             commande.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
             commande.nomClient = commandeRecus.payload.exportVal().nomClient,
-            commande.prenomClient = commandeRecus.payload.exportVal().prenomClient,
+            commande.pseudoClient = commandeRecus.payload.exportVal().pseudoClient,
             commande.paysClient = commandeRecus.payload.exportVal().paysClient,
             commande.provinceClient = commandeRecus.payload.exportVal().provinceClient,
             commande.codePostalClient = commandeRecus.payload.exportVal().codePostalClient,
@@ -74,9 +74,9 @@ export class CommandesService {
         prix: commandeProduit.prix,
         quantite: commandeProduit.quantite,
         imageURL: commandeProduit.imageURL,
-        produitKey: commandeProduit.produitKey,
+        produitKey: commandeProduit.keyProduit,
         pourcentageProduit: commandeProduit.pourcentageProduit,
-        numeroCommande: commandeProduit.numeroCommande,
+        numeroCommande: commandeProduit.keyCommande,
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -89,7 +89,7 @@ export class CommandesService {
       this.angularFireDatabase.list('Commandes/').update(commande.key, {
         numeroCommande: commande.numeroCommande,
         nomClient: commande.nomClient,
-        prenomClient: commande.prenomClient,
+        pseudoClient: commande.pseudoClient,
         paysClient: commande.paysClient,
         provinceClient: commande.provinceClient,
         codePostalClient: commande.codePostalClient,
@@ -161,9 +161,9 @@ export class CommandesService {
             commandeProduit.prix = commandeRecus.payload.exportVal().prix,
             commandeProduit.quantite = commandeRecus.payload.exportVal().quantite,
             commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
-            commandeProduit.produitKey = commandeRecus.payload.exportVal().produitKey,
+            commandeProduit.keyProduit = commandeRecus.payload.exportVal().produitKey,
             commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
-            commandeProduit.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+            commandeProduit.keyCommande = commandeRecus.payload.exportVal().numeroCommande,
             commandesProduits.push(commandeProduit);
           
         })
