@@ -16,6 +16,9 @@ export class ClientModele {
     public email: string = "";
     public notes: string = "";
     public imageURL: string = "";
+    public linkedin: string ="";
+    public siteWeb: string ="";
+    public categorie: string="";
     constructor(
     ) { }
 }

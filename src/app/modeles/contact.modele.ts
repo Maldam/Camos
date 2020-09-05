@@ -13,9 +13,10 @@ export class ContactModele {
     public numeroGSM: string = "";
     public numeroFax: string = "";
     public email: string = "";
+    public linkedin: string = "";
     public notes: string = "";
     public imageURL: string = "";
-    public codeEntreprise: string=""; //nom+n°TVA
+    public keyEntreprise: string="";
     constructor(
     ) { }
 }
