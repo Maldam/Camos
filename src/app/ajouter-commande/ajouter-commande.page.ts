@@ -134,7 +134,7 @@ export class AjouterCommandePage implements OnInit {
       this.total = this.total - action.prix * action.quantite
     }
   }
-  deleteProduit(produit: any) {
+  public deleteProduit(produit: any) {
     this.calculPrix(produit)
     const index = this.commandesProduits.indexOf(produit, 0);
     if (index > -1) {
@@ -143,6 +143,7 @@ export class AjouterCommandePage implements OnInit {
   }
   public ngOnInit() {
     this.commande.numeroCommande = Date.now()
+    this.commande.dateCommande = Date.now()
     this.client.nom = ""
   }
 }

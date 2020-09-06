@@ -60,6 +60,8 @@ export class CommandesService {
             commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
             commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
             commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
+            commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
+            commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,
             commandes.push(commande);
           observer.next(commandes);
         })
@@ -104,6 +106,7 @@ export class CommandesService {
         nomProduit: commande.nomProduit,
         pourcentageTotal: commande.pourcentageTotal,
         montantFacture: commande.montantFacture,
+        dateLivraison: commande.dateLivraison,
       }).then(
         res => resolve(res),
         err => reject(err)

@@ -101,7 +101,14 @@
   <ion-item>
     <ion-label>Total commande : {{total}} €</ion-label>    
   </ion-item>
-  
+  <ion-item>
+    <ion-label>Date de la commande : </ion-label>
+    <ion-label>{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>    
+  </ion-item>
+  <ion-item>
+    <ion-label>Date de livraison : </ion-label>
+    <ion-datetime [(ngModel)]='commande.dateLivraison'  max="2099-12-31" displayFormat="DD MMMM YYYY" placeholder="Choisissez une date de livraison"></ion-datetime>
+  </ion-item>
   <ion-item>
     <ion-label position="floating">Notes</ion-label>
     <ion-textarea [(ngModel)]='commande.notes' type="text" inputmode="text"></ion-textarea>

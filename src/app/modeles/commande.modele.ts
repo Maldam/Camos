@@ -19,6 +19,8 @@ export class CommandeModele {
     public nomProduit: string = "";
     public pourcentageTotal: number = 0;
     public montantFacture: number = 0;
+    public dateCommande: number;
+    public dateLivraison: number;
     constructor(
     ) { }
 }
