@@ -9,6 +9,9 @@ import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ClientModele } from '../modeles/client.modele';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-afficher-commande',
@@ -212,6 +215,11 @@ export class AfficherCommandePage implements OnInit {
       }
     })
     return await modal.present()
+  }
+  public genererPDF(){
+    const documentDefinition = { content: ['This is an sample PDF printed with pdfMake ']}
+
+    pdfMake.createPdf(documentDefinition).open();
   }
   public ngOnInit() {
     this.form = this.formBuilder.group({
