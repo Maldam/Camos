@@ -6,8 +6,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ProduitModele } from '../modeles/produit.modele';
 import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { analytics } from 'firebase';
-import { type } from 'os';
 @Injectable()
 export class ProduitsService {
   public produit: ProduitModele = new ProduitModele();
@@ -125,10 +123,10 @@ export class ProduitsService {
     };
     return await this.camera.getPicture(options);
   }
-  public createCategorieProduit(CategorieProduit) {
+  public createCategorieProduit(CategorieProduit: ProduitModele) {
     console.log("ici")
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('CategoriesProduits/Alimentaires').push(CategorieProduit)
+      this.angularFireDatabase.list('CategoriesProduits/'+CategorieProduit.type).push(CategorieProduit.categorie)
         .then(
           res => resolve(res),
           err => reject(err)

@@ -6,9 +6,33 @@
     </ion-button>
   </ion-title>
   </ion-toolbar>
+
   <ion-toolbar>
-    <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)">
-    </ion-searchbar>
+    <ion-item >
+      <ion-searchbar animated placeholder="Recherche" [value]='test' (ionChange)="rechercheProduit($event)"></ion-searchbar>
+    </ion-item>
+
+    <ion-item slot="end">
+
+    <ion-segment value="tout" >
+      <ion-segment-button value="tout" (click)="typeProduit('')">
+        <ion-label>Tout</ion-label>
+      </ion-segment-button>
+      <ion-segment-button (click)="typeProduit('Alimentaires');typeProduitStatus=true" value="Alimentaires">
+        <ion-label>Alimentaires</ion-label>
+      </ion-segment-button>
+      <ion-segment-button (click)="typeProduit('NonAlimentaires');typeProduitStatus=true" value="NonAlimentaire">
+        <ion-label>Non alimentaires</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-item>
+    <ion-item-option *ngIf="categorieProduitStatus" slot="end">
+      <ion-label >Catégorie</ion-label>
+    <ion-select value="toutes" interface="popover" (ionChange)="triCategorie($event)">
+      <ion-select-option value="toutes">Toutes</ion-select-option>
+      <ion-select-option *ngFor="let categorieProduit of categoriesProduits" [value]="categorieProduit">{{categorieProduit}}</ion-select-option>
+    </ion-select>
+    </ion-item-option>
   </ion-toolbar>
 </ion-header>
 <ion-content>

@@ -81,7 +81,7 @@ export class AfficherProduitPage implements OnInit {
             }
             if(this.categorieProduitStatus){
               this.produit.categorie = this.nouvelleCategorie
-              this.produitsService.createCategorieProduit(this.produit.categorie)
+              this.produitsService.createCategorieProduit(this.produit)
               this.categorieProduitStatus=false
             }
             await this.produitsService.updateProduit(produit).then(ref => {

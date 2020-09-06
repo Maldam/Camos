@@ -63,7 +63,7 @@ export class AjouterProduitPage implements OnInit {
         }
         if(this.categorieProduitStatus){
           this.produit.categorie = this.nouvelleCategorie
-          this.produitsService.createCategorieProduit(this.produit.categorie)
+          this.produitsService.createCategorieProduit(this.produit)
           this.categorieProduitStatus=false
         }
         this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele });
@@ -94,6 +94,8 @@ export class AjouterProduitPage implements OnInit {
   if(value === "Nouvelle catégorie"){
     //this.produit.categorie=""
     this.categorieProduitStatus = true
+    } else {
+      this.categorieProduitStatus=false
     }
   }
   public ngOnInit() {
