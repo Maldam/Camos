@@ -131,8 +131,8 @@ export class AjouterCommandePage implements OnInit {
     //if (action === "ajouter") {
       this.total = null;
       this.totalTVA = null;
-      this.commandesProduits.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
-      this.commandesProduits.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
+      this.commandesProduits.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
+      this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
    // } else {
       //this.total = this.total - ((action.prix * action.quantite)-((action.prix*action.quantite)*(action.pourcentageProduit/100)))
       //this.totalTVA = this.totalTVA - (((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))-((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))*action.pourcentageProduit/100)

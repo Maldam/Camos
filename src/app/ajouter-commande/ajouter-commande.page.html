@@ -95,7 +95,9 @@
         <ion-note slot="end">
           <ion-label position="floating">Total HTVA</ion-label>
           <p></p>
-          <ion-label>{{commandeProduit.prix*commandeProduit.quantite-((commandeProduit.prix*commandeProduit.quantite)*commandeProduit.pourcentageProduit/100)}}</ion-label>
+          <ion-label>
+            {{commandeProduit.prix*commandeProduit.quantite-((commandeProduit.prix*commandeProduit.quantite)*commandeProduit.pourcentageProduit/100)}}
+          </ion-label>
         </ion-note>
         <ion-note slot="end">
           <ion-label position="floating">TVA</ion-label>
@@ -110,6 +112,14 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-card>
+
+  <ion-item>
+    <ion-label position="floating">Réduction sur le total</ion-label>
+    <ion-textarea [(ngModel)]='commande.pourcentageTotal' type="number" inputmode="number"
+      (change)="calculPrix(commande)">
+    </ion-textarea>
+  </ion-item>
+
   <ion-item>
     <ion-label>Total commande HTVA : {{total}} €</ion-label>
   </ion-item>
