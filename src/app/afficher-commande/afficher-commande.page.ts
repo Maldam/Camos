@@ -11,6 +11,7 @@ import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ClientModele } from '../modeles/client.modele';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { DonneesEntrepriseModele } from '../modeles/donnees-entreprise.modele';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -34,6 +35,7 @@ export class AfficherCommandePage implements OnInit {
   public client: ClientModele;
   public total: number = 0;
   public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
 
 
   constructor(private commandesService: CommandesService,
@@ -44,6 +46,7 @@ export class AfficherCommandePage implements OnInit {
     public loadingController: LoadingController,
     public alertController: AlertController,
     private modalController: ModalController,
+    
 
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
@@ -217,9 +220,91 @@ export class AfficherCommandePage implements OnInit {
     return await modal.present()
   }
   public genererPDF(){
-    const documentDefinition = { content: ['This is an sample PDF printed with pdfMake ']}
+    const documentDefinition = { content: [
+      {
+        text: this.donneesEntreprise.nom,
+        bold: true,
+        fontSize: 20,
+        alignment: 'center',
+        margin: [0, 0, 0, 20]
+      }, 
+      {
+        columns: [
+          [{
+            text: this.donneesEntreprise.nom,
+            style: 'name'
+          },
+          {
+            text: this.donneesEntreprise.rue + " " + this.donneesEntreprise.numero
+          },
+          {
+            text: this.donneesEntreprise.codePostal + " " + this.donneesEntreprise.localite
+          },
+          {
+            text: this.donneesEntreprise.province + " " + this.donneesEntreprise.pays
+          },
+          {
+            text: "N° de TVA : "+ this.donneesEntreprise.numeroTVA
+          },
+          {
+            text: "N° de compte : "+ this.donneesEntreprise.compteBancaire + "/ Bic : " + this.donneesEntreprise.numeroBic
+          },
+          {
+            text: 'Email : ' + this.donneesEntreprise.email,
+          },
+          {
+            text: 'GSM : ' + this.donneesEntreprise.numeroGSM,
+          },
+          {
+            text: 'web : ' + this.donneesEntreprise.siteWeb,
+            link: this.donneesEntreprise.siteWeb,
+            color: 'blue',
+          }
+          ],
+        ]
+      },
+      {
+        text: 'Education',
+        style: 'header'
+      },
+      this.getListeProduits(this.commandesProduits),
+      
+    ]}
 
     pdfMake.createPdf(documentDefinition).open();
+  }
+  public getListeProduits(listeProduits: Array<CommandeProduitModele>){
+    const exs = [];
+    listeProduits.forEach(produit => {
+      exs.push(
+        [{
+          columns: [
+            [{
+              text: produit.produitNom,
+              style: 'jobTitle'
+            },
+            {
+              text: produit.quantite,
+            },
+            {
+              text: produit.prix,
+            }],
+            {
+              text: 'Experience : ' + produit.pourcentageProduit + ' Months',
+              alignment: 'right'
+            }
+          ]
+        }]
+      );
+    });
+    return {
+      table: {
+        widths: ['*'],
+        body: [
+          ...exs
+        ]
+      }
+    };
   }
   public ngOnInit() {
     this.form = this.formBuilder.group({
