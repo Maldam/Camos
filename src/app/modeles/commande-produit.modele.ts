@@ -8,6 +8,7 @@ export class CommandeProduitModele {
     public pourcentageProduit: number = 0;
     public date: number = 0;
     public numeroCommande: number = null;
+    public TVAProduit: number = null;
     constructor(
     ) { }
   }

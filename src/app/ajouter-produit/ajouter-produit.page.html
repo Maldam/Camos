@@ -22,6 +22,10 @@
     Prenez une photo
   </ion-button>
   <ion-item>
+    <ion-label position="floating">Code produit</ion-label>
+    <ion-input [(ngModel)]="produit.codeProduit" type="string"></ion-input>
+  </ion-item>
+  <ion-item>
     <ion-label position="floating">Nom</ion-label>
     <ion-input [(ngModel)]="produit.nom" type="string"></ion-input>
   </ion-item>
@@ -32,6 +36,10 @@
   <ion-item>
     <ion-label position="floating">Prix</ion-label>
     <ion-input [(ngModel)]='produit.prix' type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">TVA</ion-label>
+    <ion-input [(ngModel)]='produit.TVA' type="number"></ion-input>
   </ion-item>
   <ion-radio-group value='Alimentaire'>
     <ion-list-header>

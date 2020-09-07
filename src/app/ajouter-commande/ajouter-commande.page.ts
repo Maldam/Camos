@@ -23,7 +23,8 @@ export class AjouterCommandePage implements OnInit {
   public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele = new ProduitModele();
-  public total: number = null;
+  public total: number = 0;
+  public totalTVA: number= 0;
   public estChange: boolean = false;
 
   constructor(
@@ -75,8 +76,8 @@ export class AjouterCommandePage implements OnInit {
           this.commandeProduit.produitNom = this.produit.nom,
           this.commandeProduit.keyProduit = this.produit.key,
           this.commandesProduits.forEach(commandeProduit => {
-            this.commandesService.createCommandeProduit(commandeProduit).then(x => { 
-          })
+            this.commandesService.createCommandeProduit(commandeProduit).then(x => {
+            })
           });
         this.commandesService.createCommande(this.commande).then(ref => {
           this.total = null,
@@ -118,6 +119,8 @@ export class AjouterCommandePage implements OnInit {
           commandeProduit.numeroCommande = this.commande.numeroCommande,
           commandeProduit.prix = this.produit.prix,
           commandeProduit.keyProduit = this.produit.key,
+          commandeProduit.TVAProduit = this.produit.TVA
+          
           this.commandesProduits.push(commandeProduit)
       }
     })
@@ -129,9 +132,12 @@ export class AjouterCommandePage implements OnInit {
   public calculPrix(action) {
     if (action === "ajouter") {
       this.total = null;
-      this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+      this.totalTVA = null;
+      this.commandesProduits.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
+      this.commandesProduits.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
     } else {
-      this.total = this.total - action.prix * action.quantite
+      this.total = this.total - ((action.prix * action.quantite)-((action.prix*action.quantite)*(action.pourcentageProduit/100)))
+      this.totalTVA = this.totalTVA - (((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))-((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))*action.pourcentageProduit/100)
     }
   }
   public deleteProduit(produit: any) {

@@ -74,6 +74,8 @@ export class AfficherProduitPage implements OnInit {
             produit.nom = this.form.value.nomForm;
             produit.quantite = this.form.value.quantiteForm;
             produit.prix = this.form.value.prixForm;
+            produit.codeProduit = this.form.value.codeProduit;
+            produit.TVA = this.form.value.TVA
             if (this.imageChange) { 
               var nouveauNomImage = produit.nom + Date.now()
               await this.nouvelleImage(produit,nouveauNomImage) 
@@ -143,7 +145,8 @@ export class AfficherProduitPage implements OnInit {
       nomForm: [this.produit.nom],
       quantiteForm: [this.produit.quantite],
       prixForm: [this.produit.prix],
-      //categorieForm:[this.produit.categorie]
+      codeProduitForm: [this.produit.codeProduit],
+      TVAForm: [this.produit.TVA]
     });
     this.produitsService.getCategoriesProduits(this.produit.type).subscribe(categoriesProduits => {
       this.categoriesProduits = categoriesProduits;

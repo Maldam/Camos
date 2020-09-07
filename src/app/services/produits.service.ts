@@ -49,12 +49,14 @@ export class ProduitsService {
         produitsRecus.forEach(produitRecus => {
           let produit: ProduitModele = new ProduitModele();
           produit.key = produitRecus.key,
+          produit.codeProduit = produitRecus.payload.exportVal().codeProduit,
             produit.nom = produitRecus.payload.exportVal().nom,
             produit.quantite = produitRecus.payload.exportVal().quantite,
             produit.prix = produitRecus.payload.exportVal().prix,
             produit.imageURL = produitRecus.payload.exportVal().imageURL
             produit.categorie = produitRecus.payload.exportVal().categorie
             produit.type = produitRecus.payload.exportVal().type
+            produit.TVA = produitRecus.payload.exportVal().TVA
           produits.push(produit);
           observer.next(produits);
         })
@@ -64,12 +66,14 @@ export class ProduitsService {
   public updateProduit(produit: ProduitModele): Promise<void> {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Produits/').update(produit.key, { 
+        codeProduit: produit.codeProduit,
         nom: produit.nom, 
         quantite: produit.quantite, 
         prix: produit.prix, 
         imageURL: produit.imageURL,
         categorie: produit.categorie,
-        type: produit.type
+        type: produit.type,
+        TVA: produit.TVA
       }).then(
         res => resolve(res),
         err => reject(err),

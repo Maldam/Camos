@@ -17,6 +17,10 @@
   </ion-button>
   <form [formGroup]="form" novalidate>
     <ion-item>
+      <ion-label position="floating">Code Produit</ion-label>
+      <ion-textarea formControlName="codeProduitForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">Nom</ion-label>
       <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
     </ion-item>
@@ -26,8 +30,12 @@
       </ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Prix</ion-label>
+      <ion-label position="floating">Prix en €</ion-label>
       <ion-textarea formControlName="prixForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">TVA en %</ion-label>
+      <ion-textarea formControlName="TVAForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
     </ion-item>
   </form>
   
