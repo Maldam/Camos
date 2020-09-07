@@ -18,63 +18,76 @@
     <ion-item (click)="choixClientModal()">
       <ion-label color='primary'>Changer de client</ion-label>
     </ion-item>
-  
+
     <ion-item>
-      <ion-label position="floating" >Nom</ion-label>
-      <ion-textarea  formControlName="nomClientForm" type="text" inputmode="text" (change)="estChange=true">
+      <ion-label position="floating">Nom</ion-label>
+      <ion-textarea formControlName="nomClientForm" type="text" inputmode="text" (change)="estChange=true">
       </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Pseudo</ion-label>
-      <ion-textarea formControlName='pseudoClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='pseudoClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Pays</ion-label>
-      <ion-textarea formControlName='paysClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='paysClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Province</ion-label>
-      <ion-textarea formControlName='provinceClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='provinceClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Code postal</ion-label>
-      <ion-textarea formControlName='codePostalClientForm' type="number" inputmode="number" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='codePostalClientForm' type="number" inputmode="number" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Localité</ion-label>
-      <ion-textarea formControlName='localiteClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='localiteClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Rue</ion-label>
-      <ion-textarea formControlName='rueClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='rueClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéro</ion-label>
-      <ion-textarea formControlName='numeroClientForm' type="number" inputmode="number" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='numeroClientForm' type="number" inputmode="number" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Boite</ion-label>
-      <ion-textarea formControlName='boiteClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='boiteClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéro de TVA</ion-label>
-      <ion-textarea formControlName='numeroTVAClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='numeroTVAClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéo de téléphone</ion-label>
-      <ion-textarea formControlName='numeroTelephoneClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='numeroTelephoneClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéo de GSM</ion-label>
-      <ion-textarea formControlName='numeroGSMClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='numeroGSMClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéo de fax</ion-label>
-      <ion-textarea formControlName='numeroFaxClientForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='numeroFaxClientForm' type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Adresse email</ion-label>
-      <ion-textarea formControlName='emailClientForm' type="email" inputmode="email" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='emailClientForm' type="email" inputmode="email" (change)="estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Notes</ion-label>
@@ -82,66 +95,118 @@
     </ion-item>
   </form>
 
-   <ion-item (click)="choixProduitModal()">
+  <ion-item (click)="choixProduitModal()">
     <ion-label color='primary'>Ajouter un produit</ion-label>
   </ion-item>
 
   <ion-card *ngFor="let nouvelArticleAjoute of nouveauxArticlesAjoutes">
     <ion-item-sliding>
-      
-        <ion-item >
-          <ion-label>{{nouvelArticleAjoute.produitNom}}</ion-label>
-        <ion-note>
+
+      <ion-item>
+        <ion-label slot="start">{{nouvelArticleAjoute.produitNom}}</ion-label>
+        <ion-note slot="start">
           <ion-label position="floating">Quantité</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number"
+            (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
         <ion-note slot="end">
           <ion-label position="floating">Prix</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number"
+            (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
+
+        <ion-note slot="end">
+          <ion-label position="floating">Réduction en %</ion-label>
+          <ion-textarea [(ngModel)]='nouvelArticleAjoute.pourcentageProduit' type="number" inputmode="number"
+          (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
+          </ion-textarea>
+        </ion-note>
+        <ion-note slot="end">
+          <ion-label position="floating">Total HTVA</ion-label>
+          <p></p>
+          <ion-label>
+            {{nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite-((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite)*nouvelArticleAjoute.pourcentageProduit/100)}}
+          </ion-label>
+        </ion-note>
+        <ion-note slot="end">
+          <ion-label position="floating">TVA</ion-label>
+          <p></p>
+          <ion-label>{{nouvelArticleAjoute.TVAProduit}} %</ion-label>
+        </ion-note>
+
+
+
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteProduit(nouveauxArticlesAjoutes,nouvelArticleAjoute,1)" >
+        <ion-item-option color="danger" (click)="deleteProduit(nouveauxArticlesAjoutes,nouvelArticleAjoute,1)">
           <ion-icon name="trash" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-card>
   <ion-card *ngFor="let commandeProduit of commandesProduits">
-  <ion-item-sliding>    
-      <ion-item >
-        <ion-label>{{commandeProduit.produitNom}}</ion-label>
-      <ion-note>
-        <ion-label position="floating">Quantité</ion-label>
-        <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
-        </ion-textarea>
-      </ion-note>
-      <ion-note slot="end">
-        <ion-label position="floating">Prix</ion-label>
-        <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number" (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
-        </ion-textarea>
-      </ion-note>
-    </ion-item>
-    <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="deleteProduit(commandesProduits,commandeProduit,2)" >
-        <ion-icon name="trash" slot="icon-only"></ion-icon>
-      </ion-item-option>
-    </ion-item-options>
-  </ion-item-sliding>
-</ion-card>
-<ion-item>
-  <ion-label>Total commande : {{total}} €</ion-label>    
-</ion-item>
-<ion-item>
-  <ion-label>Date de la commande : {{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>    
-</ion-item>
-<ion-item>
-  <ion-label>Date de livraison : </ion-label>
-  <ion-datetime [(ngModel)]='commande.dateLivraison' max="2099-12-31" displayFormat="DD MMMM YYYY" placeholder="Choisissez une date de livraison" (change)="estChange=true"></ion-datetime>
-</ion-item>
-    <ion-item></ion-item>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label slot="start">{{commandeProduit.produitNom}}</ion-label>
+        <ion-note slot="start">
+          <ion-label position="floating">Quantité</ion-label>
+          <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number"
+            (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
+          </ion-textarea>
+        </ion-note>
+        <ion-note slot="end">
+          <ion-label position="floating">Prix</ion-label>
+          <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number"
+            (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
+          </ion-textarea>
+        </ion-note>
+
+
+        <ion-note slot="end">
+          <ion-label position="floating">Réduction en %</ion-label>
+          <ion-textarea [(ngModel)]='commandeProduit.pourcentageProduit' type="number" inputmode="number"
+          (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
+          </ion-textarea>
+        </ion-note>
+        <ion-note slot="end">
+          <ion-label position="floating">Total HTVA</ion-label>
+          <p></p>
+          <ion-label>
+            {{commandeProduit.prix*commandeProduit.quantite-((commandeProduit.prix*commandeProduit.quantite)*commandeProduit.pourcentageProduit/100)}}
+          </ion-label>
+        </ion-note>
+        <ion-note slot="end">
+          <ion-label position="floating">TVA</ion-label>
+          <p></p>
+          <ion-label>{{commandeProduit.TVAProduit}} %</ion-label>
+        </ion-note>
+
+
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteProduit(commandesProduits,commandeProduit,2)">
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-card>
+  <ion-item>
+    <ion-label>Total commande HTVA : {{total}} €</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Total commande TVAC : {{totalTVA}} €</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Date de la commande : {{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Date de livraison : </ion-label>
+    <ion-datetime [(ngModel)]='commande.dateLivraison' max="2099-12-31" displayFormat="DD MMMM YYYY"
+      placeholder="Choisissez une date de livraison" (change)="estChange=true"></ion-datetime>
+  </ion-item>
+  <ion-item></ion-item>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveCommande(commande)">
       <ion-icon name="trash"></ion-icon>

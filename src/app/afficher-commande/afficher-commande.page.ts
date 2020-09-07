@@ -36,7 +36,7 @@ export class AfficherCommandePage implements OnInit {
   public total: number = 0;
   public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
-  
+  public totalTVA: number= 0;
 
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
@@ -47,7 +47,6 @@ export class AfficherCommandePage implements OnInit {
     public alertController: AlertController,
     private modalController: ModalController,
     
-
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -182,6 +181,7 @@ export class AfficherCommandePage implements OnInit {
     }
     if (i === 2) {
       if (index > -1) {
+      this.estChange = true
         this.produitASupprimer.push(produit)
         this.commandesProduits.splice(index, 1);
         this.calculPrix()
@@ -197,8 +197,13 @@ export class AfficherCommandePage implements OnInit {
   }
   public calculPrix() {
     this.total = null
-    this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
-    this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+    this.totalTVA = null
+    this.commandesProduits.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
+    this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
+    this.commandesProduits.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
+    this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
+    //this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
+    //this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
   }
 
 
@@ -214,6 +219,8 @@ export class AfficherCommandePage implements OnInit {
           commandeProduit.numeroCommande = this.commande.numeroCommande,
           commandeProduit.prix = this.produit.prix,
           commandeProduit.keyProduit = this.produit.key,
+          commandeProduit.TVAProduit = this.produit.TVA
+          commandeProduit.codeProduit = this.produit.codeProduit
           this.nouveauxArticlesAjoutes.push(commandeProduit)
       }
     })

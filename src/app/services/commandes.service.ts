@@ -124,9 +124,7 @@ export class CommandesService {
     }
   }
   public createCommandeProduit(commandeProduit: CommandeProduitModele) {
-    return new Promise<any>((resolve, reject) => {
-      console.log(commandeProduit.numeroCommande)
-      
+    return new Promise<any>((resolve, reject) => {      
       this.angularFireDatabase.list('CommandesProduits/').push(commandeProduit)
         .then(
           res => resolve(res),
@@ -161,6 +159,8 @@ export class CommandesService {
               commandeProduit.keyProduit = commandeRecus.payload.exportVal().keyProduit,
               commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
               commandeProduit.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+              commandeProduit.TVAProduit = commandeRecus.payload.exportVal().TVAProduit,
+              commandeProduit.codeProduit = commandeRecus.payload.exportVal().codeProduit,
               commandesProduits.push(commandeProduit);
           })
           observer.next(commandesProduits);

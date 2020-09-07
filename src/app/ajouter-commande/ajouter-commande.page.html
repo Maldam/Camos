@@ -77,19 +77,19 @@
         <ion-note slot="start">
           <ion-label position="floating">Quantité</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(commandeProduit)">
+            (change)="calculPrix(commandeProduit)">
           </ion-textarea>
         </ion-note>
         <ion-note slot="end">
           <ion-label position="floating">Prix</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(commandeProduit)">
+            (change)="calculPrix(commandeProduit)">
           </ion-textarea>
         </ion-note>
         <ion-note slot="end">
           <ion-label position="floating">Réduction en %</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.pourcentageProduit' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(commandeProduit)">
+            (change)="calculPrix(commandeProduit)">
           </ion-textarea>
         </ion-note>
         <ion-note slot="end">

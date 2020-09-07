@@ -81,6 +81,7 @@ export class AjouterCommandePage implements OnInit {
           });
         this.commandesService.createCommande(this.commande).then(ref => {
           this.total = null,
+          this.totalTVA=null,
             this.commande = new CommandeModele
           this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
             this.commande.numeroCommande = Date.now()
@@ -120,32 +121,30 @@ export class AjouterCommandePage implements OnInit {
           commandeProduit.prix = this.produit.prix,
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
+          commandeProduit.codeProduit = this.produit.codeProduit
           
           this.commandesProduits.push(commandeProduit)
       }
     })
     return await modal.present()
   }
-  public quantitePrixEstChange(commandeProduit: CommandeProduitModele) {
-    this.calculPrix("ajouter")
-  }
-  public calculPrix(action) {
-    if (action === "ajouter") {
+  public calculPrix(commandeProduit: CommandeProduitModele) {
+    //if (action === "ajouter") {
       this.total = null;
       this.totalTVA = null;
       this.commandesProduits.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
       this.commandesProduits.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
-    } else {
-      this.total = this.total - ((action.prix * action.quantite)-((action.prix*action.quantite)*(action.pourcentageProduit/100)))
-      this.totalTVA = this.totalTVA - (((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))-((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))*action.pourcentageProduit/100)
-    }
+   // } else {
+      //this.total = this.total - ((action.prix * action.quantite)-((action.prix*action.quantite)*(action.pourcentageProduit/100)))
+      //this.totalTVA = this.totalTVA - (((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))-((action.prix*action.quantite)+(action.prix*action.quantite)*(action.TVAProduit/100))*action.pourcentageProduit/100)
+    //}
   }
   public deleteProduit(produit: any) {
-    this.calculPrix(produit)
     const index = this.commandesProduits.indexOf(produit, 0);
     if (index > -1) {
       this.commandesProduits.splice(index, 1);
     }
+    this.calculPrix(produit)
   }
   public ngOnInit() {
     this.commande.numeroCommande = Date.now()
