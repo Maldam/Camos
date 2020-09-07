@@ -36,7 +36,7 @@ export class AfficherCommandePage implements OnInit {
   public total: number = 0;
   public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
-
+  
 
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
@@ -259,21 +259,60 @@ export class AfficherCommandePage implements OnInit {
             text: 'web : ' + this.donneesEntreprise.siteWeb,
             link: this.donneesEntreprise.siteWeb,
             color: 'blue',
+          },
+          {
+            text: ' '
           }
           ],
         ]
       },
       {
-        text: 'Education',
-        style: 'header'
+        text: 'Récapitulatif de la commande numéro : ' + this.commande.numeroCommande,
+        style: 'header',
+        bold: true,
+      },
+      {
+        text: ' '
       },
       this.getListeProduits(this.commandesProduits),
-      
-    ]}
+      {
+        text: 'Total de la commande HTVA : ' + this.total + " €",
+        style: 'header',
+        bold: true,
+      },
+      {
+        text: 'Montant total de la TVA : ' + " €",
+        style: 'header',
+        bold: true,
+      },
+      {
+        text: 'Total de la commande TVAC : ' + this.total + " €",
+        style: 'header',
+        bold: true,
+      },
+      {
+        text: ' '
+      },
+      {
+        text: ' '
+      },
+      {
+        text: 'livraison prévue le : ' + this.commande.dateLivraison
+      },
+    ],
+    info: {
+      title: "Commande_"+this.commande.numeroCommande,
+      author: this.donneesEntreprise.nom,
+      subject: 'commande',
+      keywords: 'commande',
+    },}
 
     pdfMake.createPdf(documentDefinition).open();
   }
-  public getListeProduits(listeProduits: Array<CommandeProduitModele>){
+
+
+
+  public getListeProduits1(listeProduits: Array<CommandeProduitModele>){
     const exs = [];
     listeProduits.forEach(produit => {
       exs.push(
@@ -302,6 +341,49 @@ export class AfficherCommandePage implements OnInit {
         widths: ['*'],
         body: [
           ...exs
+        ]
+      }
+    };
+  }
+  getListeProduits(listeProduits: Array<CommandeProduitModele>) {
+    return {
+      table: {
+        widths: ['*', '*', '*', '*','*', '*'],
+        body: [
+          [{
+            text: 'Dénominations',
+            style: 'tableHeader',
+            bold: true,
+          },
+          {
+            text: 'Quantitées',
+            style: 'tableHeader',
+            bold: true,
+          },
+          {
+            text: 'Prix unitaire en €',
+            style: 'tableHeader',
+            bold: true,
+          },
+          {
+            text: 'Réduction en %',
+            style: 'tableHeader',
+            bold: true,
+          },
+          {
+            text: 'Montant HTVA en €',
+            style: 'tableHeader',
+            bold: true,
+          },
+          {
+            text: 'TVA en %',
+            style: 'tableHeader',
+            bold: true,
+          }
+          ],
+          ...listeProduits.map(ed => {
+            return [ed.produitNom, ed.quantite, ed.prix, ed.pourcentageProduit, ed.prix*ed.quantite, "6"];
+          })
         ]
       }
     };
