@@ -231,18 +231,14 @@ export class AfficherCommandePage implements OnInit {
   }
   public genererPDF(){
     const documentDefinition = { content: [
-      {
-        text: this.donneesEntreprise.nom,
-        bold: true,
-        fontSize: 20,
-        alignment: 'center',
-        margin: [0, 0, 0, 20]
-      }, 
+      this.getProfilePicObject(),
       {
         columns: [
           [{
             text: this.donneesEntreprise.nom,
-            style: 'name'
+            bold: true,
+            style: 'name',
+            fontSize: 20,
           },
           {
             text: this.donneesEntreprise.rue + " " + this.donneesEntreprise.numero
@@ -292,17 +288,22 @@ export class AfficherCommandePage implements OnInit {
         text: ' '
       },
       {
+        text: 'Réduction sur le total : ' + this.commande.pourcentageTotal + " €",
+        style: 'header',
+        bold: true,
+      },
+      {
         text: 'Total de la commande HTVA : ' + this.total + " €",
         style: 'header',
         bold: true,
       },
       {
-        text: 'Montant total de la TVA : ' + this.totalTVA+ " €",
+        text: 'Montant total de la TVA : ' + (this.totalTVA - this.total) + " €",
         style: 'header',
         bold: true,
       },
       {
-        text: 'Total de la commande TVAC : ' + this.total + " €",
+        text: 'Total de la commande TVAC : ' + this.totalTVA + " €",
         style: 'header',
         bold: true,
       },
@@ -367,6 +368,18 @@ export class AfficherCommandePage implements OnInit {
         ]
       }
     };
+  }
+  getProfilePicObject() {
+    if (this.donneesEntreprise.imageURL) {
+      return {
+        image: this.donneesEntreprise.imageURL ,
+        width: 150,
+        alignment: 'center',
+       // margin: [0, 0, 0, 0]
+       // alignment : 'right'
+      };
+    }
+    return null;
   }
   public ngOnInit() {
     this.form = this.formBuilder.group({
