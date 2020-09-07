@@ -122,7 +122,6 @@ export class AjouterCommandePage implements OnInit {
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
           commandeProduit.codeProduit = this.produit.codeProduit
-          
           this.commandesProduits.push(commandeProduit)
       }
     })

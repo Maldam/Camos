@@ -205,8 +205,6 @@ export class AfficherCommandePage implements OnInit {
     //this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
     //this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
   }
-
-
   public async choixProduitModal() {
     const modal = await this.modalController.create({
       component: ModalProduitPage,
@@ -283,12 +281,18 @@ export class AfficherCommandePage implements OnInit {
       },
       this.getListeProduits(this.commandesProduits),
       {
+        text: ' '
+      },
+      {
+        text: ' '
+      },
+      {
         text: 'Total de la commande HTVA : ' + this.total + " €",
         style: 'header',
         bold: true,
       },
       {
-        text: 'Montant total de la TVA : ' + " €",
+        text: 'Montant total de la TVA : ' + this.totalTVA+ " €",
         style: 'header',
         bold: true,
       },
@@ -316,42 +320,6 @@ export class AfficherCommandePage implements OnInit {
 
     pdfMake.createPdf(documentDefinition).open();
   }
-
-
-
-  public getListeProduits1(listeProduits: Array<CommandeProduitModele>){
-    const exs = [];
-    listeProduits.forEach(produit => {
-      exs.push(
-        [{
-          columns: [
-            [{
-              text: produit.produitNom,
-              style: 'jobTitle'
-            },
-            {
-              text: produit.quantite,
-            },
-            {
-              text: produit.prix,
-            }],
-            {
-              text: 'Experience : ' + produit.pourcentageProduit + ' Months',
-              alignment: 'right'
-            }
-          ]
-        }]
-      );
-    });
-    return {
-      table: {
-        widths: ['*'],
-        body: [
-          ...exs
-        ]
-      }
-    };
-  }
   getListeProduits(listeProduits: Array<CommandeProduitModele>) {
     return {
       table: {
@@ -368,28 +336,28 @@ export class AfficherCommandePage implements OnInit {
             bold: true,
           },
           {
-            text: 'Prix unitaire en €',
+            text: 'Prix unitaire',
             style: 'tableHeader',
             bold: true,
           },
           {
-            text: 'Réduction en %',
+            text: 'Réduction',
             style: 'tableHeader',
             bold: true,
           },
           {
-            text: 'Montant HTVA en €',
+            text: 'Montant HTVA',
             style: 'tableHeader',
             bold: true,
           },
           {
-            text: 'TVA en %',
+            text: 'TVA',
             style: 'tableHeader',
             bold: true,
           }
           ],
           ...listeProduits.map(ed => {
-            return [ed.produitNom, ed.quantite, ed.prix, ed.pourcentageProduit, ed.prix*ed.quantite, "6"];
+            return [ed.produitNom, ed.quantite, ed.prix +" €", ed.pourcentageProduit+" %", ed.prix*ed.quantite +" €", ed.TVAProduit+" €"];
           })
         ]
       }
