@@ -24,7 +24,6 @@ import { CommandesService } from './services/commandes.service';
 import { ModalClientPageModule } from './modals/modal-client/modal-client.module';
 import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.module';
 
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

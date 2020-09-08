@@ -71,8 +71,19 @@
       <ion-textarea formControlName="numeroFaxForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">adresse email</ion-label>
+      <ion-label position="floating">Adresse email</ion-label>
       <ion-textarea formControlName="emailForm" type="email" inputmode="email" (change)="estChange=true"></ion-textarea>
+      <ion-fab-button slot="end" href="mailto:{{client.email}}"><ion-icon name="mail"></ion-icon></ion-fab-button>  
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Page web</ion-label>
+      <ion-textarea formControlName="siteWebForm" (change)="estChange=true"></ion-textarea>
+     <ion-fab-button slot="end" (click)="openBrowser(client.siteWeb)"><ion-icon name="globe"></ion-icon></ion-fab-button>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Page LinkedIn</ion-label>
+      <ion-textarea formControlName="linkedInForm" (change)="estChange=true"></ion-textarea>
+      <ion-fab-button slot="end" (click)="openBrowser(client.linkedIn)"><ion-icon name="logo-linkedin"></ion-icon></ion-fab-button>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Notes</ion-label>

@@ -81,6 +81,8 @@ export class AfficherClientPage implements OnInit {
             client.numeroGSM = this.form.value.numeroGSMForm;
             client.numeroFax = this.form.value.numeroFaxForm;
             client.email = this.form.value.emailForm;
+            client.siteWeb = this.form.value.siteWebForm;
+            client.linkedIn = this.form.value.linkedInForm;
             client.notes= this.form.value.notesForm;
             if (this.imageChange) { 
               var nouveauNomImage = client.nom + Date.now()
@@ -123,6 +125,10 @@ export class AfficherClientPage implements OnInit {
       this.image = 'data:image/jpg;base64,' + cameraImage;
     }
   }
+  openBrowser(url:string){
+    window.open(url)
+    //this.iab.open();
+}
   public ngOnInit() {
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL
@@ -142,7 +148,9 @@ export class AfficherClientPage implements OnInit {
       numeroGSMForm: [this.client.numeroGSM],
       numeroFaxForm: [this.client.numeroFax],
       emailForm: [this.client.email],
-      notesForm: [this.client.notes]
+      notesForm: [this.client.notes],
+      linkedInForm: [this.client.linkedIn],
+      siteWebForm:[this.client.siteWeb]
 
     });
   }

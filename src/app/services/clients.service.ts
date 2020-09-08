@@ -64,7 +64,9 @@ export class ClientsService {
             client.numeroFax = clientRecus.payload.exportVal().numeroFax,
             client.email = clientRecus.payload.exportVal().email,
             client.notes = clientRecus.payload.exportVal().notes,
+            client.siteWeb= clientRecus.payload.exportVal().siteWeb
             client.imageURL = clientRecus.payload.exportVal().imageURL
+            client.linkedIn = clientRecus.payload.exportVal().linkedIn
           clients.push(client);
           observer.next(clients);
         })
@@ -87,8 +89,10 @@ export class ClientsService {
         numeroTelephone: client.numeroTelephone,
         numeroGSM: client.numeroGSM,
         numeroFax: client.numeroFax,
-        Email: client.email,
+        email: client.email,
         notes: client.notes, 
+       linkedIn: client.linkedIn,
+        siteWeb: client.siteWeb,
         imageURL: client.imageURL }).then(
         res => resolve(res),
         err => reject(err)
