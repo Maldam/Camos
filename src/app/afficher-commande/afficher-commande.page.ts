@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommandesService } from '../services/commandes.service';
@@ -33,6 +33,7 @@ export class AfficherCommandePage implements OnInit {
   public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public articlesModifies: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public client: ClientModele;
+  
   public total: number = 0;
   public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
@@ -202,7 +203,7 @@ export class AfficherCommandePage implements OnInit {
     this.nouveauxArticlesAjoutes.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
     this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
     this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
-   // new Intl.NumberFormat('be-BE',{ style: 'currency', currency: 'EUR' }).format(this.total);
+    //new Intl.NumberFormat('be-BE',{ style: 'currency', currency: 'EUR' }).format(this.total);
     //this.commandesProduits.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
     //this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
     //this.commandesProduits.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
@@ -293,17 +294,17 @@ export class AfficherCommandePage implements OnInit {
         bold: true,
       },
       {
-        text: 'Total de la commande HTVA : ' + this.total + " €",
+        text: 'Total de la commande HTVA : ' + (this.total.toFixed(2)).replace('.',',') + " €",
         style: 'header',
         bold: true,
       },
       {
-        text: 'Montant total de la TVA : ' + (this.totalTVA - this.total) + " €",
+        text: 'Montant total de la TVA : ' + ((this.totalTVA - this.total).toFixed(2)).replace('.',',') + " €",
         style: 'header',
         bold: true,
       },
       {
-        text: 'Total de la commande TVAC : ' + this.totalTVA + " €",
+        text: 'Total de la commande TVAC : ' + (this.totalTVA.toFixed(2)).replace('.',',') + " €",
         style: 'header',
         bold: true,
       },

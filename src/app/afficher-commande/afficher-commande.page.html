@@ -127,7 +127,7 @@
           <ion-label position="floating">Total HTVA</ion-label>
           <p></p>
           <ion-label>
-            {{(nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite-((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite)*nouvelArticleAjoute.pourcentageProduit/100)).toFixed(2)}}
+            {{((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite-((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite)*nouvelArticleAjoute.pourcentageProduit/100)).toFixed(2)).replace('.',',')}}
           </ion-label>
         </ion-note>
         <ion-note slot="end">
@@ -174,7 +174,7 @@
           <ion-label position="floating">Total HTVA</ion-label>
           <p></p>
           <ion-label>
-            {{(commandeProduit.prix*commandeProduit.quantite-((commandeProduit.prix*commandeProduit.quantite)*commandeProduit.pourcentageProduit/100)).toFixed(2)}}
+            {{((commandeProduit.prix*commandeProduit.quantite-((commandeProduit.prix*commandeProduit.quantite)*commandeProduit.pourcentageProduit/100)).toFixed(2)).replace('.',',')}}
           </ion-label>
         </ion-note>
         <ion-note slot="end">
@@ -199,10 +199,10 @@
     </ion-textarea>
   </ion-item>
   <ion-item>
-    <ion-label>Total commande HTVA : {{total.toFixed(2)}} €</ion-label>
+    <ion-label>Total commande HTVA : {{(total.toFixed(2)).replace('.',',')}} €</ion-label>
   </ion-item>
   <ion-item>
-    <ion-label>Total commande TVAC : {{totalTVA.toFixed(2)}} €</ion-label>
+    <ion-label>Total commande TVAC : {{(totalTVA.toFixed(2)).replace('.',',')}} €</ion-label>
   </ion-item>
   <ion-item>
     <ion-label>Date de la commande : {{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>
