@@ -4,6 +4,7 @@ import { NavController, AlertController, LoadingController } from '@ionic/angula
 import { ClientModele } from '../modeles/client.modele';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from "@angular/forms";
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
   selector: 'app-afficher-client',
@@ -26,6 +27,7 @@ export class AfficherClientPage implements OnInit {
     private formBuilder: FormBuilder,
     public loadingController: LoadingController,
     public alertController: AlertController,
+    private callNumber: CallNumber,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -125,10 +127,14 @@ export class AfficherClientPage implements OnInit {
       this.image = 'data:image/jpg;base64,' + cameraImage;
     }
   }
-  openBrowser(url:string){
+  public openBrowser(url:string){
     window.open(url)
-    //this.iab.open();
 }
+  public appeler(numero:number){
+    this.callNumber.callNumber(String(numero), true)
+  .then(res => console.log('Launched dialer!', res))
+  .catch(err => console.log('Error launching dialer', err));
+  }
   public ngOnInit() {
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL

@@ -23,6 +23,8 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { CommandesService } from './services/commandes.service';
 import { ModalClientPageModule } from './modals/modal-client/modal-client.module';
 import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.module';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -53,6 +55,7 @@ import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.mod
     CommandesService,
     AngularFirestore,
     GardeConnexionService,
+    CallNumber,
   ],
   bootstrap: [AppComponent]
 })
