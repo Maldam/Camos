@@ -66,6 +66,7 @@
     <ion-item>
       <ion-label position="floating">Numéro de GSM</ion-label>
       <ion-textarea formControlName="numeroGSMForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-fab-button *ngIf="client.numeroGSM" slot="end" (click)="appeler(client.numeroGSM)"><ion-icon name="phone-portrait"></ion-icon></ion-fab-button> 
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéro de Fax</ion-label>
