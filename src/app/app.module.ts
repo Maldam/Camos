@@ -24,6 +24,8 @@ import { CommandesService } from './services/commandes.service';
 import { ModalClientPageModule } from './modals/modal-client/modal-client.module';
 import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.module';
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { SMS } from '@ionic-native/sms/ngx';
+
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
     FormsModule,
     ReactiveFormsModule,
     ModalClientPageModule,
-    ModalProduitPageModule
+    ModalProduitPageModule,
+  
     
   ],
   providers: [
@@ -56,6 +59,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
     AngularFirestore,
     GardeConnexionService,
     CallNumber,
+    SMS,
   ],
   bootstrap: [AppComponent]
 })

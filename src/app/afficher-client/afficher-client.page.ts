@@ -5,6 +5,7 @@ import { ClientModele } from '../modeles/client.modele';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { SMS } from '@ionic-native/sms/ngx';
 
 @Component({
   selector: 'app-afficher-client',
@@ -28,6 +29,7 @@ export class AfficherClientPage implements OnInit {
     public loadingController: LoadingController,
     public alertController: AlertController,
     private callNumber: CallNumber,
+    private sms: SMS
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -134,6 +136,10 @@ export class AfficherClientPage implements OnInit {
     this.callNumber.callNumber(String(numero), true)
   .then(res => console.log('Launched dialer!', res))
   .catch(err => console.log('Error launching dialer', err));
+  }
+  public envoyerSMS(numero:number){
+    var options = {android: {intent: 'INTENT'}}
+    this.sms.send(String(numero),'',options);
   }
   public ngOnInit() {
     this.image = this.client.imageURL
