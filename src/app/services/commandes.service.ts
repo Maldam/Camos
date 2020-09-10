@@ -168,6 +168,41 @@ export class CommandesService {
         });
     });
   }
+  public getCommandesSeparee(pseudoClient: string): Observable<Array<CommandeModele>> {
+    return new Observable<Array<CommandeModele>>(observer => {
+      this.angularFireDatabase.list('Commandes/', ref => ref.orderByChild('pseudoClient').equalTo(pseudoClient)).snapshotChanges().subscribe(
+        commandesRecus => {
+          let commandes: Array<CommandeModele> = new Array<CommandeModele>();
+          commandesRecus.forEach(commandeRecus => {
+            let commande: CommandeModele = new CommandeModele();
+            commande.key = commandeRecus.key,
+            commande.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+            commande.nomClient = commandeRecus.payload.exportVal().nomClient,
+            commande.pseudoClient = commandeRecus.payload.exportVal().pseudoClient,
+            commande.paysClient = commandeRecus.payload.exportVal().paysClient,
+            commande.provinceClient = commandeRecus.payload.exportVal().provinceClient,
+            commande.codePostalClient = commandeRecus.payload.exportVal().codePostalClient,
+            commande.localiteClient = commandeRecus.payload.exportVal().localiteClient,
+            commande.rueClient = commandeRecus.payload.exportVal().rueClient,
+            commande.numeroClient = commandeRecus.payload.exportVal().numeroClient,
+            commande.boiteClient = commandeRecus.payload.exportVal().boiteClient,
+            commande.numeroTVAClient = commandeRecus.payload.exportVal().numeroTVAClient,
+            commande.numeroTelephoneClient = commandeRecus.payload.exportVal().numeroTelephoneClient,
+            commande.numeroGSMClient = commandeRecus.payload.exportVal().numeroGSMClient,
+            commande.numeroFaxClient = commandeRecus.payload.exportVal().numeroFaxClient,
+            commande.emailClient = commandeRecus.payload.exportVal().emailClient,
+            commande.notes = commandeRecus.payload.exportVal().notes,
+            commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
+            commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
+            commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
+            commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
+            commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,           
+            commandes.push(commande);
+          })
+          observer.next(commandes);
+        });
+    });
+  }
   public updateProduit(produit: ProduitModele) {
     var total: number;
     var ref = firebase.database().ref('Produits/');

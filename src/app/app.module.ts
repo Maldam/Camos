@@ -25,6 +25,8 @@ import { ModalClientPageModule } from './modals/modal-client/modal-client.module
 import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.module';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
+import { ModalCommandesPageModule } from './modals/modal-commandes/modal-commandes.module';
+
 
 
 
@@ -42,7 +44,7 @@ import { SMS } from '@ionic-native/sms/ngx';
     ReactiveFormsModule,
     ModalClientPageModule,
     ModalProduitPageModule,
-  
+    ModalCommandesPageModule,
     
   ],
   providers: [

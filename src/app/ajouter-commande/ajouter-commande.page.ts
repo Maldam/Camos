@@ -23,8 +23,8 @@ export class AjouterCommandePage implements OnInit {
   public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele = new ProduitModele();
-  public total: number = 0;
-  public totalTVA: number= 0;
+  public total: number = 0.00;
+  public totalTVA: number= 0.00;
   public estChange: boolean = false;
 
   constructor(
@@ -80,11 +80,12 @@ export class AjouterCommandePage implements OnInit {
             })
           });
         this.commandesService.createCommande(this.commande).then(ref => {
-          this.total = null,
-          this.totalTVA=null,
+          this.total = 0,
+          this.totalTVA=0,
             this.commande = new CommandeModele
           this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
-            this.commande.numeroCommande = Date.now()
+          this.commande.dateCommande = Date.now()
+    this.commande.numeroCommande = this.commande.dateCommande
         });
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
@@ -129,8 +130,8 @@ export class AjouterCommandePage implements OnInit {
   }
   public calculPrix(commandeProduit: CommandeProduitModele) {
     //if (action === "ajouter") {
-      this.total = null;
-      this.totalTVA = null;
+      this.total = 0;
+      this.totalTVA = 0;
       this.commandesProduits.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
       this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
    // } else {
@@ -146,8 +147,8 @@ export class AjouterCommandePage implements OnInit {
     this.calculPrix(produit)
   }
   public ngOnInit() {
-    this.commande.numeroCommande = Date.now()
     this.commande.dateCommande = Date.now()
+    this.commande.numeroCommande = this.commande.dateCommande
     this.client.nom = ""
   }
 }

@@ -6,7 +6,8 @@ import { Router } from '@angular/router';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { CommandeModele } from 'src/app/modeles/commande.modele';
-import { CommandeProduitModele } from 'src/app/modeles/commande-produit.modele';
+import { ModalController } from '@ionic/angular';
+import { ModalCommandesPage } from 'src/app/modals/modal-commandes/modal-commandes.page';
 
 @Component({
   selector: 'app-commandes',
@@ -24,9 +25,11 @@ export class CommandesPage implements OnInit {
     public afAuth: AngularFireAuth,
     public connexionService: ConnexionService,
     public commandesService: CommandesService,
-    public route: Router,
+    public router: Router,
     public network: Network,
     public dialogs: Dialogs,
+    private modalController: ModalController,
+
   ) {
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -58,16 +61,31 @@ export class CommandesPage implements OnInit {
     }
   }
   public versVueCommande(commande: CommandeModele) {
-
-    this.route.navigate(["afficher-commande"], { state: { data: commande} });
+    //console.log(commande)
+    this.router.navigate(["afficher-commande"], { state: { data: commande} });
   }
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }
+  public async choixCommandesModal(commande: CommandeModele) {
+    const modal = await this.modalController.create({
+      component: ModalCommandesPage,
+      componentProps:{commande}
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      var commande: CommandeModele;
+      commande = dataReturned.data;
+      
+      if (commande.nomClient !== null) {
+        this.versVueCommande(commande)
+
+      }
+    })
+    return await modal.present()
+  }
   public ngOnInit() {
     this.commandesService.getCommandes().subscribe(commandes => {
       this.commandes = commandes;
-      //this.commandes.forEach(e=>{console.log(e)})
       this.commandes.sort((a,b) => b.numeroCommande - a.numeroCommande);
       this.listeCommandes = this.commandes;
     });

@@ -2,7 +2,7 @@ import { Component, OnInit, ɵConsole } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommandesService } from '../services/commandes.service';
-import { NavController, LoadingController, AlertController, ModalController } from '@ionic/angular';
+import { NavController, LoadingController, AlertController, ModalController, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
@@ -50,8 +50,9 @@ export class AfficherCommandePage implements OnInit {
     
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
+      console.log(this.router.getCurrentNavigation().extras.state.data)
       if (this.router.getCurrentNavigation().extras.state) {
-        this.commande = this.router.getCurrentNavigation().extras.state.data;
+        this.commande = this.router.getCurrentNavigation().extras.state.data; 
       }
     });
   }
@@ -197,8 +198,8 @@ export class AfficherCommandePage implements OnInit {
     this.calculPrix()
   }
   public calculPrix() {
-    this.total = null
-    this.totalTVA = null
+    this.total = 0
+    this.totalTVA = 0
     this.commandesProduits.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
     this.nouveauxArticlesAjoutes.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
     this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
@@ -382,6 +383,7 @@ export class AfficherCommandePage implements OnInit {
     }
     return null;
   }
+
   public ngOnInit() {
     this.form = this.formBuilder.group({
       numeroCommandeForm: [this.commande.numeroCommande],

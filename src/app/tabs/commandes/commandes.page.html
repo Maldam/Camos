@@ -18,8 +18,10 @@
     </ion-fab-button>
   </ion-fab>
   <ion-list>
-    <ion-item routerLink="/afficher-commande" *ngFor="let commande of commandes" (click)="versVueCommande(commande)">
-      <ion-label>{{commande.numeroCommande}}</ion-label><ion-label>{{commande.nomClient}}</ion-label>
+    <ion-item  *ngFor="let commande of commandes" >
+      <ion-label routerLink="/afficher-commande" (click)="versVueCommande(commande)">{{commande.numeroCommande}}</ion-label>
+      <ion-label><ion-button (click)="choixCommandesModal(commande)">{{commande.nomClient}}</ion-button></ion-label>
+      <ion-label slot="end">{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>
     </ion-item>
   </ion-list>
 </ion-content>

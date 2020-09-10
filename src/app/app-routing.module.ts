@@ -46,6 +46,10 @@ const routes: Routes = [
     path: 'modal-produit',
     loadChildren: () => import('./modals/modal-produit/modal-produit.module').then( m => m.ModalProduitPageModule)
   },
+  {
+    path: 'modal-commandes',
+    loadChildren: () => import('./modals/modal-commandes/modal-commandes.module').then( m => m.ModalCommandesPageModule)
+  },
 
 ];
 @NgModule({

@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Liste des commandes de {{commande.nomClient}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let commande of commandes" (click)="versVueCommande(commande)">
+      <ion-label>{{commande.numeroCommande}}</ion-label>
+      <ion-label slot="end">{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
+//import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+
 
 @Component({
   selector: 'app-afficher-client',
@@ -29,7 +31,8 @@ export class AfficherClientPage implements OnInit {
     public loadingController: LoadingController,
     public alertController: AlertController,
     private callNumber: CallNumber,
-    private sms: SMS
+    private sms: SMS,
+   // private launchNavigator: LaunchNavigator
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -141,6 +144,12 @@ export class AfficherClientPage implements OnInit {
     var options = {android: {intent: 'INTENT'}}
     this.sms.send(String(numero),'',options);
   }
+  // public lancerNavigation(localite: string, pays: string){
+  //   let options: LaunchNavigatorOptions = {
+  //     app: this.launchNavigator.APP.HERE_MAPS
+  //   }
+  //   this.launchNavigator.navigate('Binche, BE', options);
+  // }
   public ngOnInit() {
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL
