@@ -12,21 +12,25 @@ import { CommandesService } from 'src/app/services/commandes.service';
 export class ModalCommandesPage implements OnInit {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
+  public keyClient: string;
+  public pseudoClient: string;
 
 
   constructor(public commandesService: CommandesService,
-    public route: Router,
+    public router: Router,
     private modalController: ModalController
     ) { }
     public async versVueCommande(commande: CommandeModele) {
       await this.modalController.dismiss(commande)
+    this.router.navigate(["afficher-commande"], { state: { data: commande} });
+
     }
     async closeModal() {
-      await this.modalController.dismiss(this.commande);
+      await this.modalController.dismiss();
     }
 
   ngOnInit() {
-    this.commandesService.getCommandesSeparee(this.commande.pseudoClient).subscribe(commandes => {
+    this.commandesService.getCommandesSeparee(this.keyClient).subscribe(commandes => {
       this.commandes = commandes;
       this.commandes.sort((a,b) => b.numeroCommande - a.numeroCommande);
     });

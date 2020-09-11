@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientsService } from '../services/clients.service';
-import { NavController, AlertController, LoadingController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { ClientModele } from '../modeles/client.modele';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
+import { ModalCommandesPage } from '../modals/modal-commandes/modal-commandes.page';
+import { CommandeModele } from '../modeles/commande.modele';
 //import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
-
 
 @Component({
   selector: 'app-afficher-client',
@@ -32,6 +33,8 @@ export class AfficherClientPage implements OnInit {
     public alertController: AlertController,
     private callNumber: CallNumber,
     private sms: SMS,
+    private modalController: ModalController,
+
    // private launchNavigator: LaunchNavigator
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
@@ -150,6 +153,22 @@ export class AfficherClientPage implements OnInit {
   //   }
   //   this.launchNavigator.navigate('Binche, BE', options);
   // }
+  public async choixCommandesModal(keyClient: string, pseudoClient: string) {
+    
+    const modal = await this.modalController.create({
+      component: ModalCommandesPage,
+      componentProps:{pseudoClient,keyClient}
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      var commande: CommandeModele;
+      commande = dataReturned.data;
+      
+     // if (commande.nomClient !== null) {
+        //this.versVueCommande(commande)
+      //}
+    })
+    return await modal.present()
+  }
   public ngOnInit() {
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL
@@ -172,7 +191,6 @@ export class AfficherClientPage implements OnInit {
       notesForm: [this.client.notes],
       linkedInForm: [this.client.linkedIn],
       siteWebForm:[this.client.siteWeb]
-
     });
   }
 }

@@ -50,7 +50,6 @@ export class AfficherCommandePage implements OnInit {
     
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
-      console.log(this.router.getCurrentNavigation().extras.state.data)
       if (this.router.getCurrentNavigation().extras.state) {
         this.commande = this.router.getCurrentNavigation().extras.state.data; 
       }
@@ -168,6 +167,7 @@ export class AfficherCommandePage implements OnInit {
           emailClientForm: [client.email],
           notesForm: [this.commande.notes],
         });
+        this.commande.keyClient = client.key
         this.estChange = true
       }
     })

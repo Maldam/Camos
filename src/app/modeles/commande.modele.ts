@@ -4,6 +4,7 @@ export class CommandeModele {
     public nomClient: string = null;
     public pseudoClient: string = "";
     public paysClient: string = "";
+    public keyClient: string = "";
     public provinceClient: string = "";
     public codePostalClient: number = 0;
     public localiteClient: string = "";

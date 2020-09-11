@@ -61,7 +61,8 @@ export class CommandesService {
             commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
             commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
             commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
-            commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,           
+            commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,   
+            commande.keyClient = commandeRecus.payload.exportVal().keyClient       
             commandes.push(commande);
           observer.next(commandes);
         })
@@ -108,6 +109,7 @@ export class CommandesService {
         pourcentageTotal: commande.pourcentageTotal,
         montantFacture: commande.montantFacture,
         dateLivraison: commande.dateLivraison,
+        keyClient: commande.keyClient,
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -168,9 +170,9 @@ export class CommandesService {
         });
     });
   }
-  public getCommandesSeparee(pseudoClient: string): Observable<Array<CommandeModele>> {
+  public getCommandesSeparee(keyClient: string): Observable<Array<CommandeModele>> {
     return new Observable<Array<CommandeModele>>(observer => {
-      this.angularFireDatabase.list('Commandes/', ref => ref.orderByChild('pseudoClient').equalTo(pseudoClient)).snapshotChanges().subscribe(
+      this.angularFireDatabase.list('Commandes/', ref => ref.orderByChild('keyClient').equalTo(keyClient)).snapshotChanges().subscribe(
         commandesRecus => {
           let commandes: Array<CommandeModele> = new Array<CommandeModele>();
           commandesRecus.forEach(commandeRecus => {
@@ -196,7 +198,8 @@ export class CommandesService {
             commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
             commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
             commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
-            commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,           
+            commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,
+            commande.keyClient = commandeRecus.payload.exportVal().keyClient,           
             commandes.push(commande);
           })
           observer.next(commandes);

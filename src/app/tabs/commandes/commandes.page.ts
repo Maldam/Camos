@@ -61,25 +61,24 @@ export class CommandesPage implements OnInit {
     }
   }
   public versVueCommande(commande: CommandeModele) {
-    //console.log(commande)
     this.router.navigate(["afficher-commande"], { state: { data: commande} });
   }
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }
-  public async choixCommandesModal(commande: CommandeModele) {
-    const modal = await this.modalController.create({
+  public async choixCommandesModal(keyClient: string, pseudoClient: string) {
+      const modal = await this.modalController.create({
       component: ModalCommandesPage,
-      componentProps:{commande}
+      componentProps:{keyClient, pseudoClient}
     });
     modal.onWillDismiss().then(dataReturned => {
       var commande: CommandeModele;
       commande = dataReturned.data;
       
-      if (commande.nomClient !== null) {
-        this.versVueCommande(commande)
+      // if (commande.nomClient !== null) {
+      //   this.versVueCommande(commande)
 
-      }
+      // }
     })
     return await modal.present()
   }

@@ -20,7 +20,7 @@
   <ion-list>
     <ion-item  *ngFor="let commande of commandes" >
       <ion-label routerLink="/afficher-commande" (click)="versVueCommande(commande)">{{commande.numeroCommande}}</ion-label>
-      <ion-label><ion-button (click)="choixCommandesModal(commande)">{{commande.nomClient}}</ion-button></ion-label>
+      <ion-label><ion-button (click)="choixCommandesModal(commande.keyClient,commande.pseudoClient)">{{commande.nomClient}}</ion-button></ion-label>
       <ion-label slot="end">{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-label>
     </ion-item>
   </ion-list>

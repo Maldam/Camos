@@ -72,6 +72,9 @@ export class AjouterClientPage implements OnInit {
     }
     return this.image
   }
+  ChoixPseudo(){
+    this.client.pseudo = this.client.nom
+  }
   public ngOnInit() {
     //this.imageVide = this.client.imageURL;
     //this.image = this.imageVide;

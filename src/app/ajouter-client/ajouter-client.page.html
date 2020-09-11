@@ -23,7 +23,7 @@
   </ion-button>
   <ion-item>
     <ion-label position="floating">Nom</ion-label>
-    <ion-input [(ngModel)]="client.nom" type="text" inputmode="text"></ion-input>
+    <ion-input [(ngModel)]="client.nom" type="text" inputmode="text" (change)="ChoixPseudo()"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Pseudo</ion-label>

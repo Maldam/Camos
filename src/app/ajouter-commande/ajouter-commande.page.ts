@@ -59,6 +59,7 @@ export class AjouterCommandePage implements OnInit {
         await alertNom.present();
       } else {
         await loading.present();
+        this.commande.keyClient = this.client.key
         this.commande.nomClient = this.client.nom,
           this.commande.pseudoClient = this.client.pseudo,
           this.commande.paysClient = this.client.pays,
