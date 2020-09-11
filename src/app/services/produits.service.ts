@@ -53,10 +53,11 @@ export class ProduitsService {
             produit.nom = produitRecus.payload.exportVal().nom,
             produit.quantite = produitRecus.payload.exportVal().quantite,
             produit.prix = produitRecus.payload.exportVal().prix,
-            produit.imageURL = produitRecus.payload.exportVal().imageURL
-            produit.categorie = produitRecus.payload.exportVal().categorie
-            produit.type = produitRecus.payload.exportVal().type
-            produit.TVA = produitRecus.payload.exportVal().TVA
+            produit.imageURL = produitRecus.payload.exportVal().imageURL,
+            produit.categorie = produitRecus.payload.exportVal().categorie,
+            produit.type = produitRecus.payload.exportVal().type,
+            produit.TVA = produitRecus.payload.exportVal().TVA,
+            produit.codeProduitFournisseur = produitRecus.payload.exportVal().codeProduitFournisseur,
           produits.push(produit);
           observer.next(produits);
         })
@@ -73,7 +74,8 @@ export class ProduitsService {
         imageURL: produit.imageURL,
         categorie: produit.categorie,
         type: produit.type,
-        TVA: produit.TVA
+        TVA: produit.TVA,
+        codeProduitFournisseur: produit.codeProduitFournisseur,
       }).then(
         res => resolve(res),
         err => reject(err),
@@ -128,7 +130,6 @@ export class ProduitsService {
     return await this.camera.getPicture(options);
   }
   public createCategorieProduit(CategorieProduit: ProduitModele) {
-    console.log("ici")
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('CategoriesProduits/'+CategorieProduit.type).push(CategorieProduit.categorie)
         .then(

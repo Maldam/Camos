@@ -76,7 +76,6 @@ export class AjouterProduitPage implements OnInit {
     if (source == 'galerie') {
       const galerieImage = await this.produitsService.openLibrary();
       this.image = 'data:image/jpg;base64,' + galerieImage;
-      console.log(this.image)
     } else {
       const cameraImage = await this.produitsService.openCamera();
       this.image = 'data:image/jpg;base64,' + cameraImage;

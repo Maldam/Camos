@@ -21,6 +21,10 @@
       <ion-textarea formControlName="codeProduitForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
+      <ion-label position="floating">Code produit fournisseur</ion-label>
+      <ion-input formControlName="codeProduitFournisseurForm" type="string"></ion-input>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">Nom</ion-label>
       <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
     </ion-item>
@@ -39,8 +43,6 @@
     </ion-item>
   </form>
   
-
-
   <ion-radio-group [value]='produit.type'>
     <ion-list-header>
       <ion-label>Type de produit</ion-label>
@@ -68,10 +70,6 @@
     <ion-input [(ngModel)]="nouvelleCategorie" type="string"></ion-input>
   </ion-item>
   <ion-item></ion-item>
-
-
-
-
 
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveProduit(produit)">

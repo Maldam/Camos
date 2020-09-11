@@ -8,6 +8,7 @@ export class ProduitModele {
   public categorie: string ="";
   public localisation: string="";
   public TVA: number = 0;
+  public codeProduitFournisseur: string="";
   public imageURL: string = ""
   constructor(
   ) { }
