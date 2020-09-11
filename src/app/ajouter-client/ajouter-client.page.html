@@ -10,7 +10,7 @@
   <div class="flex">
     <div class="img-box">
       <img [src]="image"
-        onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1200px-Circle-icons-profile.svg.png';">
+        onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Factory.svg/1174px-Factory.svg.png';">
     </div>
   </div>
   <ion-button (click)="ajouterPhoto('galerie')" color="tertiary" expand="block">
@@ -29,33 +29,41 @@
     <ion-label position="floating">Pseudo</ion-label>
     <ion-input [(ngModel)]='client.pseudo' type="text" inputmode="text"></ion-input>
   </ion-item>
+
+  <ion-title>Adresse du siège social</ion-title>
   <ion-item>
-    <ion-label position="floating">Pays</ion-label>
-    <ion-input [(ngModel)]='client.pays' type="text" inputmode="text"></ion-input>
+    <ion-item>
+      <ion-label position="floating">Pays</ion-label>
+      <ion-input [(ngModel)]='client.pays' type="text" inputmode="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Province</ion-label>
+      <ion-input [(ngModel)]='client.province' type="text" inputmode="text"></ion-input>
+    </ion-item>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Province</ion-label>
-    <ion-input [(ngModel)]='client.province' type="text" inputmode="text"></ion-input>
+    <ion-item>
+      <ion-label position="floating">Code postal</ion-label>
+      <ion-input [(ngModel)]='client.codePostal' type="number" inputmode="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Localité</ion-label>
+      <ion-input [(ngModel)]='client.localite' type="text" inputmode="text"></ion-input>
+    </ion-item>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Code postal</ion-label>
-    <ion-input [(ngModel)]='client.codePostal' type="number" inputmode="number"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Localité</ion-label>
-    <ion-input [(ngModel)]='client.localite' type="text" inputmode="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Rue</ion-label>
-    <ion-input [(ngModel)]='client.rue' type="text" inputmode="text"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Numéro</ion-label>
-    <ion-input [(ngModel)]='client.numero' type="number" inputmode="number"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Boite</ion-label>
-    <ion-input [(ngModel)]='client.boite' type="text" inputmode="text"></ion-input>
+    <ion-item>
+      <ion-label position="floating">Rue</ion-label>
+      <ion-input [(ngModel)]='client.rue' type="text" inputmode="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Numéro</ion-label>
+      <ion-input [(ngModel)]='client.numero' type="number" inputmode="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Boite</ion-label>
+      <ion-input [(ngModel)]='client.boite' type="text" inputmode="text"></ion-input>
+    </ion-item>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Numéro de TVA</ion-label>
