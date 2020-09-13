@@ -57,6 +57,8 @@ export class AjouterClientPage implements OnInit {
           //this.clientsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
         }
         this.clientsService.createClient(this.client).then(ref => { this.client = new ClientModele });
+        //console.log(this.client.pseudo)
+         //console.log(this.clientsService.getClientKey(this.client.pseudo));
       }
     } else {
       await articleExiste.present();
@@ -76,6 +78,7 @@ export class AjouterClientPage implements OnInit {
     this.client.pseudo = this.client.nom
   }
   public ngOnInit() {
+    this.client.key = String(Date.now)
     //this.imageVide = this.client.imageURL;
     //this.image = this.imageVide;
   }

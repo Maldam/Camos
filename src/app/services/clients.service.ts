@@ -13,6 +13,7 @@ export class ClientsService {
   public clients: Array<ClientModele> = new Array<ClientModele>();
   public clients2: Array<ClientModele>;
   public image: string;
+  public test: string
   constructor(
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
