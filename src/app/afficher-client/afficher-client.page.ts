@@ -24,6 +24,7 @@ export class AfficherClientPage implements OnInit {
   public image: string;
   public imageOrigine: string;
   public clients: Array<ClientModele> = new Array<ClientModele>();
+  public test: Array<ClientModele>;
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -170,6 +171,14 @@ export class AfficherClientPage implements OnInit {
     return await modal.present()
   }
   public ngOnInit() {
+  this.clientsService.rechercheAdresse(this.client).subscribe(commandesProduits => {
+    //this.test = commandesProduits;
+    commandesProduits.forEach(rep =>{console.log(rep.key)})
+  });
+
+
+
+
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL
 

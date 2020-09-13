@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ClientModele } from '../modeles/client.modele';
 import { Observable } from 'rxjs';
+import * as firebase from 'firebase/app';
+
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 @Injectable()
 export class ClientsService {
@@ -144,5 +146,20 @@ export class ClientsService {
       sourceType: this.camera.PictureSourceType.CAMERA
     };
     return await this.camera.getPicture(options);
+  }
+
+  public rechercheAdresse(client:ClientModele): Observable<Array<ClientModele>> {
+    return new Observable<Array<ClientModele>>(observer => {
+      this.angularFireDatabase.list('Clients/', ref => ref.orderByChild('rue').equalTo(client.rue)).snapshotChanges().subscribe(
+        commandesRecus => {
+          let commandes: Array<ClientModele> = new Array<ClientModele>();
+          commandesRecus.forEach(commandeRecus => {
+            let commande: ClientModele = new ClientModele();
+            commande.key = commandeRecus.key,      
+            commandes.push(commande);
+          })
+          observer.next(commandes);
+        });
+    });
   }
 }
