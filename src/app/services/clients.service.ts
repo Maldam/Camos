@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import * as firebase from 'firebase/app';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { CoordonneesModele } from '../modeles/coordonnees.modele';
+import { CoordonneesService } from './coordonnees.service';
 @Injectable()
 export class ClientsService {
   public client: ClientModele = new ClientModele();
@@ -21,20 +23,26 @@ export class ClientsService {
     public angularFireStorage: AngularFireStorage,
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
+    public coordonneesService: CoordonneesService,
     private camera: Camera,
   ) {
     this.getClients().subscribe(clients => {
       this.clients2 = clients;
     });
   }
-  public createClient(client: ClientModele) {
-    return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Clients/').push(client)
-        .then(
-          res => resolve(res),
-          err => reject(err)
-        )
-    })
+  public createClient(client: ClientModele, coordonnees: CoordonneesModele) {
+    var keyClient =  this.angularFireDatabase.list('Clients/').push(client).key  
+    coordonnees.keyContact = keyClient
+    this.coordonneesService.createCoordonnees(coordonnees)
+    
+    // return new Promise<any>((resolve, reject) => {
+    // var test =  this.angularFireDatabase.list('Clients/').push(client)
+    //     .then(
+    //       res => resolve(res),
+    //       err => reject(err)
+    //     )
+
+    // })
   }
   public ajouterImage(nomImage: string, image: string) {
     return new Promise<any>((resolve, reject) => {
@@ -148,18 +156,23 @@ export class ClientsService {
     return await this.camera.getPicture(options);
   }
 
-  public rechercheAdresse(client:ClientModele): Observable<Array<ClientModele>> {
+  public recuperationKey(client:ClientModele): Observable<Array<ClientModele>> {
     return new Observable<Array<ClientModele>>(observer => {
-      this.angularFireDatabase.list('Clients/', ref => ref.orderByChild('rue').equalTo(client.rue)).snapshotChanges().subscribe(
-        commandesRecus => {
-          let commandes: Array<ClientModele> = new Array<ClientModele>();
-          commandesRecus.forEach(commandeRecus => {
-            let commande: ClientModele = new ClientModele();
-            commande.key = commandeRecus.key,      
-            commandes.push(commande);
+      this.angularFireDatabase.list('Clients/', ref => ref.orderByChild('pseudo').equalTo(client.pseudo)).snapshotChanges().subscribe(
+        clientsRecus => {
+          let clients: Array<ClientModele> = new Array<ClientModele>();
+          clientsRecus.forEach(clientRecus => {
+            let client: ClientModele = new ClientModele();
+            client.key = clientRecus.key,      
+            clients.push(client);
           })
-          observer.next(commandes);
+          observer.next(clients);
         });
     });
   }
 }
+
+// this.clientsService.rechercheAdresse(this.client).subscribe(commandesProduits => {
+//   //this.test = commandesProduits;
+//   commandesProduits.forEach(rep =>{console.log(rep.key)})
+// });

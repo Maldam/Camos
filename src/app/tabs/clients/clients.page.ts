@@ -5,6 +5,7 @@ import { ClientModele } from '../../modeles/client.modele';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { ConnexionService } from 'src/app/services/connexion.service';
+import { CoordonneesService } from 'src/app/services/coordonnees.service';
 @Component({
   selector: 'app-clients',
   templateUrl: 'clients.page.html',
@@ -19,6 +20,8 @@ export class ClientsPage implements OnInit {
     public network: Network,
     public dialogs: Dialogs,
     public connexionService: ConnexionService,
+    private coordonneesService: CoordonneesService,
+
   ) {
     this.network.onDisconnect().subscribe(()=>
     {
@@ -40,8 +43,12 @@ export class ClientsPage implements OnInit {
     }
   }
   public versVueClient(client: ClientModele) {
-    this.route.navigate(["afficher-client"], { state: { data: client } });
+    
+
+
+    this.route.navigate(["afficher-client"], { state: { data: client} })
   }
+
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }
