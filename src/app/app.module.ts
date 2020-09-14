@@ -26,6 +26,7 @@ import { ModalProduitPageModule } from './modals/modal-produit/modal-produit.mod
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { ModalCommandesPageModule } from './modals/modal-commandes/modal-commandes.module';
+import { CoordonneesService } from './services/coordonnees.service';
 
 
 
@@ -58,6 +59,7 @@ import { ModalCommandesPageModule } from './modals/modal-commandes/modal-command
     ClientsService,
     ConnexionService,
     CommandesService,
+    CoordonneesService,
     AngularFirestore,
     GardeConnexionService,
     CallNumber,
