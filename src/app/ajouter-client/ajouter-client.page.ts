@@ -3,6 +3,7 @@ import { ClientsService } from '../services/clients.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { ClientModele } from '../modeles/client.modele';
+import { CoordonneesModele } from '../modeles/coordonnees.modele';
 
 @Component({
   selector: 'app-ajouter-client',
@@ -14,8 +15,7 @@ export class AjouterClientPage implements OnInit {
   public image: string;
   public nomImage: string;
   public client: ClientModele = new ClientModele();
-  public clients: Array<ClientModele> = new Array<ClientModele>();
-
+  public coordonnees: CoordonneesModele = new CoordonneesModele()
   constructor(
     private clientsService: ClientsService,
     private camera: Camera,
@@ -56,7 +56,11 @@ export class AjouterClientPage implements OnInit {
           this.client.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + this.client.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
           //this.clientsService.angularFireStorage.ref('').getDownloadURL().subscribe(imageURL => { console.log(imageURL) })
         }
-        this.clientsService.createClient(this.client).then(ref => { this.client = new ClientModele });
+        this.coordonnees.type = "client"
+        this.coordonnees.fonction = "siège"
+        this.clientsService.createClient(this.client, this.coordonnees);
+        this.client = new ClientModele
+        this.coordonnees = new CoordonneesModele
         //console.log(this.client.pseudo)
          //console.log(this.clientsService.getClientKey(this.client.pseudo));
       }
@@ -78,7 +82,6 @@ export class AjouterClientPage implements OnInit {
     this.client.pseudo = this.client.nom
   }
   public ngOnInit() {
-    this.client.key = String(Date.now)
     //this.imageVide = this.client.imageURL;
     //this.image = this.imageVide;
   }
