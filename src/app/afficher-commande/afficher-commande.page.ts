@@ -12,15 +12,15 @@ import { ClientModele } from '../modeles/client.modele';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DonneesEntrepriseModele } from '../modeles/donnees-entreprise.modele';
+import { CoordonneesModele } from '../modeles/coordonnees.modele';
+import { CoordonneesService } from '../services/coordonnees.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 @Component({
   selector: 'app-afficher-commande',
   templateUrl: './afficher-commande.page.html',
   styleUrls: ['./afficher-commande.page.scss'],
 })
 export class AfficherCommandePage implements OnInit {
-
   public estChange: boolean = false;
   public numeroChange: boolean = false;
   public form: FormGroup;
@@ -33,12 +33,11 @@ export class AfficherCommandePage implements OnInit {
   public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public articlesModifies: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public client: ClientModele;
-  
   public total: number = 0;
   public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
-  public totalTVA: number= 0;
-
+  public totalTVA: number = 0;
+  private coordonnees: Array<CoordonneesModele>;
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -47,11 +46,11 @@ export class AfficherCommandePage implements OnInit {
     public loadingController: LoadingController,
     public alertController: AlertController,
     private modalController: ModalController,
-    
+    private coordonneesService: CoordonneesService,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
-        this.commande = this.router.getCurrentNavigation().extras.state.data; 
+        this.commande = this.router.getCurrentNavigation().extras.state.data;
       }
     });
   }
@@ -96,22 +95,9 @@ export class AfficherCommandePage implements OnInit {
             commande.numeroCommande = this.form.value.numeroCommandeForm;
             commande.nomClient = this.form.value.nomClientForm;
             commande.pseudoClient = this.form.value.pseudoClientForm,
-              commande.paysClient = this.form.value.paysClientForm,
-              commande.provinceClient = this.form.value.provinceClientForm,
-              commande.codePostalClient = this.form.value.codePostalClientForm,
-              commande.localiteClient = this.form.value.localiteClientForm,
-              commande.rueClient = this.form.value.rueClientForm,
-              commande.numeroClient = this.form.value.numeroClientForm,
-              commande.boiteClient = this.form.value.boiteClientForm,
               commande.numeroTVAClient = this.form.value.numeroTVAClientForm,
-              commande.numeroTelephoneClient = this.form.value.numeroTelephoneClientForm,
-              commande.numeroGSMClient = this.form.value.numeroGSMClientForm,
-              commande.numeroFaxClient = this.form.value.numeroFaxClientForm,
-              commande.emailClient = this.form.value.emailClientForm,
               commande.notes = this.form.value.notesForm,
-              //commande.nomProduit = this.form.value.nomProduitForm,
               await this.commandesService.updateCommande(commande).then(ref => {
-                //loading.dismiss();
               });
             this.estChange = false;
             this.numeroChange = false;
@@ -153,18 +139,7 @@ export class AfficherCommandePage implements OnInit {
           numeroCommandeForm: [this.commande.numeroCommande],
           nomClientForm: [client.nom],
           pseudoClientForm: [client.pseudo],
-          paysClientForm: [client.pays],
-          provinceClientForm: [client.province],
-          codePostalClientForm: [client.codePostal],
-          localiteClientForm: [client.localite],
-          rueClientForm: [client.rue],
-          numeroClientForm: [client.numero],
-          boiteClientForm: [client.boite],
           numeroTVAClientForm: [client.numeroTVA],
-          numeroTelephoneClientForm: [client.numeroTelephone],
-          numeroGSMClientForm: [client.numeroGSM],
-          numeroFaxClientForm: [client.numeroFax],
-          emailClientForm: [client.email],
           notesForm: [this.commande.notes],
         });
         this.commande.keyClient = client.key
@@ -183,7 +158,7 @@ export class AfficherCommandePage implements OnInit {
     }
     if (i === 2) {
       if (index > -1) {
-      this.estChange = true
+        this.estChange = true
         this.produitASupprimer.push(produit)
         this.commandesProduits.splice(index, 1);
         this.calculPrix()
@@ -200,17 +175,10 @@ export class AfficherCommandePage implements OnInit {
   public calculPrix() {
     this.total = 0
     this.totalTVA = 0
-    this.commandesProduits.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
-    this.nouveauxArticlesAjoutes.forEach(element => { this.total += ((element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100))-((element.prix*element.quantite-(((element.prix*element.quantite)*element.pourcentageProduit/100)))*this.commande.pourcentageTotal/100)) });
-    this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
-    this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100)- ((((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100))*this.commande.pourcentageTotal/100)});
-    //new Intl.NumberFormat('be-BE',{ style: 'currency', currency: 'EUR' }).format(this.total);
-    //this.commandesProduits.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
-    //this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.prix*element.quantite-((element.prix*element.quantite)*element.pourcentageProduit/100)});
-    //this.commandesProduits.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
-    //this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))-((element.prix*element.quantite)+(element.prix*element.quantite)*(element.TVAProduit/100))*element.pourcentageProduit/100});
-    ////this.nouveauxArticlesAjoutes.forEach(element => { this.total += element.quantite * element.prix });
-    ////this.commandesProduits.forEach(element => { this.total += element.quantite * element.prix });
+    this.commandesProduits.forEach(element => { this.total += ((element.prix * element.quantite - ((element.prix * element.quantite) * element.pourcentageProduit / 100)) - ((element.prix * element.quantite - (((element.prix * element.quantite) * element.pourcentageProduit / 100))) * this.commande.pourcentageTotal / 100)) });
+    this.nouveauxArticlesAjoutes.forEach(element => { this.total += ((element.prix * element.quantite - ((element.prix * element.quantite) * element.pourcentageProduit / 100)) - ((element.prix * element.quantite - (((element.prix * element.quantite) * element.pourcentageProduit / 100))) * this.commande.pourcentageTotal / 100)) });
+    this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
+    this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
   }
   public async choixProduitModal() {
     const modal = await this.modalController.create({
@@ -225,113 +193,116 @@ export class AfficherCommandePage implements OnInit {
           commandeProduit.prix = this.produit.prix,
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
-          commandeProduit.codeProduit = this.produit.codeProduit
-          this.nouveauxArticlesAjoutes.push(commandeProduit)
+        commandeProduit.codeProduit = this.produit.codeProduit
+        this.nouveauxArticlesAjoutes.push(commandeProduit)
       }
     })
     return await modal.present()
   }
-  public genererPDF(){
-    const documentDefinition = { content: [
-      this.getProfilePicObject(),
-      {
-        columns: [
-          [{
-            text: this.donneesEntreprise.nom,
-            bold: true,
-            style: 'name',
-            fontSize: 20,
-          },
-          {
-            text: this.donneesEntreprise.rue + " " + this.donneesEntreprise.numero
-          },
-          {
-            text: this.donneesEntreprise.codePostal + " " + this.donneesEntreprise.localite
-          },
-          {
-            text: this.donneesEntreprise.province + " " + this.donneesEntreprise.pays
-          },
-          {
-            text: "N° de TVA : "+ this.donneesEntreprise.numeroTVA
-          },
-          {
-            text: "N° de compte : "+ this.donneesEntreprise.compteBancaire + "/ Bic : " + this.donneesEntreprise.numeroBic
-          },
-          {
-            text: 'Email : ' + this.donneesEntreprise.email,
-          },
-          {
-            text: 'GSM : ' + this.donneesEntreprise.numeroGSM,
-          },
-          {
-            text: 'web : ' + this.donneesEntreprise.siteWeb,
-            link: this.donneesEntreprise.siteWeb,
-            color: 'blue',
-          },
-          {
-            text: ' '
-          }
-          ],
-        ]
-      },
-      {
-        text: 'Récapitulatif de la commande numéro : ' + this.commande.numeroCommande,
-        style: 'header',
-        bold: true,
-      },
-      {
-        text: ' '
-      },
-      this.getListeProduits(this.commandesProduits),
-      {
-        text: ' '
-      },
-      {
-        text: ' '
-      },
-      {
-        text: 'Réduction sur le total : ' + this.commande.pourcentageTotal + " €",
-        style: 'header',
-        bold: true,
-      },
-      {
-        text: 'Total de la commande HTVA : ' + (this.total.toFixed(2)).replace('.',',') + " €",
-        style: 'header',
-        bold: true,
-      },
-      {
-        text: 'Montant total de la TVA : ' + ((this.totalTVA - this.total).toFixed(2)).replace('.',',') + " €",
-        style: 'header',
-        bold: true,
-      },
-      {
-        text: 'Total de la commande TVAC : ' + (this.totalTVA.toFixed(2)).replace('.',',') + " €",
-        style: 'header',
-        bold: true,
-      },
-      {
-        text: ' '
-      },
-      {
-        text: ' '
-      },
-      {
-        text: 'livraison prévue le : ' + this.commande.dateLivraison
-      },
-    ],
-    info: {
-      title: "Commande_"+this.commande.numeroCommande,
-      author: this.donneesEntreprise.nom,
-      subject: 'commande',
-      keywords: 'commande',
-    },}
+  public genererPDF() {
+  //  this.coordonnees.forEach(element=> console.log(element))
 
+    const documentDefinition = {
+      content: [
+        this.getProfilePicObject(),
+        {
+          columns: [
+            [{
+              text: this.donneesEntreprise.nom,
+              bold: true,
+              style: 'name',
+              fontSize: 20,
+            },
+            {
+              text: this.donneesEntreprise.rue + " " + this.donneesEntreprise.numero
+            },
+            {
+              text: this.donneesEntreprise.codePostal + " " + this.donneesEntreprise.localite
+            },
+            {
+              text: this.donneesEntreprise.province + " " + this.donneesEntreprise.pays
+            },
+            {
+              text: "N° de TVA : " + this.donneesEntreprise.numeroTVA
+            },
+            {
+              text: "N° de compte : " + this.donneesEntreprise.compteBancaire + "/ Bic : " + this.donneesEntreprise.numeroBic
+            },
+            {
+              text: 'Email : ' + this.donneesEntreprise.email,
+            },
+            {
+              text: 'GSM : ' + this.donneesEntreprise.numeroGSM,
+            },
+            {
+              text: 'web : ' + this.donneesEntreprise.siteWeb,
+              link: this.donneesEntreprise.siteWeb,
+              color: 'blue',
+            },
+            {
+              text: ' '
+            }
+            ],
+          ]
+        },
+        {
+          text: 'Récapitulatif de la commande numéro : ' + this.commande.numeroCommande,
+          style: 'header',
+          bold: true,
+        },
+        {
+          text: ' '
+        },
+        this.getListeProduits(this.commandesProduits),
+        {
+          text: ' '
+        },
+        {
+          text: ' '
+        },
+        {
+          text: 'Réduction sur le total : ' + this.commande.pourcentageTotal + " €",
+          style: 'header',
+          bold: true,
+        },
+        {
+          text: 'Total de la commande HTVA : ' + (this.total.toFixed(2)).replace('.', ',') + " €",
+          style: 'header',
+          bold: true,
+        },
+        {
+          text: 'Montant total de la TVA : ' + ((this.totalTVA - this.total).toFixed(2)).replace('.', ',') + " €",
+          style: 'header',
+          bold: true,
+        },
+        {
+          text: 'Total de la commande TVAC : ' + (this.totalTVA.toFixed(2)).replace('.', ',') + " €",
+          style: 'header',
+          bold: true,
+        },
+        {
+          text: ' '
+        },
+        {
+          text: ' '
+        },
+        {
+          text: 'livraison prévue le : ' + this.commande.dateLivraison
+        },
+      ],
+      info: {
+        title: "Commande_" + this.commande.numeroCommande,
+        author: this.donneesEntreprise.nom,
+        subject: 'commande',
+        keywords: 'commande',
+      },
+    }
     pdfMake.createPdf(documentDefinition).open();
   }
   getListeProduits(listeProduits: Array<CommandeProduitModele>) {
     return {
       table: {
-        widths: ['*', '*', '*', '*','*', '*'],
+        widths: ['*', '*', '*', '*', '*', '*'],
         body: [
           [{
             text: 'Dénominations',
@@ -365,7 +336,7 @@ export class AfficherCommandePage implements OnInit {
           }
           ],
           ...listeProduits.map(ed => {
-            return [ed.produitNom, ed.quantite, ed.prix +" €", ed.pourcentageProduit+" %", ed.prix*ed.quantite +" €", ed.TVAProduit+" €"];
+            return [ed.produitNom, ed.quantite, ed.prix + " €", ed.pourcentageProduit + " %", ed.prix * ed.quantite + " €", ed.TVAProduit + " €"];
           })
         ]
       }
@@ -374,38 +345,28 @@ export class AfficherCommandePage implements OnInit {
   getProfilePicObject() {
     if (this.donneesEntreprise.imageURL) {
       return {
-        image: this.donneesEntreprise.imageURL ,
+        image: this.donneesEntreprise.imageURL,
         width: 150,
         alignment: 'center',
-       // margin: [0, 0, 0, 0]
-       // alignment : 'right'
       };
     }
     return null;
   }
-
   public ngOnInit() {
     this.form = this.formBuilder.group({
       numeroCommandeForm: [this.commande.numeroCommande],
       nomClientForm: [this.commande.nomClient],
       pseudoClientForm: [this.commande.pseudoClient],
-      paysClientForm: [this.commande.paysClient],
-      provinceClientForm: [this.commande.provinceClient],
-      codePostalClientForm: [this.commande.codePostalClient],
-      localiteClientForm: [this.commande.localiteClient],
-      rueClientForm: [this.commande.rueClient],
-      numeroClientForm: [this.commande.numeroClient],
-      boiteClientForm: [this.commande.boiteClient],
       numeroTVAClientForm: [this.commande.numeroTVAClient],
-      numeroTelephoneClientForm: [this.commande.numeroTelephoneClient],
-      numeroGSMClientForm: [this.commande.numeroGSMClient],
-      numeroFaxClientForm: [this.commande.numeroFaxClient],
-      emailClientForm: [this.commande.emailClient],
       notesForm: [this.commande.notes],
     });
     this.commandesService.getCommandesProduits(this.commande.numeroCommande).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });
+    this.coordonneesService.getCoordonnees(this.commande.keyClient).subscribe(coordonneess => 
+      this.coordonnees = coordonneess
+      )
+      //console.log(this.coordonnees[0])
   }
 }

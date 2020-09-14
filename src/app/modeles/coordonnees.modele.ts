@@ -14,6 +14,7 @@ export class CoordonneesModele {
     public numeroGSM: string = "";
     public numeroFax: string = "";
     public email: string = "";
+    public linkedIn: string = "";
     constructor(
     ) { }
 }

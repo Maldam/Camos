@@ -62,22 +62,10 @@ export class ClientsService {
           client.key = clientRecus.key,
             client.nom = clientRecus.payload.exportVal().nom,
             client.pseudo = clientRecus.payload.exportVal().pseudo,
-            client.pays = clientRecus.payload.exportVal().pays,
-            client.province = clientRecus.payload.exportVal().province,
-            client.codePostal = clientRecus.payload.exportVal().codePostal,
-            client.localite = clientRecus.payload.exportVal().localite,
-            client.rue = clientRecus.payload.exportVal().rue,
-            client.numero = clientRecus.payload.exportVal().numero,
-            client.boite = clientRecus.payload.exportVal().boite,
             client.numeroTVA = clientRecus.payload.exportVal().numeroTVA,
-            client.numeroTelephone = clientRecus.payload.exportVal().numeroTelephone,
-            client.numeroGSM = clientRecus.payload.exportVal().numeroGSM,
-            client.numeroFax = clientRecus.payload.exportVal().numeroFax,
-            client.email = clientRecus.payload.exportVal().email,
             client.notes = clientRecus.payload.exportVal().notes,
             client.siteWeb= clientRecus.payload.exportVal().siteWeb
             client.imageURL = clientRecus.payload.exportVal().imageURL
-            client.linkedIn = clientRecus.payload.exportVal().linkedIn
           clients.push(client);
           observer.next(clients);
         })
@@ -89,20 +77,8 @@ export class ClientsService {
       this.angularFireDatabase.list('Clients/').update(client.key, { 
         nom: client.nom, 
         pseudo: client.pseudo,
-        pays: client.pays,
-        province: client.province,
-        codePostal: client.codePostal,
-        localite: client.localite,
-        rue: client.rue,
-        numero: client.numero,
-        boite: client.boite,
         numeroTVA: client.numeroTVA,
-        numeroTelephone: client.numeroTelephone,
-        numeroGSM: client.numeroGSM,
-        numeroFax: client.numeroFax,
-        email: client.email,
         notes: client.notes, 
-       linkedIn: client.linkedIn,
         siteWeb: client.siteWeb,
         imageURL: client.imageURL }).then(
         res => resolve(res),

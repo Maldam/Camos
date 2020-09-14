@@ -5,9 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { Observable } from 'rxjs';
-
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
 @Injectable()
 export class CoordonneesService {
   public Coordonnees: CoordonneesModele = new CoordonneesModele();
@@ -24,21 +22,19 @@ export class CoordonneesService {
   ) {
   }
   public createCoordonnees(coordonnees: CoordonneesModele) {
-  this.angularFireDatabase.list('Coordonnees/').push(coordonnees).key  
-    
+  console.log(coordonnees.linkedIn)
+    this.angularFireDatabase.list('Coordonnees/').push(coordonnees)
     // return new Promise<any>((resolve, reject) => {
     // var test =  this.angularFireDatabase.list('Coordonneess/').push(coordonnees)
     //     .then(
     //       res => resolve(res),
     //       err => reject(err)
     //     )
-
     // })
   }
   public getCoordonnees(keyContact: string): Observable<Array<CoordonneesModele>> {
-    //  console.log(keyClient)
     return new Observable<Array<CoordonneesModele>>(observer => {
-      this.angularFireDatabase.list('Coordonnees/', ref => ref.orderByChild('keyContact').equalTo(keyContact)).snapshotChanges().subscribe(coordonneessRecus => {
+      this.angularFireDatabase.list('Coordonnees/', ref => ref.orderByChild('keyContact').equalTo(keyContact)).snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(coordonneessRecus => {
         let coordonneess: Array<CoordonneesModele> = new Array<CoordonneesModele>();
         coordonneessRecus.forEach(coordonneesRecus => {
           let coordonnees: CoordonneesModele = new CoordonneesModele();
@@ -57,15 +53,16 @@ export class CoordonneesService {
             coordonnees.numeroGSM = coordonneesRecus.payload.exportVal().numeroGSM,
             coordonnees.numeroFax = coordonneesRecus.payload.exportVal().numeroFax,
             coordonnees.email = coordonneesRecus.payload.exportVal().email,
+            coordonnees.linkedIn = coordonneesRecus.payload.exportVal().linkedIn,
           coordonneess.push(coordonnees);
-          
         })
         observer.next(coordonneess);
       });
     });
   }
-
   public updateCoordonnees(coordonnees: CoordonneesModele): Promise<void> {
+    console.log("ici")
+    console.log(coordonnees.key)
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Coordonnees/').update(coordonnees.key, { 
         fonction: coordonnees.fonction, 
@@ -82,6 +79,7 @@ export class CoordonneesService {
         numeroGSM: coordonnees.numeroGSM,
         numeroFax: coordonnees.numeroFax,
         email: coordonnees.email,
+        linkedIn:coordonnees.linkedIn
         }).then(
         res => resolve(res),
         err => reject(err)
@@ -92,7 +90,6 @@ export class CoordonneesService {
     this.angularFireDatabase.list('Coordonnees/').remove(coordonnees.key).then(() => {
     }).catch(error => console.log(error));
   }
-
 //   public recuperationKey(coordonnees:CoordonneesModele): Observable<Array<CoordonneesModele>> {
 //     return new Observable<Array<CoordonneesModele>>(observer => {
 //       this.angularFireDatabase.list('Coordonnees/', ref => ref.orderByChild('keyContact').equalTo(coordonnees.keyContact)).snapshotChanges().subscribe(
@@ -108,7 +105,6 @@ export class CoordonneesService {
 //     });
 //   }
  }
-
 // this.coordonneessService.rechercheAdresse(this.coordonnees).subscribe(commandesProduits => {
 //   //this.test = commandesProduits;
 //   commandesProduits.forEach(rep =>{console.log(rep.key)})

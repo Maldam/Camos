@@ -10,8 +10,6 @@ import { ModalCommandesPage } from '../modals/modal-commandes/modal-commandes.pa
 import { CommandeModele } from '../modeles/commande.modele';
 import { CoordonneesService } from '../services/coordonnees.service';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
-//import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
-
 @Component({
   selector: 'app-afficher-client',
   templateUrl: './afficher-client.page.html',
@@ -38,18 +36,13 @@ export class AfficherClientPage implements OnInit {
     private sms: SMS,
     private modalController: ModalController,
     private coordonneesService: CoordonneesService,
-
-   // private launchNavigator: LaunchNavigator
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.client = this.router.getCurrentNavigation().extras.state.data;
-        this.coordonnees=this.router.getCurrentNavigation().extras.state.coordonnees;
-    }
+        this.coordonnees = this.router.getCurrentNavigation().extras.state.coordonnees;
+      }
     });
-    
-    
-    //this.image = this.client.imageURL
   }
   public async RemoveClient(client: ClientModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + client.nom + "?")) {
@@ -79,31 +72,23 @@ export class AfficherClientPage implements OnInit {
           if (this.clientsService.numeroIndex(this.form.value.nomForm) === -1) {
             changementNomOK = true
           }
-        } else { 
-          changementNomOK = true }
+        } else {
+          changementNomOK = true
+        }
         if (changementNomOK) {
           if (confirm(errorMessage)) {
             await loading.present();
             client.nom = this.form.value.nomForm;
             client.pseudo = this.form.value.pseudoForm;
-            client.pays = this.form.value.paysForm;
-            client.province = this.form.value.provinceForm;
-            client.codePostal = this.form.value.codePostalForm;
-            client.localite = this.form.value.localiteForm;
-            client.rue = this.form.value.rueForm;
-            client.numero = this.form.value.numeroForm;
-            client.boite = this.form.value.boiteForm;
             client.numeroTVA = this.form.value.numeroTVAForm;
-            client.numeroTelephone = this.form.value.numeroTelephoneForm;
-            client.numeroGSM = this.form.value.numeroGSMForm;
-            client.numeroFax = this.form.value.numeroFaxForm;
-            client.email = this.form.value.emailForm;
             client.siteWeb = this.form.value.siteWebForm;
-            client.linkedIn = this.form.value.linkedInForm;
-            client.notes= this.form.value.notesForm;
-            if (this.imageChange) { 
+            client.notes = this.form.value.notesForm;
+            this.coordonnees.forEach(element => {
+              this.coordonneesService.updateCoordonnees(element)
+            });
+            if (this.imageChange) {
               var nouveauNomImage = client.nom + Date.now()
-              await this.nouvelleImage(client,nouveauNomImage) 
+              await this.nouvelleImage(client, nouveauNomImage)
               client.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
             }
             await this.clientsService.updateClient(client).then(ref => {
@@ -119,7 +104,7 @@ export class AfficherClientPage implements OnInit {
       }
     }
   }
-  public async nouvelleImage(client: ClientModele,nouveauNomImage: string) {
+  public async nouvelleImage(client: ClientModele, nouveauNomImage: string) {
     const loading = await this.loadingController.create({
     });
     await loading.present();
@@ -130,7 +115,6 @@ export class AfficherClientPage implements OnInit {
     }
     var nomImage = 'Clients/' + nouveauNomImage + '.jpg'
     await this.clientsService.ajouterImage(nomImage, this.image).then(ref => { loading.dismiss() })
-    //this.image ='https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + client.nom + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
     this.imageChange = false;
   }
   public async changerPhoto(source: string) {
@@ -142,70 +126,40 @@ export class AfficherClientPage implements OnInit {
       this.image = 'data:image/jpg;base64,' + cameraImage;
     }
   }
-  public openBrowser(url:string){
+  public openBrowser(url: string) {
     window.open(url)
-}
-  public appeler(numero:number){
+  }
+  public appeler(numero: number) {
     this.callNumber.callNumber(String(numero), true)
-  .then(res => console.log('Launched dialer!', res))
-  .catch(err => console.log('Error launching dialer', err));
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
   }
-  public envoyerSMS(numero:number){
-    var options = {android: {intent: 'INTENT'}}
-    this.sms.send(String(numero),'',options);
+  public envoyerSMS(numero: number) {
+    var options = { android: { intent: 'INTENT' } }
+    this.sms.send(String(numero), '', options);
   }
-  // public lancerNavigation(localite: string, pays: string){
-  //   let options: LaunchNavigatorOptions = {
-  //     app: this.launchNavigator.APP.HERE_MAPS
-  //   }
-  //   this.launchNavigator.navigate('Binche, BE', options);
-  // }
   public async choixCommandesModal(keyClient: string, pseudoClient: string) {
-    
     const modal = await this.modalController.create({
       component: ModalCommandesPage,
-      componentProps:{pseudoClient,keyClient}
+      componentProps: { pseudoClient, keyClient }
     });
     modal.onWillDismiss().then(dataReturned => {
       var commande: CommandeModele;
       commande = dataReturned.data;
-      
-     // if (commande.nomClient !== null) {
-        //this.versVueCommande(commande)
-      //}
     })
     return await modal.present()
   }
   public ngOnInit() {
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL
- //   console.log(1+this.coordonnees.pays)
- this.form = this.formBuilder.group({
-        
-  nomForm: [this.client.nom],
-  pseudoForm: [this.client.pseudo],
-  paysForm: [this.client.pays],
-  provinceForm:[this.client.province],
-  codePostalForm:[this.client.codePostal],
-  localiteForm:[this.client.localite],
-  rueForm:[this.client.rue],
-  numeroForm:[this.client.numero],
-  boiteForm:[this.client.boite],
-  numeroTVAForm: [this.client.numeroTVA],
-  numeroTelephoneForm: [this.client.numeroTelephone],
-  numeroGSMForm: [this.client.numeroGSM],
-  numeroFaxForm: [this.client.numeroFax],
-  emailForm: [this.client.email],
-  notesForm: [this.client.notes],
-  linkedInForm: [this.client.linkedIn],
-  siteWebForm:[this.client.siteWeb]
-});
-this.coordonneesService.getCoordonnees(this.client.key).subscribe(coordonneess => 
-  this.coordonnees = coordonneess)
-  //console.log(coordonnees1.pays)
-
-
- 
-   
+    this.form = this.formBuilder.group({
+      nomForm: [this.client.nom],
+      pseudoForm: [this.client.pseudo],
+      numeroTVAForm: [this.client.numeroTVA],
+      notesForm: [this.client.notes],
+      siteWebForm: [this.client.siteWeb]
+    });
+    this.coordonneesService.getCoordonnees(this.client.key).subscribe(coordonneess =>
+      this.coordonnees = coordonneess)
   }
 }
