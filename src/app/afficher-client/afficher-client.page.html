@@ -1,112 +1,141 @@
 <ion-header>
   <ion-toolbar color='primary'>
     <ion-buttons id='retourProduits' slot="start">
-      <ion-back-button text="" ></ion-back-button>
+      <ion-back-button text=""></ion-back-button>
       <ion-title id='titre'>Client</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="disposition" >
-    <img [src]="image" onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Factory.svg/1174px-Factory.svg.png';" alt=""/>
-    <ion-fab-button slot="end" (click)="choixCommandesModal(client.key, client.pseudo)"><ion-icon name="clipboard"></ion-icon></ion-fab-button>  
+  <div class="disposition">
+    <img [src]="image"
+      onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Factory.svg/1174px-Factory.svg.png';"
+      alt="" />
+    <ion-fab-button slot="end" (click)="choixCommandesModal(client.key, client.pseudo)">
+      <ion-icon name="clipboard"></ion-icon>
+    </ion-fab-button>
   </div>
 
-  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"(click)="imageChange=true; estChange=true">
+  <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"
+    (click)="imageChange=true; estChange=true">
     <ion-icon name="image" slot="start"></ion-icon>
     Changer l'image
   </ion-button>
   <form [formGroup]="form" novalidate>
     <ion-item>
       <ion-label position="floating">Nom</ion-label>
-      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true"></ion-textarea>
+      <ion-textarea formControlName="nomForm" type="text" inputmode="text" (change)="nomChange=true; estChange=true">
+      </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Pseudo</ion-label>
       <ion-textarea formControlName="pseudoForm" type="text" inputmode="text" (change)="estChange=true">
       </ion-textarea>
     </ion-item>
-  <ion-title id='adresse'>Adresse du siège social</ion-title>
+    <ion-item>
+      <ion-label position="floating">Numéro de TVA</ion-label>
+      <ion-textarea formControlName="numeroTVAForm" type="text" inputmode="text" (change)="estChange=true">
+      </ion-textarea>
+    </ion-item>
+    
+      <ion-item>
+        <ion-label position="floating">Page web</ion-label>
+        <ion-textarea formControlName="siteWebForm" (change)="estChange=true"></ion-textarea>
+        <ion-fab-button *ngIf="client.siteWeb" slot="end" (click)="openBrowser(client.siteWeb)">
+          <ion-icon name="globe"></ion-icon>
+        </ion-fab-button>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Page LinkedIn</ion-label>
+        <ion-textarea formControlName="linkedInForm" (change)="estChange=true"></ion-textarea>
+        <ion-fab-button *ngIf="client.linkedIn" slot="end" (click)="openBrowser(client.linkedIn)">
+          <ion-icon name="logo-linkedin"></ion-icon>
+        </ion-fab-button>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Notes</ion-label>
+        <ion-textarea formControlName="notesForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      </ion-item>
+  </form>
+
+   <ion-title id='adresse'>Adresse du siège social</ion-title>
+   <ion-card *ngFor="let coordonnees1 of coordonnees">
+    <ion-item-sliding>
   <ion-item>
     <ion-item>
       <ion-label position="floating">Pays</ion-label>
-      <ion-textarea formControlName="paysForm" type="text" inputmode="text" (change)="estChange=true">
-      </ion-textarea>
+      <ion-input [(ngModel)]='coordonnees1.pays' type="text" inputmode="text" (change)="estChange=true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Province</ion-label>
-      <ion-textarea formControlName="provinceForm" type="text" inputmode="text" (change)="estChange=true">
-      </ion-textarea>
+      <ion-input [(ngModel)]='coordonnees1.province' type="text" inputmode="text" (change)="estChange=true"></ion-input>
     </ion-item>
   </ion-item>
-      <ion-item>
+
+ 
+  <ion-item>
 
     <ion-item>
       <ion-label position="floating">Localité</ion-label>
-      <ion-textarea formControlName="localiteForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
-      <!-- <ion-fab-button *ngIf="client.localite" slot="end" (click)="lancerNavigation(client.localite)"><ion-icon name="navigate"></ion-icon></ion-fab-button> -->
+      <ion-input [(ngModel)]='coordonnees.localite' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+     
     </ion-item>
     <ion-item>
       <ion-label position="floating">Code postal</ion-label>
-      <ion-textarea formControlName="codePostalForm" type="number" inputmode="number" (change)="estChange=true"></ion-textarea>
+      <ion-input [(ngModel)]='coordonnees.codePostal' type="text" inputmode="text" (change)="estChange=true">
+      </ion-input>
     </ion-item>
   </ion-item>
   <ion-item>
 
     <ion-item>
       <ion-label position="floating">Rue</ion-label>
-      <ion-textarea formControlName="rueForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-input [(ngModel)]='coordonnees.rue' type="text" inputmode="text" (change)="estChange=true"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Numéro</ion-label>
-      <ion-textarea formControlName="numeroForm" type="number" inputmode="number" (change)="estChange=true"></ion-textarea>
+      <ion-input [(ngModel)]='coordonnees.numero' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+
     </ion-item>
     <ion-item>
       <ion-label position="floating">Boite</ion-label>
-      <ion-textarea formControlName="boiteForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-input [(ngModel)]='coordonnees.boite' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+
     </ion-item>
   </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Numéro de TVA</ion-label>
-      <ion-textarea formControlName="numeroTVAForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Numéro de téléphone</ion-label>
-      <ion-textarea formControlName="numeroTelephoneForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
-      <ion-fab-button *ngIf="client.numeroTelephone" slot="end" (click)="appeler(client.numeroTelephone)"><ion-icon name="call"></ion-icon></ion-fab-button>  
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Numéro de GSM</ion-label>
-      <ion-textarea formControlName="numeroGSMForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
-      <ion-fab-button *ngIf="client.numeroGSM" slot="end" (click)="appeler(client.numeroGSM)"><ion-icon name="call"></ion-icon></ion-fab-button> 
-      <ion-fab-button *ngIf="client.numeroGSM" slot="end" (click)="envoyerSMS(client.numeroGSM)"><ion-icon name="phone-portrait"></ion-icon></ion-fab-button> 
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Numéro de Fax</ion-label>
-      <ion-textarea formControlName="numeroFaxForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Adresse email</ion-label>
-      <ion-textarea formControlName="emailForm" type="email" inputmode="email" (change)="estChange=true"></ion-textarea>
-      <ion-fab-button *ngIf="client.email" slot="end" href="mailto:{{client.email}}"><ion-icon name="mail"></ion-icon></ion-fab-button>  
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Page web</ion-label>
-      <ion-textarea formControlName="siteWebForm" (change)="estChange=true"></ion-textarea>
-     <ion-fab-button *ngIf="client.siteWeb" slot="end" (click)="openBrowser(client.siteWeb)"><ion-icon name="globe"></ion-icon></ion-fab-button>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Page LinkedIn</ion-label>
-      <ion-textarea formControlName="linkedInForm" (change)="estChange=true"></ion-textarea>
-      <ion-fab-button *ngIf="client.linkedIn" slot="end" (click)="openBrowser(client.linkedIn)"><ion-icon name="logo-linkedin"></ion-icon></ion-fab-button>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Notes</ion-label>
-      <ion-textarea formControlName="notesForm" type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
-    </ion-item>
-    <ion-item></ion-item>
-  </form>
+<ion-item>
+  <ion-label position="floating">Numéro de téléphone</ion-label>
+  <ion-input [(ngModel)]='coordonnees.numeroTelephone' type="text" inputmode="text" (change)="estChange=true">
+  </ion-input>
+  <ion-fab-button *ngIf="coordonnees.numeroTelephone" slot="end" (click)="appeler(coordonnees.numeroTelephone)">
+    <ion-icon name="call"></ion-icon>
+  </ion-fab-button>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Numéro de GSM</ion-label>
+    <ion-input [(ngModel)]='coordonnees.numeroGSM' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+    <ion-fab-button *ngIf="coordonnees.numeroGSM" slot="end" (click)="appeler(coordonnees.numeroGSM)">
+      <ion-icon name="call"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button *ngIf="coordonnees.numeroGSM" slot="end" (click)="envoyerSMS(coordonnees.numeroGSM)">
+      <ion-icon name="phone-portrait"></ion-icon>
+    </ion-fab-button>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Numéro de Fax</ion-label>
+    <ion-input [(ngModel)]='coordonnees.numeroFax' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Adresse email</ion-label>
+    <ion-input [(ngModel)]='coordonnees.email' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+    <ion-fab-button *ngIf="coordonnees.email" slot="end" href="mailto:{{coordonnees.email}}">
+      <ion-icon name="mail"></ion-icon>
+    </ion-fab-button>
+  </ion-item>
+</ion-item-sliding>
+</ion-card>
+
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveClient(client)">
       <ion-icon name="trash"></ion-icon>

@@ -8,6 +8,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { ModalCommandesPage } from '../modals/modal-commandes/modal-commandes.page';
 import { CommandeModele } from '../modeles/commande.modele';
+import { CoordonneesService } from '../services/coordonnees.service';
+import { CoordonneesModele } from '../modeles/coordonnees.modele';
 //import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 @Component({
@@ -24,7 +26,7 @@ export class AfficherClientPage implements OnInit {
   public image: string;
   public imageOrigine: string;
   public clients: Array<ClientModele> = new Array<ClientModele>();
-  public test: Array<ClientModele>;
+  private coordonnees: Array<CoordonneesModele>;
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -35,14 +37,18 @@ export class AfficherClientPage implements OnInit {
     private callNumber: CallNumber,
     private sms: SMS,
     private modalController: ModalController,
+    private coordonneesService: CoordonneesService,
 
    // private launchNavigator: LaunchNavigator
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.client = this.router.getCurrentNavigation().extras.state.data;
-      }
+        this.coordonnees=this.router.getCurrentNavigation().extras.state.coordonnees;
+    }
     });
+    
+    
     //this.image = this.client.imageURL
   }
   public async RemoveClient(client: ClientModele) {
@@ -171,35 +177,35 @@ export class AfficherClientPage implements OnInit {
     return await modal.present()
   }
   public ngOnInit() {
-  this.clientsService.rechercheAdresse(this.client).subscribe(commandesProduits => {
-    //this.test = commandesProduits;
-    commandesProduits.forEach(rep =>{console.log(rep.key)})
-  });
-
-
-
-
     this.image = this.client.imageURL
     this.imageOrigine = this.client.imageURL
+ //   console.log(1+this.coordonnees.pays)
+ this.form = this.formBuilder.group({
+        
+  nomForm: [this.client.nom],
+  pseudoForm: [this.client.pseudo],
+  paysForm: [this.client.pays],
+  provinceForm:[this.client.province],
+  codePostalForm:[this.client.codePostal],
+  localiteForm:[this.client.localite],
+  rueForm:[this.client.rue],
+  numeroForm:[this.client.numero],
+  boiteForm:[this.client.boite],
+  numeroTVAForm: [this.client.numeroTVA],
+  numeroTelephoneForm: [this.client.numeroTelephone],
+  numeroGSMForm: [this.client.numeroGSM],
+  numeroFaxForm: [this.client.numeroFax],
+  emailForm: [this.client.email],
+  notesForm: [this.client.notes],
+  linkedInForm: [this.client.linkedIn],
+  siteWebForm:[this.client.siteWeb]
+});
+this.coordonneesService.getCoordonnees(this.client.key).subscribe(coordonneess => 
+  this.coordonnees = coordonneess)
+  //console.log(coordonnees1.pays)
 
-    this.form = this.formBuilder.group({
-      nomForm: [this.client.nom],
-      pseudoForm: [this.client.pseudo],
-      paysForm: [this.client.pays],
-      provinceForm:[this.client.province],
-      codePostalForm:[this.client.codePostal],
-      localiteForm:[this.client.localite],
-      rueForm:[this.client.rue],
-      numeroForm:[this.client.numero],
-      boiteForm:[this.client.boite],
-      numeroTVAForm: [this.client.numeroTVA],
-      numeroTelephoneForm: [this.client.numeroTelephone],
-      numeroGSMForm: [this.client.numeroGSM],
-      numeroFaxForm: [this.client.numeroFax],
-      emailForm: [this.client.email],
-      notesForm: [this.client.notes],
-      linkedInForm: [this.client.linkedIn],
-      siteWebForm:[this.client.siteWeb]
-    });
+
+ 
+   
   }
 }
