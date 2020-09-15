@@ -27,6 +27,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { SMS } from '@ionic-native/sms/ngx';
 import { ModalCommandesPageModule } from './modals/modal-commandes/modal-commandes.module';
 import { CoordonneesService } from './services/coordonnees.service';
+import { ModalListeContactsPageModule } from './modals/modal-liste-contacts/modal-liste-contacts.module';
+import { ModalContactPageModule } from './modals/modal-contact/modal-contact.module';
 
 
 
@@ -46,6 +48,8 @@ import { CoordonneesService } from './services/coordonnees.service';
     ModalClientPageModule,
     ModalProduitPageModule,
     ModalCommandesPageModule,
+    ModalListeContactsPageModule,
+    ModalContactPageModule
     
   ],
   providers: [
