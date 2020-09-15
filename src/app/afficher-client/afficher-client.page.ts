@@ -25,7 +25,7 @@ export class AfficherClientPage implements OnInit {
   public image: string;
   public imageOrigine: string;
   public clients: Array<ClientModele> = new Array<ClientModele>();
-  private coordonnees: Array<CoordonneesModele>;
+  private coordonnees: Array<CoordonneesModele> = Array<CoordonneesModele>();
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -156,9 +156,10 @@ export class AfficherClientPage implements OnInit {
       component: ModalListeContactsPage,
       componentProps:{keyEntreprise}
     });
-    modal.onWillDismiss().then(dataReturned => {
-      this.client = dataReturned.data;
-    })
+    modal.onWillDismiss()
+    //.then(dataReturned => {
+      //this.client = dataReturned.data;
+    //})
     return await modal.present()
   }
   public ngOnInit() {
