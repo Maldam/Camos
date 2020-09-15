@@ -11,10 +11,16 @@
     <img [src]="image"
       onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Factory.svg/1174px-Factory.svg.png';"
       alt="" />
-    <ion-fab-button slot="end" (click)="choixCommandesModal(client.key, client.pseudo)">
+    
+  </div>
+  <ion-item>
+    <ion-fab-button slot="start" (click)="choixCommandesModal(client.key, client.pseudo)">
       <ion-icon name="clipboard"></ion-icon>
     </ion-fab-button>
-  </div>
+    <ion-fab-button slot="end" (click)="choixContactModal(client.key)">
+      <ion-icon name="person"></ion-icon>
+    </ion-fab-button>    
+  </ion-item>
   <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"
     (click)="imageChange=true; estChange=true">
     <ion-icon name="image" slot="start"></ion-icon>

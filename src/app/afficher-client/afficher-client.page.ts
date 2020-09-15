@@ -10,6 +10,7 @@ import { ModalCommandesPage } from '../modals/modal-commandes/modal-commandes.pa
 import { CommandeModele } from '../modeles/commande.modele';
 import { CoordonneesService } from '../services/coordonnees.service';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
+import { ModalListeContactsPage } from '../modals/modal-liste-contacts/modal-liste-contacts.page';
 @Component({
   selector: 'app-afficher-client',
   templateUrl: './afficher-client.page.html',
@@ -36,6 +37,7 @@ export class AfficherClientPage implements OnInit {
     private sms: SMS,
     private modalController: ModalController,
     private coordonneesService: CoordonneesService,
+    
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -146,6 +148,16 @@ export class AfficherClientPage implements OnInit {
     modal.onWillDismiss().then(dataReturned => {
       var commande: CommandeModele;
       commande = dataReturned.data;
+    })
+    return await modal.present()
+  }
+  public async choixContactModal(keyEntreprise: string){
+    const modal = await this.modalController.create({
+      component: ModalListeContactsPage,
+      componentProps:{keyEntreprise}
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      this.client = dataReturned.data;
     })
     return await modal.present()
   }
