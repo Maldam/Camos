@@ -6,7 +6,6 @@
 </ion-header>
 
 <ion-content >
- <!--  *ngFor="let coordonnees1 of coordonnees"-->
      <ion-item>
       <ion-label position="floating">Nom</ion-label>
       <ion-input [(ngModel)]='contact.nom' type="text" inputmode="text" (change)="estChange=true"></ion-input>
@@ -31,45 +30,45 @@
       <ion-item>
         <ion-item>
           <ion-label position="floating">Pays</ion-label>
-          <ion-input [(ngModel)]='contact.pays' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+          <ion-input [(ngModel)]='coordonnees.pays' type="text" inputmode="text" (change)="estChange=true"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Province</ion-label>
-          <ion-input [(ngModel)]='contact.province' type="text" inputmode="text" (change)="estChange=true">
+          <ion-input [(ngModel)]='coordonnees.province' type="text" inputmode="text" (change)="estChange=true">
           </ion-input>
         </ion-item>
       </ion-item>
       <ion-item>
         <ion-item>
           <ion-label position="floating">Localité</ion-label>
-          <ion-input [(ngModel)]='contact.localite' type="text" inputmode="text" (change)="estChange=true">
+          <ion-input [(ngModel)]='coordonnees.localite' type="text" inputmode="text" (change)="estChange=true">
           </ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Code postal</ion-label>
-          <ion-input [(ngModel)]='contact.codePostal' type="text" inputmode="text" (change)="estChange=true">
+          <ion-input [(ngModel)]='coordonnees.codePostal' type="text" inputmode="text" (change)="estChange=true">
           </ion-input>
         </ion-item>
       </ion-item>
       <ion-item>
         <ion-item>
           <ion-label position="floating">Rue</ion-label>
-          <ion-input [(ngModel)]='contact.rue' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+          <ion-input [(ngModel)]='coordonnees.rue' type="text" inputmode="text" (change)="estChange=true"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Numéro</ion-label>
-          <ion-input [(ngModel)]='contact.numero' type="text" inputmode="text" (change)="estChange=true">
+          <ion-input [(ngModel)]='coordonnees.numero' type="text" inputmode="text" (change)="estChange=true">
           </ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Boite</ion-label>
-          <ion-input [(ngModel)]='contact.boite' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+          <ion-input [(ngModel)]='coordonnees.boite' type="text" inputmode="text" (change)="estChange=true"></ion-input>
         </ion-item>
       </ion-item>
     </ion-card>
       <ion-item>
         <ion-label position="floating">Numéro de téléphone</ion-label>
-        <ion-input [(ngModel)]='contact.numeroTelephone' type="text" inputmode="text" (change)="estChange=true">
+        <ion-input [(ngModel)]='coordonnees.numeroTelephone' type="text" inputmode="text" (change)="estChange=true">
         </ion-input>
         <!-- <ion-fab-button *ngIf="contact.numeroTelephone" slot="end" (click)="appeler(contact.numeroTelephone)"> -->
           <!-- <ion-icon name="call"></ion-icon> -->
@@ -77,7 +76,7 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Numéro de GSM</ion-label>
-        <ion-input [(ngModel)]='contact.numeroGSM' type="text" inputmode="text" (change)="estChange=true">
+        <ion-input [(ngModel)]='coordonnees.numeroGSM' type="text" inputmode="text" (change)="estChange=true">
         </ion-input>
         <!-- <ion-fab-button *ngIf="contact.numeroGSM" slot="end" (click)="appeler(contact.numeroGSM)"> -->
           <!-- <ion-icon name="call"></ion-icon> -->
@@ -88,24 +87,26 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Numéro de Fax</ion-label>
-        <ion-input [(ngModel)]='contact.numeroFax' type="text" inputmode="text" (change)="estChange=true">
+        <ion-input [(ngModel)]='coordonnees.numeroFax' type="text" inputmode="text" (change)="estChange=true">
         </ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Adresse email</ion-label>
-        <ion-input [(ngModel)]='contact.email' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+        <ion-input [(ngModel)]='coordonnees.email' type="text" inputmode="text" (change)="estChange=true"></ion-input>
         <!-- <ion-fab-button *ngIf="contact.email" slot="end" href="mailto:{{contact.email}}"> -->
           <!-- <ion-icon name="mail"></ion-icon> -->
         <!-- </ion-fab-button> -->
       </ion-item>
       <ion-item>
         <ion-label position="floating">Page LinkedIn</ion-label>
-        <ion-input [(ngModel)]='contact.linkedIn' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+        <ion-input [(ngModel)]='coordonnees.linkedIn' type="text" inputmode="text" (change)="estChange=true"></ion-input>
         <!-- <ion-fab-button *ngIf="contact.linkedIn" slot="end" (click)="openBrowser(contact.linkedIn)"> -->
           <!-- <ion-icon name="logo-linkedin"></ion-icon> -->
         <!-- </ion-fab-button> -->
       </ion-item>
     </ion-item-sliding>
     <ion-item></ion-item>
-   
+    <ion-button (click)="ajoutContact(contact)" expand="block" color="primary">
+      <ion-icon name="checkmark"></ion-icon>Ajouter
+    </ion-button>
 </ion-content>
