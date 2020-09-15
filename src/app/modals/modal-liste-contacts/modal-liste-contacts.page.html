@@ -7,9 +7,11 @@
     <ion-icon name="person-add"></ion-icon>
   </ion-fab-button>
 </ion-item>
-  
 </ion-header>
-
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let contact of contacts" (click)="versVueContact(contact)">
+      <ion-label>{{contact.nom}}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
