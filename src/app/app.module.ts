@@ -29,6 +29,7 @@ import { ModalCommandesPageModule } from './modals/modal-commandes/modal-command
 import { CoordonneesService } from './services/coordonnees.service';
 import { ModalListeContactsPageModule } from './modals/modal-liste-contacts/modal-liste-contacts.module';
 import { ModalContactPageModule } from './modals/modal-contact/modal-contact.module';
+import { ContactsService } from './services/contacts.service';
 
 
 
@@ -68,6 +69,7 @@ import { ModalContactPageModule } from './modals/modal-contact/modal-contact.mod
     GardeConnexionService,
     CallNumber,
     SMS,
+    ContactsService
   ],
   bootstrap: [AppComponent]
 })
