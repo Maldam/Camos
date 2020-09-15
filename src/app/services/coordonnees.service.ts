@@ -8,11 +8,7 @@ import { Observable } from 'rxjs';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 @Injectable()
 export class CoordonneesService {
-  public Coordonnees: CoordonneesModele = new CoordonneesModele();
   public coordonneess: Array<CoordonneesModele> = new Array<CoordonneesModele>();
-  public coordonneess2: Array<CoordonneesModele>;
-  public image: string;
-  public test: string
   constructor(
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
@@ -22,7 +18,6 @@ export class CoordonneesService {
   ) {
   }
   public createCoordonnees(coordonnees: CoordonneesModele) {
-  console.log(coordonnees.linkedIn)
     this.angularFireDatabase.list('Coordonnees/').push(coordonnees)
     // return new Promise<any>((resolve, reject) => {
     // var test =  this.angularFireDatabase.list('Coordonneess/').push(coordonnees)
