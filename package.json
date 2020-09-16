@@ -24,6 +24,8 @@
     "@ionic-native/camera": "^5.28.0",
     "@ionic-native/core": "^5.28.0",
     "@ionic-native/dialogs": "^5.28.0",
+    "@ionic-native/file": "^5.28.0",
+    "@ionic-native/file-opener": "^5.28.0",
     "@ionic-native/firebase": "^5.28.0",
     "@ionic-native/network": "^5.28.0",
     "@ionic-native/sms": "^5.28.0",
@@ -88,7 +90,9 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-network-information": {},
       "mx.ferreyra.callnumber": {},
-      "cordova-sms-plugin": {}
+      "cordova-sms-plugin": {},
+      "cordova-plugin-file-opener2": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "browser",
