@@ -25,7 +25,7 @@ export class ModalCommandesPage implements OnInit {
     this.router.navigate(["afficher-commande"], { state: { data: commande} });
 
     }
-    async closeModal() {
+    public async closeModal() {
       await this.modalController.dismiss();
     }
 

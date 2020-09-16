@@ -46,7 +46,6 @@ export class ContactsService {
     });
   }
   public getContactsClient(keyEntreprise: string): Observable<Array<ContactModele>> {
-    console.log('ici '+ keyEntreprise)
     return new Observable<Array<ContactModele>>(observer => {
       this.angularFireDatabase.list('Contacts/', ref => ref.orderByChild('keyEntreprise').equalTo(keyEntreprise)).snapshotChanges().subscribe(contactsRecus => {
         let contacts: Array<ContactModele> = new Array<ContactModele>();
@@ -60,8 +59,6 @@ export class ContactsService {
             contact.keyEntreprise = contactRecus.payload.exportVal().keyEntreprise,
             contact.notes = contactRecus.payload.exportVal().notes
             contacts.push(contact);
-
-            console.log('là '+contact.keyEntreprise)
         })
         observer.next(contacts);
       });
@@ -82,9 +79,10 @@ export class ContactsService {
       )
     })
   }
-  public deleteContacts(contact: ContactModele): void {
-    this.angularFireDatabase.list('Contact/').remove(contact.key).then(() => {
+  public deleteContact(contact: ContactModele, coordonnees: CoordonneesModele): void {
+    this.angularFireDatabase.list('Contacts/').remove(contact.key).then(() => {
     }).catch(error => console.log(error));
+    this.coordonneesService.deleteCoordonnees(coordonnees)
   }
   public numeroIndex(nomContact: any) {
     try {

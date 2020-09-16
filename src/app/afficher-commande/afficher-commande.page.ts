@@ -14,6 +14,9 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DonneesEntrepriseModele } from '../modeles/donnees-entreprise.modele';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { CoordonneesService } from '../services/coordonnees.service';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { File } from '@ionic-native/file/ngx';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-afficher-commande',
@@ -38,6 +41,7 @@ export class AfficherCommandePage implements OnInit {
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
   public totalTVA: number = 0;
   private coordonnees: Array<CoordonneesModele>;
+  private pdfObj= null;
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -47,6 +51,9 @@ export class AfficherCommandePage implements OnInit {
     public alertController: AlertController,
     private modalController: ModalController,
     private coordonneesService: CoordonneesService,
+    private plt: Platform,
+    private file: File, 
+    private fileOpener: FileOpener,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -297,9 +304,39 @@ export class AfficherCommandePage implements OnInit {
         keywords: 'commande',
       },
     }
-    pdfMake.createPdf(documentDefinition).open();
+    this.pdfObj = pdfMake.createPdf(documentDefinition).open();
+    // this.downloadPdf();
   }
-  getListeProduits(listeProduits: Array<CommandeProduitModele>) {
+  // public downloadPdf() {
+  //   console.log ('0')
+
+  //  // console.log(this.plt.is()
+  //   if (this.plt.is('desktop')) {
+  //     console.log ('1')
+
+  //     this.pdfObj.getBuffer((buffer) => {
+  //     console.log ('2')
+
+  //       var blob = new Blob([buffer], { type: 'application/pdf' });
+  //     console.log ('3')
+
+ 
+  //       // Save the PDF to the data Directory of our App
+  //       this.file.writeFile(this.file.dataDirectory, 'Commande.pdf', blob, { replace: true }).then(fileEntry => {
+  //         // Open the PDf with the correct OS tools
+  //     console.log ('4')
+          
+  //         this.fileOpener.open(this.file.dataDirectory + 'Commande.pdf', 'application/pdf');
+  //       })
+  //     });
+  //   } else {
+  //     // On a browser simply use download!
+  //     this.pdfObj.download();
+  //     console.log ('là')
+
+  //   }
+  // }
+  public getListeProduits(listeProduits: Array<CommandeProduitModele>) {
     return {
       table: {
         widths: ['*', '*', '*', '*', '*', '*'],

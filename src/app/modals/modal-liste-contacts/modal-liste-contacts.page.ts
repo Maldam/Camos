@@ -10,9 +10,10 @@ import { ModalContactPage } from '../modal-contact/modal-contact.page';
 })
 export class ModalListeContactsPage implements OnInit {
   public keyEntreprise: string;
-  public contact: ContactModele = new ContactModele();
+  //public contact: ContactModele = new ContactModele();
   public contacts: Array<ContactModele> = new Array<ContactModele>();
-  public vide: boolean = true
+  public vide: boolean = true;
+  //public contacts: Array<ContactModele>
   constructor(
     private modalController: ModalController,
     private contactsService: ContactsService,
@@ -48,7 +49,7 @@ export class ModalListeContactsPage implements OnInit {
   //   //})
   //   return await modal.present()
   // }
-  async closeModal() {
+  public async closeModal() {
     await this.modalController.dismiss();
   }
   ngOnInit() {

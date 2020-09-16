@@ -56,8 +56,6 @@ export class CoordonneesService {
     });
   }
   public updateCoordonnees(coordonnees: CoordonneesModele): Promise<void> {
-    console.log("ici")
-    console.log(coordonnees.key)
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('Coordonnees/').update(coordonnees.key, { 
         fonction: coordonnees.fonction, 
@@ -81,7 +79,7 @@ export class CoordonneesService {
       )
     })
   }
-  public deleteCoordonnees(coordonnees: CoordonneesModele): void {
+  public deleteCoordonnees(coordonnees: CoordonneesModele):void {
     this.angularFireDatabase.list('Coordonnees/').remove(coordonnees.key).then(() => {
     }).catch(error => console.log(error));
   }

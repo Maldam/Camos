@@ -31,7 +31,7 @@ export class ModalProduitPage implements OnInit {
   public async versVueProduit(produit: ProduitModele) {
     await this.modalController.dismiss(produit)
   }
-  async closeModal() {
+  public async closeModal() {
     await this.modalController.dismiss();
   }
   public ngOnInit() {

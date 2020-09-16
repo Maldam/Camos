@@ -10,6 +10,8 @@ import * as firebase from 'firebase/app';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { CoordonneesService } from './coordonnees.service';
+import { ContactsService } from './contacts.service';
+import { ContactModele } from '../modeles/contact.modele';
 @Injectable()
 export class ClientsService {
   public client: ClientModele = new ClientModele();
@@ -24,6 +26,7 @@ export class ClientsService {
     public angularFirestore: AngularFirestore,
     public angularFireAuth: AngularFireAuth,
     public coordonneesService: CoordonneesService,
+    public contactsService: ContactsService,
     private camera: Camera,
   ) {
     this.getClients().subscribe(clients => {
@@ -86,7 +89,7 @@ export class ClientsService {
       )
     })
   }
-  public deleteClient(client: ClientModele): void {
+  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>): void {
     this.angularFireDatabase.list('Clients/').remove(client.key).then(() => {
       if (client.imageURL == undefined) {
       } else {
@@ -96,6 +99,15 @@ export class ClientsService {
         }
       }
     }).catch(error => console.log(error));
+    this.coordonneesService.deleteCoordonnees(coordonnees)
+    console.log('là')
+    contacts.forEach(contact=>{
+      this.coordonneesService.getCoordonnees(contact.key).subscribe(coordonneess => {
+      console.log('coordonnees')
+        coordonneess.forEach(coordonnees => {
+          this.contactsService.deleteContact(contact, coordonnees)
+        })})
+    })
   }
   public numeroIndex(nomClient: any) {
     try {

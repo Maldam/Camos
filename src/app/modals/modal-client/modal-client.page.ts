@@ -18,7 +18,8 @@ export class ModalClientPage implements OnInit {
   constructor(public clientsService: ClientsService,
     public commandesService: CommandesService,
     public route: Router,
-    private modalController: ModalController,) { }
+    private modalController: ModalController,
+    ) { }
   public rechercheClient(ev: any) {
     this.clients = this.listeClients
     const val = ev.target.value;
@@ -31,7 +32,7 @@ export class ModalClientPage implements OnInit {
   public async versVueClient(client: ClientModele) {
     await this.modalController.dismiss(client)
   }
-  async closeModal() {
+  public async closeModal() {
     await this.modalController.dismiss();
   }
   public ngOnInit() {

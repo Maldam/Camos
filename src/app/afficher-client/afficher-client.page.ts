@@ -11,6 +11,8 @@ import { CommandeModele } from '../modeles/commande.modele';
 import { CoordonneesService } from '../services/coordonnees.service';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { ModalListeContactsPage } from '../modals/modal-liste-contacts/modal-liste-contacts.page';
+import { ContactsService } from '../services/contacts.service';
+import { ContactModele } from '../modeles/contact.modele';
 @Component({
   selector: 'app-afficher-client',
   templateUrl: './afficher-client.page.html',
@@ -27,6 +29,7 @@ export class AfficherClientPage implements OnInit {
   public clients: Array<ClientModele> = new Array<ClientModele>();
   //private coordonnees: Array<CoordonneesModele> = new Array<CoordonneesModele>();
   private coordonnees: CoordonneesModele = new CoordonneesModele();
+  private contacts: Array<ContactModele> = new Array<ContactModele>();
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -38,19 +41,18 @@ export class AfficherClientPage implements OnInit {
     private sms: SMS,
     private modalController: ModalController,
     private coordonneesService: CoordonneesService,
-    
+    private contactsService: ContactsService,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.client = this.router.getCurrentNavigation().extras.state.data;
-       // this.coordonnees = this.router.getCurrentNavigation().extras.state.coordonnees;
+        // this.coordonnees = this.router.getCurrentNavigation().extras.state.coordonnees;
       }
     });
   }
   public async RemoveClient(client: ClientModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + client.nom + "?")) {
-      this.clientsService.deleteClient(client);
-      this.coordonneesService.deleteCoordonnees(this.coordonnees);
+      this.clientsService.deleteClient(client, this.coordonnees, this.contacts);
       this.navCtrl.back()
     }
   }
@@ -87,9 +89,9 @@ export class AfficherClientPage implements OnInit {
             client.numeroTVA = this.form.value.numeroTVAForm;
             client.siteWeb = this.form.value.siteWebForm;
             client.notes = this.form.value.notesForm;
-            
-              this.coordonneesService.updateCoordonnees(this.coordonnees)
-            
+
+            this.coordonneesService.updateCoordonnees(this.coordonnees)
+
             if (this.imageChange) {
               var nouveauNomImage = client.nom + Date.now()
               await this.nouvelleImage(client, nouveauNomImage)
@@ -153,14 +155,15 @@ export class AfficherClientPage implements OnInit {
     })
     return await modal.present()
   }
-  public async choixContactModal(keyEntreprise: string){
+  public async choixContactModal(keyEntreprise: string) {
+    //const contacts = this.contacts
     const modal = await this.modalController.create({
       component: ModalListeContactsPage,
-      componentProps:{keyEntreprise}
+      componentProps: { keyEntreprise}
     });
     modal.onWillDismiss()
     //.then(dataReturned => {
-      //this.client = dataReturned.data;
+    //this.client = dataReturned.data;
     //})
     return await modal.present()
   }
@@ -175,8 +178,10 @@ export class AfficherClientPage implements OnInit {
       siteWebForm: [this.client.siteWeb]
     });
     this.coordonneesService.getCoordonnees(this.client.key).subscribe(coordonneess =>
-      coordonneess.forEach(element=> {
+      coordonneess.forEach(element => {
         this.coordonnees = element
       }))
-  }
+    this.contactsService.getContactsClient(this.client.key).subscribe(contacts =>
+      this.contacts = contacts)
+     }
 }

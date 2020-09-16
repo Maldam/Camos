@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title id="titre">{{contact.nom}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
  
 </ion-header>
@@ -8,7 +14,7 @@
 <ion-content >
      <ion-item>
       <ion-label position="floating">Nom</ion-label>
-      <ion-input [(ngModel)]='contact.nom' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+      <ion-input [(ngModel)]='contact.nom' type="text" inputmode="text" (change)="estChange=true; nomChange"></ion-input>
      </ion-item>
     <ion-item>
       <ion-label position="floating">Prénom</ion-label>
@@ -109,4 +115,14 @@
     <ion-button *ngIf="vide" (click)="ajoutContact(contact)" expand="block" color="primary">
       <ion-icon name="checkmark"></ion-icon>Ajouter
     </ion-button>
+    <ion-fab *ngIf="!vide" vertical="bottom" horizontal="start" slot="fixed">
+      <ion-fab-button color="danger" (click)="RemoveContact(contact)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-fab *ngIf="!vide" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="success" (click)="UpdateClient(client,'Êtes-vous sûr de vouloir modifier le client?')">
+        <ion-icon name="save"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
 </ion-content>
