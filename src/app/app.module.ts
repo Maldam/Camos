@@ -30,6 +30,10 @@ import { CoordonneesService } from './services/coordonnees.service';
 import { ModalListeContactsPageModule } from './modals/modal-liste-contacts/modal-liste-contacts.module';
 import { ModalContactPageModule } from './modals/modal-contact/modal-contact.module';
 import { ContactsService } from './services/contacts.service';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+
+
 
 
 
@@ -50,10 +54,13 @@ import { ContactsService } from './services/contacts.service';
     ModalProduitPageModule,
     ModalCommandesPageModule,
     ModalListeContactsPageModule,
-    ModalContactPageModule
+    ModalContactPageModule,
+    
     
   ],
   providers: [
+    File,
+    FileOpener,
     StatusBar,
     SplashScreen,
     Camera,
