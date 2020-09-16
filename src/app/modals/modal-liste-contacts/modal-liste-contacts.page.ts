@@ -10,33 +10,44 @@ import { ModalContactPage } from '../modal-contact/modal-contact.page';
 })
 export class ModalListeContactsPage implements OnInit {
   public keyEntreprise: string;
-  public contacts: Array<ContactModele> = new Array<ContactModele>()
+  public contact: ContactModele = new ContactModele();
+  public contacts: Array<ContactModele> = new Array<ContactModele>();
+  public vide: boolean = true
   constructor(
     private modalController: ModalController,
     private contactsService: ContactsService,
   ) { }
-  public async contactModal(keyEntreprise: string) {
-    const modal = await this.modalController.create({
-      component: ModalContactPage,
-      componentProps: { keyEntreprise }
-    });
+  public async contactModal(keyEntreprise: string, vide:boolean, contact: ContactModele) {
+    var modal: HTMLIonModalElement 
+    if(vide===true) {
+      modal = await this.modalController.create({
+        component: ModalContactPage,
+        componentProps: { keyEntreprise, vide }
+      });
+    }else {
+      modal = await this.modalController.create({
+        component: ModalContactPage,
+        componentProps: { contact, vide }
+      });
+    }
+    
     modal.onWillDismiss()
     //.then(dataReturned => {
     //  this.client = dataReturned.data;
     //})
     return await modal.present()
   }
-  public async versVueContact(contact: ContactModele) {
-    const modal = await this.modalController.create({
-      component: ModalContactPage,
-      componentProps: { contact }
-    });
-    modal.onWillDismiss()
-    //.then(dataReturned => {
-    //  this.client = dataReturned.data;
-    //})
-    return await modal.present()
-  }
+  // public async versVueContact(contact: ContactModele) {
+  //   const modal = await this.modalController.create({
+  //     component: ModalContactPage,
+  //     componentProps: { contact }
+  //   });
+  //   modal.onWillDismiss()
+  //   //.then(dataReturned => {
+  //   //  this.client = dataReturned.data;
+  //   //})
+  //   return await modal.present()
+  // }
   async closeModal() {
     await this.modalController.dismiss();
   }

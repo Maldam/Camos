@@ -32,7 +32,7 @@ export class ModalClientPage implements OnInit {
     await this.modalController.dismiss(client)
   }
   async closeModal() {
-    await this.modalController.dismiss(this.client);
+    await this.modalController.dismiss();
   }
   public ngOnInit() {
     this.clientsService.getClients().subscribe(clients => {

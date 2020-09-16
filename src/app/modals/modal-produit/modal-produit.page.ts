@@ -32,7 +32,7 @@ export class ModalProduitPage implements OnInit {
     await this.modalController.dismiss(produit)
   }
   async closeModal() {
-    await this.modalController.dismiss(this.produit);
+    await this.modalController.dismiss();
   }
   public ngOnInit() {
     this.produitsService.getProduits().subscribe(produits => {

@@ -1,16 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>modal-listeContacts</ion-title>
+    <ion-title id="titre">Liste de contacts</ion-title>
   </ion-toolbar>
 <ion-item>
-  <ion-fab-button slot="end" (click)="contactModal(keyEntreprise)">
+  <ion-fab-button slot="end" (click)="vide=true; contactModal(keyEntreprise,vide,contact)">
     <ion-icon name="person-add"></ion-icon>
   </ion-fab-button>
 </ion-item>
 </ion-header>
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let contact of contacts" (click)="versVueContact(contact)">
+    <ion-item *ngFor="let contact of contacts" (click)="vide=false; contactModal(keyEntreprise,vide,contact)">
       <ion-label>{{contact.nom}}</ion-label>
     </ion-item>
   </ion-list>
