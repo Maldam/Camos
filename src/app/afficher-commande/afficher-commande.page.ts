@@ -132,9 +132,9 @@ export class AfficherCommandePage implements OnInit {
       component: ModalClientPage
     });
     modal.onWillDismiss().then(dataReturned => {
+      if (dataReturned.data) {
       var client: ClientModele;
       client = dataReturned.data;
-      if (client.nom !== null) {
         this.form = this.formBuilder.group({
           numeroCommandeForm: [this.commande.numeroCommande],
           nomClientForm: [client.nom],
@@ -185,8 +185,8 @@ export class AfficherCommandePage implements OnInit {
       component: ModalProduitPage,
     });
     modal.onWillDismiss().then(dataReturned => {
+      if (dataReturned.data) {
       this.produit = dataReturned.data;
-      if (this.produit.nom !== null) {
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
           commandeProduit.numeroCommande = this.commande.numeroCommande,

@@ -94,7 +94,17 @@ export class AjouterCommandePage implements OnInit {
       component: ModalClientPage
     });
     modal.onWillDismiss().then(dataReturned => {
-      this.client = dataReturned.data;
+      //if (this.client.nom !== null) {
+      if(dataReturned.data){
+        this.client = dataReturned.data;
+      }    
+        
+        
+
+      //}
+
+
+      
     })
     return await modal.present()
   }
@@ -103,8 +113,8 @@ export class AjouterCommandePage implements OnInit {
       component: ModalProduitPage,
     });
     modal.onWillDismiss().then(dataReturned => {
-      this.produit = dataReturned.data;
-      if (this.produit.nom !== null) {
+      if (dataReturned.data) {
+        this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
           commandeProduit.numeroCommande = this.commande.numeroCommande,
