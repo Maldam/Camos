@@ -25,7 +25,8 @@ export class AfficherClientPage implements OnInit {
   public image: string;
   public imageOrigine: string;
   public clients: Array<ClientModele> = new Array<ClientModele>();
-  private coordonnees: Array<CoordonneesModele> = Array<CoordonneesModele>();
+  //private coordonnees: Array<CoordonneesModele> = new Array<CoordonneesModele>();
+  private coordonnees: CoordonneesModele = new CoordonneesModele();
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -42,13 +43,14 @@ export class AfficherClientPage implements OnInit {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.client = this.router.getCurrentNavigation().extras.state.data;
-        this.coordonnees = this.router.getCurrentNavigation().extras.state.coordonnees;
+       // this.coordonnees = this.router.getCurrentNavigation().extras.state.coordonnees;
       }
     });
   }
   public async RemoveClient(client: ClientModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + client.nom + "?")) {
       this.clientsService.deleteClient(client);
+      this.coordonneesService.deleteCoordonnees(this.coordonnees);
       this.navCtrl.back()
     }
   }
@@ -85,9 +87,9 @@ export class AfficherClientPage implements OnInit {
             client.numeroTVA = this.form.value.numeroTVAForm;
             client.siteWeb = this.form.value.siteWebForm;
             client.notes = this.form.value.notesForm;
-            this.coordonnees.forEach(element => {
-              this.coordonneesService.updateCoordonnees(element)
-            });
+            
+              this.coordonneesService.updateCoordonnees(this.coordonnees)
+            
             if (this.imageChange) {
               var nouveauNomImage = client.nom + Date.now()
               await this.nouvelleImage(client, nouveauNomImage)
@@ -173,6 +175,8 @@ export class AfficherClientPage implements OnInit {
       siteWebForm: [this.client.siteWeb]
     });
     this.coordonneesService.getCoordonnees(this.client.key).subscribe(coordonneess =>
-      this.coordonnees = coordonneess)
+      coordonneess.forEach(element=> {
+        this.coordonnees = element
+      }))
   }
 }
