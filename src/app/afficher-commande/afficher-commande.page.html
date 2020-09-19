@@ -44,34 +44,34 @@
   </ion-item>
   <ion-card *ngFor="let nouvelArticleAjoute of nouveauxArticlesAjoutes">
     <ion-item-sliding>
-      <ion-item>
-        <ion-label slot="start">{{nouvelArticleAjoute.produitNom}}</ion-label>
-        <ion-note slot="start">
+    <ion-title id='titre'>{{nouvelArticleAjoute.produitNom}}</ion-title>
+          <ion-item>
+        <ion-note>
           <ion-label position="floating">Quantité</ion-label>
           <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number"
             (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">Prix</ion-label>
           <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number"
             (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">Réduction en %</ion-label>
           <ion-textarea [(ngModel)]='nouvelArticleAjoute.pourcentageProduit' type="number" inputmode="number"
             (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
           </ion-textarea>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">Total HTVA</ion-label>
           <p></p>
           <ion-label>
             {{((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite-((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite)*nouvelArticleAjoute.pourcentageProduit/100)).toFixed(2)).replace('.',',')}}
           </ion-label>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">TVA</ion-label>
           <p></p>
           <ion-label>{{nouvelArticleAjoute.TVAProduit}} %</ion-label>
@@ -86,34 +86,34 @@
   </ion-card>
   <ion-card *ngFor="let commandeProduit of commandesProduits">
     <ion-item-sliding>
+    <ion-title id='titre'>{{commandeProduit.produitNom}}</ion-title>
       <ion-item>
-        <ion-label slot="start">{{commandeProduit.produitNom}}</ion-label>
-        <ion-note slot="start">
+        <ion-note>
           <ion-label position="floating">Quantité</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number"
             (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
           </ion-textarea>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">Prix</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number"
             (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
           </ion-textarea>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">Réduction en %</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.pourcentageProduit' type="number" inputmode="number"
             (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
           </ion-textarea>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">Total HTVA</ion-label>
           <p></p>
           <ion-label>
             {{((commandeProduit.prix*commandeProduit.quantite-((commandeProduit.prix*commandeProduit.quantite)*commandeProduit.pourcentageProduit/100)).toFixed(2)).replace('.',',')}}
           </ion-label>
         </ion-note>
-        <ion-note slot="end">
+        <ion-note>
           <ion-label position="floating">TVA</ion-label>
           <p></p>
           <ion-label>{{commandeProduit.TVAProduit}} %</ion-label>
