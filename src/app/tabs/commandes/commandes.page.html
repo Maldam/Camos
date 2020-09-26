@@ -24,8 +24,8 @@
 
       <ion-item routerLink="/afficher-commande" (click)="versVueCommande(commande)">
       <ion-item>{{commande.numeroCommande}}</ion-item>
-      <ion-item>{{commande.nomClient}}</ion-item>
-      <ion-item slot="end">{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-item>
+      <ion-item class="nom" slot="start">{{commande.nomClient}}</ion-item>
+      <ion-item>{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-item>
     </ion-item>
   </ion-item-sliding>
     

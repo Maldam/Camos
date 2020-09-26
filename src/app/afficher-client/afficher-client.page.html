@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar color='primary'>
-    <ion-buttons id='retourProduits' slot="start">
+    <ion-buttons id='retourClients' slot="start">
       <ion-back-button text=""></ion-back-button>
-      <ion-title id='titre'>Client</ion-title>
     </ion-buttons>
+      <ion-title id='titre'>{{client.nom}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -11,7 +11,6 @@
     <img [src]="image"
       onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Factory.svg/1174px-Factory.svg.png';"
       alt="" />
-    
   </div>
   <ion-item>
     <ion-fab-button slot="start" (click)="choixCommandesModal(client.key, client.pseudo)">
@@ -19,7 +18,7 @@
     </ion-fab-button>
     <ion-fab-button slot="end" (click)="choixContactModal(client.key)">
       <ion-icon name="person"></ion-icon>
-    </ion-fab-button>    
+    </ion-fab-button>
   </ion-item>
   <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"
     (click)="imageChange=true; estChange=true">
@@ -55,7 +54,7 @@
     </ion-item>
   </form>
   <ion-title id='adresse'>Adresse du siège social</ion-title>
-  <ion-card >
+  <ion-card>
     <ion-item-sliding>
       <ion-item>
         <ion-item>
@@ -128,7 +127,8 @@
       </ion-item>
       <ion-item>
         <ion-label position="floating">Page LinkedIn</ion-label>
-        <ion-input [(ngModel)]='coordonnees.linkedIn' type="text" inputmode="text" (change)="estChange=true"></ion-input>
+        <ion-input [(ngModel)]='coordonnees.linkedIn' type="text" inputmode="text" (change)="estChange=true">
+        </ion-input>
         <ion-fab-button *ngIf="coordonnees.linkedIn" slot="end" (click)="openBrowser(coordonnees.linkedIn)">
           <ion-icon name="logo-linkedin"></ion-icon>
         </ion-fab-button>
@@ -142,7 +142,7 @@
     </ion-fab-button>
   </ion-fab>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="success" (click)="UpdateClient(client,'Êtes-vous sûr de vouloir modifier le client?')">
+    <ion-fab-button color="success" (click)="UpdateClient(client,'Êtes-vous sûr de vouloir valider les modifications?')">
       <ion-icon name="save"></ion-icon>
     </ion-fab-button>
   </ion-fab>

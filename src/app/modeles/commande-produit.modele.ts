@@ -4,10 +4,10 @@ export class CommandeProduitModele {
     public produitNom: string = null;
     public prix: number = 0;
     public quantite: number = 0;
-    public imageURL: string = "";
+  //  public imageURL: string = "";
     public keyProduit: string;
     public pourcentageProduit: number = 0;
-    public date: number = 0;
+ //   public date: number = 0;
     public numeroCommande: number = null;
     public TVAProduit: number = 0;
     constructor(

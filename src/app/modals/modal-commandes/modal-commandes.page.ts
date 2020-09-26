@@ -32,7 +32,7 @@ export class ModalCommandesPage implements OnInit {
   ngOnInit() {
     this.commandesService.getCommandesSeparee(this.keyClient).subscribe(commandes => {
       this.commandes = commandes;
-      this.commandes.sort((a,b) => b.numeroCommande - a.numeroCommande);
+      this.commandes.sort((a,b) => b.dateCommande - a.dateCommande);
     });
   }
 

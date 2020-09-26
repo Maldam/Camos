@@ -5,8 +5,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ClientModele } from '../modeles/client.modele';
 import { Observable } from 'rxjs';
-import * as firebase from 'firebase/app';
-
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { CoordonneesService } from './coordonnees.service';
@@ -29,23 +27,14 @@ export class ClientsService {
     public contactsService: ContactsService,
     private camera: Camera,
   ) {
-    this.getClients().subscribe(clients => {
-      this.clients2 = clients;
-    });
+    //  this.getClients('Clients').subscribe(clients => {
+    //    this.clients2 = clients;
+    //  });
   }
-  public createClient(client: ClientModele, coordonnees: CoordonneesModele) {
-    var keyClient =  this.angularFireDatabase.list('Clients/').push(client).key  
+  public createClient(client: ClientModele, coordonnees: CoordonneesModele, dossier: string) {
+    var keyClient = this.angularFireDatabase.list(dossier).push(client).key
     coordonnees.keyContact = keyClient
     this.coordonneesService.createCoordonnees(coordonnees)
-    
-    // return new Promise<any>((resolve, reject) => {
-    // var test =  this.angularFireDatabase.list('Clients/').push(client)
-    //     .then(
-    //       res => resolve(res),
-    //       err => reject(err)
-    //     )
-
-    // })
   }
   public ajouterImage(nomImage: string, image: string) {
     return new Promise<any>((resolve, reject) => {
@@ -56,9 +45,9 @@ export class ClientsService {
         )
     })
   }
-  public getClients(): Observable<Array<ClientModele>> {
+  public getClients(dossier:string): Observable<Array<ClientModele>> {
     return new Observable<Array<ClientModele>>(observer => {
-      this.angularFireDatabase.list('Clients/').snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(clientsRecus => {
+      this.angularFireDatabase.list('/'+dossier).snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(clientsRecus => {
         let clients: Array<ClientModele> = new Array<ClientModele>();
         clientsRecus.forEach(clientRecus => {
           let client: ClientModele = new ClientModele();
@@ -67,30 +56,31 @@ export class ClientsService {
             client.pseudo = clientRecus.payload.exportVal().pseudo,
             client.numeroTVA = clientRecus.payload.exportVal().numeroTVA,
             client.notes = clientRecus.payload.exportVal().notes,
-            client.siteWeb= clientRecus.payload.exportVal().siteWeb
-            client.imageURL = clientRecus.payload.exportVal().imageURL
+            client.siteWeb = clientRecus.payload.exportVal().siteWeb
+          client.imageURL = clientRecus.payload.exportVal().imageURL
           clients.push(client);
           observer.next(clients);
         })
       });
     });
   }
-  public updateClient(client: ClientModele): Promise<void> {
+  public updateClient(client: ClientModele, dossier:string): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Clients/').update(client.key, { 
-        nom: client.nom, 
+      this.angularFireDatabase.list(dossier+'/').update(client.key, {
+        nom: client.nom,
         pseudo: client.pseudo,
         numeroTVA: client.numeroTVA,
-        notes: client.notes, 
+        notes: client.notes,
         siteWeb: client.siteWeb,
-        imageURL: client.imageURL }).then(
+        imageURL: client.imageURL
+      }).then(
         res => resolve(res),
         err => reject(err)
       )
     })
   }
-  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>): void {
-    this.angularFireDatabase.list('Clients/').remove(client.key).then(() => {
+  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>, dossier:string): void {
+    this.angularFireDatabase.list(dossier+'/').remove(client.key).then(() => {
       if (client.imageURL == undefined) {
       } else {
         if (client.imageURL == this.imageVide) {
@@ -101,12 +91,13 @@ export class ClientsService {
     }).catch(error => console.log(error));
     this.coordonneesService.deleteCoordonnees(coordonnees)
     console.log('là')
-    contacts.forEach(contact=>{
+    contacts.forEach(contact => {
       this.coordonneesService.getCoordonnees(contact.key).subscribe(coordonneess => {
-      console.log('coordonnees')
+        console.log('coordonnees')
         coordonneess.forEach(coordonnees => {
           this.contactsService.deleteContact(contact, coordonnees)
-        })})
+        })
+      })
     })
   }
   public numeroIndex(nomClient: any) {
@@ -143,24 +134,18 @@ export class ClientsService {
     };
     return await this.camera.getPicture(options);
   }
-
-  public recuperationKey(client:ClientModele): Observable<Array<ClientModele>> {
+  public recuperationKey(client: ClientModele): Observable<Array<ClientModele>> {
     return new Observable<Array<ClientModele>>(observer => {
       this.angularFireDatabase.list('Clients/', ref => ref.orderByChild('pseudo').equalTo(client.pseudo)).snapshotChanges().subscribe(
         clientsRecus => {
           let clients: Array<ClientModele> = new Array<ClientModele>();
           clientsRecus.forEach(clientRecus => {
             let client: ClientModele = new ClientModele();
-            client.key = clientRecus.key,      
-            clients.push(client);
+            client.key = clientRecus.key,
+              clients.push(client);
           })
           observer.next(clients);
         });
     });
   }
 }
-
-// this.clientsService.rechercheAdresse(this.client).subscribe(commandesProduits => {
-//   //this.test = commandesProduits;
-//   commandesProduits.forEach(rep =>{console.log(rep.key)})
-// });

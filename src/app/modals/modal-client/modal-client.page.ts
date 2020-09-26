@@ -36,7 +36,7 @@ export class ModalClientPage implements OnInit {
     await this.modalController.dismiss();
   }
   public ngOnInit() {
-    this.clientsService.getClients().subscribe(clients => {
+    this.clientsService.getClients("Clients").subscribe(clients => {
       this.clients = clients;
       this.listeClients = this.clients;
     });

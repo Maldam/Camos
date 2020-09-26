@@ -27,9 +27,9 @@ export class AfficherClientPage implements OnInit {
   public image: string;
   public imageOrigine: string;
   public clients: Array<ClientModele> = new Array<ClientModele>();
-  //private coordonnees: Array<CoordonneesModele> = new Array<CoordonneesModele>();
   private coordonnees: CoordonneesModele = new CoordonneesModele();
   private contacts: Array<ContactModele> = new Array<ContactModele>();
+  private dossier: string;
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -46,13 +46,13 @@ export class AfficherClientPage implements OnInit {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.client = this.router.getCurrentNavigation().extras.state.data;
-        // this.coordonnees = this.router.getCurrentNavigation().extras.state.coordonnees;
+        this.dossier = this.router.getCurrentNavigation().extras.state.dossier;
       }
     });
   }
   public async RemoveClient(client: ClientModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + client.nom + "?")) {
-      this.clientsService.deleteClient(client, this.coordonnees, this.contacts);
+      this.clientsService.deleteClient(client, this.coordonnees, this.contacts, this.dossier);
       this.navCtrl.back()
     }
   }
@@ -89,15 +89,13 @@ export class AfficherClientPage implements OnInit {
             client.numeroTVA = this.form.value.numeroTVAForm;
             client.siteWeb = this.form.value.siteWebForm;
             client.notes = this.form.value.notesForm;
-
             this.coordonneesService.updateCoordonnees(this.coordonnees)
-
             if (this.imageChange) {
               var nouveauNomImage = client.nom + Date.now()
               await this.nouvelleImage(client, nouveauNomImage)
               client.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
             }
-            await this.clientsService.updateClient(client).then(ref => {
+            await this.clientsService.updateClient(client, this.dossier).then(ref => {
               loading.dismiss();
             });
             this.estChange = false;
@@ -156,15 +154,11 @@ export class AfficherClientPage implements OnInit {
     return await modal.present()
   }
   public async choixContactModal(keyEntreprise: string) {
-    //const contacts = this.contacts
     const modal = await this.modalController.create({
       component: ModalListeContactsPage,
-      componentProps: { keyEntreprise}
+      componentProps: { keyEntreprise }
     });
     modal.onWillDismiss()
-    //.then(dataReturned => {
-    //this.client = dataReturned.data;
-    //})
     return await modal.present()
   }
   public ngOnInit() {
@@ -183,5 +177,5 @@ export class AfficherClientPage implements OnInit {
       }))
     this.contactsService.getContactsClient(this.client.key).subscribe(contacts =>
       this.contacts = contacts)
-     }
+  }
 }

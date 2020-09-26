@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
 import { ConnexionService } from '../services/connexion.service';
-
 @Component({
   selector: 'app-connexion',
   templateUrl: './connexion.page.html',
@@ -20,7 +19,7 @@ export class ConnexionPage implements OnInit {
   ) { }
   public connexion() {
     this.connexionService.connexionUtilisateur(this.loginData.email, this.loginData.password).then(auth => {
-      console.log('utilisateur connecté');
+      //console.log('utilisateur connecté');
     })
       .catch(err => {
         console.log('Erreur: ' + err);
@@ -33,7 +32,7 @@ export class ConnexionPage implements OnInit {
   }
   public enregistrement() {
     this.connexionService.creerUtilisateur(this.loginData.email, this.loginData.password).then(auth => {
-      console.log('utilisateur connecté');
+      //console.log('utilisateur connecté');
     })
       .catch(err => {
         console.log('Erreur: ' + err);

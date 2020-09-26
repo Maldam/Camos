@@ -6,9 +6,9 @@ export class CommandeModele {
     public keyClient: string = "";
     public numeroTVAClient: string = "";
     public notes: string = "";
-    public nomProduit: string = "";
+   // public nomProduit: string = "";
     public pourcentageTotal: number = 0;
-    public montantFacture: number = 0;
+   // public montantFacture: number = 0;
     public dateCommande: number = null;
     public dateLivraison: number = 0;
     constructor(

@@ -85,7 +85,7 @@ export class CommandesPage implements OnInit {
   public ngOnInit() {
     this.commandesService.getCommandes().subscribe(commandes => {
       this.commandes = commandes;
-      this.commandes.sort((a,b) => b.numeroCommande - a.numeroCommande);
+      this.commandes.sort((a,b) => b.dateCommande - a.dateCommande);
       this.listeCommandes = this.commandes;
     });
   }

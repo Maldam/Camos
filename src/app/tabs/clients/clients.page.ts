@@ -14,6 +14,9 @@ import { CoordonneesService } from 'src/app/services/coordonnees.service';
 export class ClientsPage implements OnInit {
   public clients: Array<ClientModele> = new Array<ClientModele>();
   public listeClients: Array<ClientModele> = new Array<ClientModele>();
+  public entreprises: string = "Clients"
+  public dossier: string
+  public fournisseurs: boolean = false
   constructor(
     public clientsService: ClientsService,
     public route: Router,
@@ -43,19 +46,35 @@ export class ClientsPage implements OnInit {
     }
   }
   public versVueClient(client: ClientModele) {
-    
-
-
-    this.route.navigate(["afficher-client"], { state: { data: client} })
+    this.route.navigate(["afficher-client"], { state: { 
+      data: client,
+      dossier: this.dossier
+    } })
   }
 
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }
-  public ngOnInit() {
-    this.clientsService.getClients().subscribe(clients => {
+  public changeEntreprises(){
+    this.fournisseurs=!this.fournisseurs
+    if(this.fournisseurs){
+      this.entreprises = "Fournisseurs"
+      this.recupererlisteClients()  
+    } else {
+      this.entreprises = "Clients"
+      this.recupererlisteClients()  
+    }
+  }
+  public recupererlisteClients(){
+    this.clientsService.getClients(this.entreprises).subscribe(clients => {
       this.clients = clients;
       this.listeClients = this.clients;
     });
+  }
+  public ajouterEntreprise(){
+    this.route.navigate(["ajouter-client"], { state: { data: this.fournisseurs} })
+  }
+  public ngOnInit() {
+    this.recupererlisteClients()
   }
 }

@@ -1,18 +1,19 @@
 <ion-header>
   <ion-toolbar color='primary'>
-    <ion-title id='titre'>Clients
+    <ion-title id='titre'>{{entreprises}}
     <ion-button class="deconnexion" name=boutton (click)="deconnexion()" expand="block" color="primary">
       <ion-icon name="power"></ion-icon>
     </ion-button>
   </ion-title>
   </ion-toolbar>
+  <ion-toggle color="success" (ionChange)="changeEntreprises()"></ion-toggle>
   <ion-toolbar>
     <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheClient($event)">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-fab id='ajouter' routerLink="/ajouter-client" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab id='ajouter' routerLink="/ajouter-client" vertical="bottom" horizontal="end" slot="fixed" (click)="ajouterEntreprise()">
     <ion-fab-button>
       <ion-icon name="add-circle"></ion-icon>
     </ion-fab-button>
