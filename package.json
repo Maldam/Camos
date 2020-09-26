@@ -38,6 +38,7 @@
     "cordova-plugin-network-information": "^2.0.2",
     "core-js": "^2.5.4",
     "firebase": "^7.18.0",
+    "ionicons": "^5.1.2",
     "pdfmake": "^0.1.68",
     "rxjs": "^6.6.2",
     "tslib": "^1.13.0",
