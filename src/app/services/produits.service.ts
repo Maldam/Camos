@@ -57,6 +57,7 @@ export class ProduitsService {
             produit.categorie = produitRecus.payload.exportVal().categorie,
             produit.type = produitRecus.payload.exportVal().type,
             produit.TVA = produitRecus.payload.exportVal().TVA,
+            produit.keyFournisseur = produitRecus.payload.exportVal().keyFournisseur,
             produit.codeProduitFournisseur = produitRecus.payload.exportVal().codeProduitFournisseur,
           produits.push(produit);
           observer.next(produits);
@@ -75,6 +76,7 @@ export class ProduitsService {
         categorie: produit.categorie,
         type: produit.type,
         TVA: produit.TVA,
+        keyFournisseur: produit.keyFournisseur,
         codeProduitFournisseur: produit.codeProduitFournisseur,
       }).then(
         res => resolve(res),

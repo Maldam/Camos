@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
-import { NavController, AlertController, LoadingController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { ModalClientPage } from '../modals/modal-client/modal-client.page';
+import { ClientModele } from '../modeles/client.modele';
+import { ClientsService } from '../services/clients.service';
 @Component({
   selector: 'app-afficher-produit',
   templateUrl: './afficher-produit.page.html',
@@ -22,14 +25,19 @@ export class AfficherProduitPage implements OnInit {
   public typeProduitStatus: boolean = false;
   public categorieProduitStatus: boolean = false;
   public nouvelleCategorie: string  ="";
+  private fournisseur: ClientModele = new ClientModele();
+
 
   constructor(private produitsService: ProduitsService,
+    private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
     public loadingController: LoadingController,
     public alertController: AlertController,
+  private modalController: ModalController,
+
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -138,6 +146,21 @@ export class AfficherProduitPage implements OnInit {
       this.categorieProduitStatus = true
       }
     }
+    public async choixFournisseurModal() {
+      var entreprise: string ="Fournisseurs"
+      const modal = await this.modalController.create({
+        component: ModalClientPage,
+        componentProps: { entreprise }
+      });
+      modal.onWillDismiss().then(dataReturned => {
+        if(dataReturned.data){
+          this.estChange=true
+          this.fournisseur = dataReturned.data;
+          this.produit.keyFournisseur = this.fournisseur.key
+        }    
+      })
+      return await modal.present()
+    }
   public ngOnInit() {
     this.image = this.produit.imageURL
     this.imageOrigine = this.produit.imageURL
@@ -149,6 +172,12 @@ export class AfficherProduitPage implements OnInit {
       codeProduitForm: [this.produit.codeProduit],
       TVAForm: [this.produit.TVA],
       codeProduitFournisseurForm:[this.produit.codeProduitFournisseur]
+    });
+    console.log(this.produit.keyFournisseur)
+    this.clientsService.getClientSepare(this.produit.keyFournisseur).subscribe(fournisseurs => {
+      fournisseurs.forEach(fournisseur=>{
+        this.fournisseur = fournisseur;
+      }) 
     });
     this.produitsService.getCategoriesProduits(this.produit.type).subscribe(categoriesProduits => {
       this.categoriesProduits = categoriesProduits;

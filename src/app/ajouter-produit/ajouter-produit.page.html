@@ -21,6 +21,10 @@
     <ion-icon name="camera" slot="start"></ion-icon>
     Prenez une photo
   </ion-button>
+  <ion-item (click)="choixFournisseurModal()">
+    <ion-label position="floating">Nom du fournisseur</ion-label>
+    <ion-input [value]="fournisseur.nom" type="text" inputmode="text"></ion-input>
+  </ion-item>
   <ion-item>
     <ion-label position="floating">Code produit</ion-label>
     <ion-input [(ngModel)]="produit.codeProduit" type="string"></ion-input>

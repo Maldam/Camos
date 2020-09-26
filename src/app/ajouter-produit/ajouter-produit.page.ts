@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { ProduitModele } from '../modeles/produit.modele';
+import { ModalClientPage } from '../modals/modal-client/modal-client.page';
+import { ClientModele } from '../modeles/client.modele';
 
 @Component({
   selector: 'app-produits',
@@ -19,12 +21,16 @@ export class AjouterProduitPage implements OnInit {
   public typeProduitStatus: boolean = false
   public categorieProduitStatus: boolean = false
   public nouvelleCategorie: string  ="";
+  private fournisseur: ClientModele = new ClientModele();
+
 
   constructor(
     private produitsService: ProduitsService,
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,
+  private modalController: ModalController,
+
   ) {
   }
   public async ajoutProduit(produit: AjouterProduitPage) {
@@ -66,6 +72,7 @@ export class AjouterProduitPage implements OnInit {
           this.produitsService.createCategorieProduit(this.produit)
           this.categorieProduitStatus=false
         }
+        this.produit.keyFournisseur = this.fournisseur.key
         this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele });
       }
     } else {
@@ -90,13 +97,26 @@ export class AjouterProduitPage implements OnInit {
       this.categoriesProduits = categoriesProduits;
     });
   }
-  ajouterNouvelleCategorie(value){
+ public ajouterNouvelleCategorie(value){
   if(value === "Nouvelle catégorie"){
     //this.produit.categorie=""
     this.categorieProduitStatus = true
     } else {
       this.categorieProduitStatus=false
     }
+  }
+  public async choixFournisseurModal() {
+    var entreprise: string ="Fournisseurs"
+    const modal = await this.modalController.create({
+      component: ModalClientPage,
+      componentProps: { entreprise }
+    });
+    modal.onWillDismiss().then(dataReturned => {
+      if(dataReturned.data){
+        this.fournisseur = dataReturned.data;
+      }    
+    })
+    return await modal.present()
   }
   public ngOnInit() {
   }

@@ -148,4 +148,25 @@ export class ClientsService {
         });
     });
   }
+  public getClientSepare(keyClient: string): Observable<Array<ClientModele>> {
+    return new Observable<Array<ClientModele>>(observer => {
+      this.angularFireDatabase.list('Fournisseurs/', ref => ref.orderByKey().equalTo(keyClient)).snapshotChanges().subscribe(
+        commandesRecus => {
+          let clients : Array<ClientModele> = new Array<ClientModele>();
+          commandesRecus.forEach(clientRecus => {
+            let client: ClientModele = new ClientModele();
+            client.key = clientRecus.key,
+              client.nom = clientRecus.payload.exportVal().nom,
+              client.pseudo = clientRecus.payload.exportVal().pseudo,
+              client.numeroTVA = clientRecus.payload.exportVal().numeroTVA,
+              client.notes = clientRecus.payload.exportVal().notes,
+              client.siteWeb = clientRecus.payload.exportVal().siteWeb
+            client.imageURL = clientRecus.payload.exportVal().imageURL
+            clients.push(client);
+          })
+          observer.next(clients);
+        });
+    });
+  }
+
 }

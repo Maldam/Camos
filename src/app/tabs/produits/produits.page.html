@@ -9,11 +9,10 @@
 
   <ion-toolbar>
     <ion-item>
-      <ion-searchbar animated placeholder="Recherche" [value]='test' (ionChange)="rechercheProduit($event)"></ion-searchbar>
+      <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)"></ion-searchbar>
     </ion-item>
 
     <ion-item>
-
     <ion-segment value="tout">
       <ion-segment-button class="small-caps" value="tout" (click)="typeProduit('')">Tout
         <!-- <ion-title id='segment'></ion-title> -->
@@ -31,6 +30,13 @@
     <ion-select value="toutes" interface="popover" (ionChange)="triCategorie($event)">
       <ion-select-option value="toutes">Toutes</ion-select-option>
       <ion-select-option *ngFor="let categorieProduit of categoriesProduits" [value]="categorieProduit">{{categorieProduit}}</ion-select-option>
+    </ion-select>
+    </ion-item-option>
+    <ion-item-option *ngIf="fournisseur" >
+      <ion-label >Fournisseur</ion-label>
+    <ion-select value="tous" interface="popover" (ionChange)="triFournisseur($event)">
+      <ion-select-option value="tous">Tous</ion-select-option>
+      <ion-select-option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.nom">{{fournisseur.nom}}</ion-select-option>
     </ion-select>
     </ion-item-option>
   </ion-toolbar>

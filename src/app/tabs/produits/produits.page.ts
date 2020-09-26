@@ -5,6 +5,8 @@ import { ProduitModele } from '../../modeles/produit.modele';
 import { Network } from '@ionic-native/network/ngx';
 import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { ConnexionService } from '../../services/connexion.service';
+import { ClientModele } from 'src/app/modeles/client.modele';
+import { ClientsService } from 'src/app/services/clients.service';
 
 @Component({
   selector: 'app-produits',
@@ -15,14 +17,17 @@ export class ProduitsPage implements OnInit {
   public produits: Array<ProduitModele> = new Array<ProduitModele>();
   public listeProduits: Array<ProduitModele> = new Array<ProduitModele>();
   public categoriesProduits: Array<any> = new Array<any>()
+  private fournisseurs: Array<ClientModele> = new Array<ClientModele>()
   public typeProduitStatus: boolean = false
   public listeProduitsType: Array<ProduitModele> = new Array<ProduitModele>();
+  public listeProduitsCategorie: Array<ProduitModele> = new Array<ProduitModele>(); 
   //public listeProduitsRechcerche: Array<ProduitModele> = new Array<ProduitModele>();
   public categorieProduitStatus: boolean = false
-  public test:string
+  public fournisseur: boolean = false
   public categorieProduit: any;
   constructor(
     public produitsService: ProduitsService,
+    public clientsService: ClientsService,
     public route: Router,
     public network: Network,
     public dialogs: Dialogs,
@@ -53,7 +58,6 @@ export class ProduitsPage implements OnInit {
     }
   }
   public typeProduit(typeProduit) {
-    this.test=''
     this.produits=this.listeProduits
     if (typeProduit !== "") {
       this.categorieProduitStatus = true
@@ -63,6 +67,9 @@ export class ProduitsPage implements OnInit {
       this.produits=this.listeProduitsType
       this.produitsService.getCategoriesProduits(typeProduit).subscribe(categoriesProduits => {
         this.categoriesProduits = categoriesProduits;
+      });
+      this.clientsService.getClients("Fournisseurs").subscribe(fournisseurs => {
+        this.fournisseurs = fournisseurs;
       });
     }
     else{      
@@ -77,12 +84,22 @@ export class ProduitsPage implements OnInit {
     this.produits=this.listeProduitsType
     const val = ev.target.value
     if(val !== "toutes"){
-      
-      this.produits = this.produits.filter((produit: any) => {
+      this.fournisseur = true;
+      this.listeProduitsCategorie = this.produits.filter((produit: any) => {
         return (produit.categorie.toLowerCase().indexOf(val.toLowerCase()) > -1);
       }) 
-
+      this.produits = this.listeProduitsCategorie
     } 
+  }
+  public triFournisseur(ev){
+    this.produits = this.listeProduitsCategorie
+    const val = ev.target.value
+    if(val !== "tous"){
+      var fournisseur = this.fournisseurs.find(fournisseur => fournisseur.nom = val)
+      this.produits = this.produits.filter((produit: any) => {
+        return (produit.keyFournisseur.toLowerCase().indexOf(fournisseur.key.toLowerCase()) > -1);
+      }) 
+    }
   }
   public ngOnInit() {
     this.produitsService.getProduits().subscribe(produits => {

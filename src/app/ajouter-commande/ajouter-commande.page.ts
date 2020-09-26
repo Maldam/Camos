@@ -90,21 +90,15 @@ export class AjouterCommandePage implements OnInit {
     }
   }
   public async choixClientModal() {
+    var entreprise: string ="Clients"
     const modal = await this.modalController.create({
-      component: ModalClientPage
+      component: ModalClientPage,
+      componentProps: { entreprise }
     });
     modal.onWillDismiss().then(dataReturned => {
-      //if (this.client.nom !== null) {
       if(dataReturned.data){
         this.client = dataReturned.data;
       }    
-        
-        
-
-      //}
-
-
-      
     })
     return await modal.present()
   }

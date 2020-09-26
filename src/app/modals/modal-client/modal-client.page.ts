@@ -15,11 +15,13 @@ export class ModalClientPage implements OnInit {
   public listeClients: Array<ClientModele> = new Array<ClientModele>();
   public client: ClientModele = new ClientModele();
   public commande: CommandeModele = new CommandeModele();
+  public entreprise: string;
   constructor(public clientsService: ClientsService,
     public commandesService: CommandesService,
     public route: Router,
     private modalController: ModalController,
-    ) { }
+    ) {
+    }
   public rechercheClient(ev: any) {
     this.clients = this.listeClients
     const val = ev.target.value;
@@ -36,7 +38,7 @@ export class ModalClientPage implements OnInit {
     await this.modalController.dismiss();
   }
   public ngOnInit() {
-    this.clientsService.getClients("Clients").subscribe(clients => {
+    this.clientsService.getClients(this.entreprise).subscribe(clients => {
       this.clients = clients;
       this.listeClients = this.clients;
     });

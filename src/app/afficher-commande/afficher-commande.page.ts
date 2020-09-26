@@ -135,8 +135,11 @@ export class AfficherCommandePage implements OnInit {
     // }
   }
   public async choixClientModal() {
+    var entreprise: string ="Clients"
     const modal = await this.modalController.create({
-      component: ModalClientPage
+      component: ModalClientPage,
+      componentProps: { entreprise }
+
     });
     modal.onWillDismiss().then(dataReturned => {
       if (dataReturned.data) {

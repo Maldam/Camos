@@ -120,16 +120,6 @@ export class ModalContactPage implements OnInit {
        }
      }
    }
-
-
-
-
-
-
-
-
-
-
   public openBrowser(url: string) {
     window.open(url)
   }
