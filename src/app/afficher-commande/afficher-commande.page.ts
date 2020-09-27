@@ -16,7 +16,6 @@ import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { CoordonneesService } from '../services/coordonnees.service';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { File } from '@ionic-native/file/ngx';
-
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-afficher-commande',
@@ -211,7 +210,7 @@ export class AfficherCommandePage implements OnInit {
     return await modal.present()
   }
   public genererPDF() {
-  //  this.coordonnees.forEach(element=> console.log(element))
+
 
     const documentDefinition = {
       content: [
@@ -401,7 +400,6 @@ export class AfficherCommandePage implements OnInit {
       numeroTVAClientForm: [this.commande.numeroTVAClient],
       notesForm: [this.commande.notes],
     });
-    console.log(this.typeCommandes)
     this.commandesService.getCommandesProduits(this.commande.numeroCommande, this.typeCommandes).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
@@ -409,6 +407,5 @@ export class AfficherCommandePage implements OnInit {
     this.coordonneesService.getCoordonnees(this.commande.keyClient).subscribe(coordonneess => 
       this.coordonnees = coordonneess
       )
-      //console.log(this.coordonnees[0])
   }
 }

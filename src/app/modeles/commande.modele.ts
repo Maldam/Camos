@@ -11,6 +11,7 @@ export class CommandeModele {
    // public montantFacture: number = 0;
     public dateCommande: number = null;
     public dateLivraison: number = 0;
+    public commandeLivree: number = 0;
     constructor(
     ) { }
 }
