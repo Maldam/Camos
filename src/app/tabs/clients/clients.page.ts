@@ -19,7 +19,7 @@ export class ClientsPage implements OnInit {
   public fournisseurs: boolean = false
   constructor(
     public clientsService: ClientsService,
-    public route: Router,
+    public router: Router,
     public network: Network,
     public dialogs: Dialogs,
     public connexionService: ConnexionService,
@@ -46,7 +46,7 @@ export class ClientsPage implements OnInit {
     }
   }
   public versVueClient(client: ClientModele) {
-    this.route.navigate(["afficher-client"], { state: { 
+    this.router.navigate(["afficher-client"], { state: { 
       data: client,
       dossier: this.dossier
     } })
@@ -72,7 +72,7 @@ export class ClientsPage implements OnInit {
     });
   }
   public ajouterEntreprise(){
-    this.route.navigate(["ajouter-client"], { state: { data: this.fournisseurs} })
+    this.router.navigate(["ajouter-client"], { state: { data: this.fournisseurs} })
   }
   public ngOnInit() {
     this.recupererlisteClients()

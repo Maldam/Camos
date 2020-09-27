@@ -7,6 +7,7 @@ import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { ConnexionService } from '../../services/connexion.service';
 import { ClientModele } from 'src/app/modeles/client.modele';
 import { ClientsService } from 'src/app/services/clients.service';
+import { CommandesService } from 'src/app/services/commandes.service';
 
 @Component({
   selector: 'app-produits',
@@ -31,7 +32,8 @@ export class ProduitsPage implements OnInit {
     public route: Router,
     public network: Network,
     public dialogs: Dialogs,
-    public connexionService: ConnexionService
+    public connexionService: ConnexionService,
+    public commandesService: CommandesService,
   ) {
   }
   // public imageDefaut(event: any) {

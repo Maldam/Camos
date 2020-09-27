@@ -9,18 +9,10 @@
 
   <ion-toolbar>
     <ion-item>
-<<<<<<< HEAD
       <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)"></ion-searchbar>
     </ion-item>
 
     <ion-item>
-=======
-      <ion-searchbar animated placeholder="Recherche" [value]='test' (ionChange)="rechercheProduit($event)"></ion-searchbar>
-    </ion-item>
-
-    <ion-item>
-
->>>>>>> 5287d8066a9cf335b09943d5199aadeda466bd9b
     <ion-segment value="tout">
       <ion-segment-button class="small-caps" value="tout" (click)="typeProduit('')">Tout
         <!-- <ion-title id='segment'></ion-title> -->
@@ -48,6 +40,14 @@
     </ion-select>
     </ion-item-option>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-item>
+      <ion-item class="nom">Nom</ion-item>
+      <ion-item class="nom">Quantitées en stock</ion-item>
+      <ion-item class="nom">Quantitées à recevoir</ion-item>
+    </ion-item>
+    
+  </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-fab id='ajouter' routerLink="/ajouter-produit" vertical="bottom" horizontal="end" slot="fixed">
@@ -63,8 +63,14 @@
           onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/Pas_d%27image_disponible.svg';">
         <!-- (ionError)="imageDefaut($event)" -->
       </ion-thumbnail>
-      <ion-label>{{produit.nom}}</ion-label>
-      <ion-label>{{produit.quantite}}</ion-label>
+    <ion-item-sliding>
+      <ion-item>
+      <ion-item class="nom" slot="start">{{produit.nom}}</ion-item>
+      <ion-item class="nom">{{produit.quantite}}</ion-item>
+      <ion-item class="nom">{{produit.quantiteCommandee}}</ion-item>
+      </ion-item>
+    </ion-item-sliding>
+
     </ion-item>
   </ion-list>
 </ion-content>

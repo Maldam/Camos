@@ -43,8 +43,15 @@
       </ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Prix en €</ion-label>
-      <ion-textarea formControlName="prixForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
+      <ion-label>Quantite en commande fournisseur : {{produit.quantiteCommandee}}</ion-label>    
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Prix de vente en €</ion-label>
+      <ion-textarea formControlName="prixVenteForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Prix d'achat en €</ion-label>
+      <ion-textarea formControlName="prixAchatForm" type="text" inputmode="number" (change)="estChange=true"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">TVA en %</ion-label>

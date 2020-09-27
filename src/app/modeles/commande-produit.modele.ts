@@ -10,6 +10,7 @@ export class CommandeProduitModele {
  //   public date: number = 0;
     public numeroCommande: number = null;
     public TVAProduit: number = 0;
+    public livree: number = 0;
     constructor(
     ) { }
   }

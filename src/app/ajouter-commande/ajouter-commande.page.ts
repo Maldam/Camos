@@ -7,7 +7,7 @@ import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ModalProduitPage } from '../modals/modal-produit/modal-produit.page';
 import { ProduitModele } from '../modeles/produit.modele';
 import { CommandeProduitModele } from '../modeles/commande-produit.modele';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-ajouter-commande',
   templateUrl: './ajouter-commande.page.html',
@@ -26,13 +26,26 @@ export class AjouterCommandePage implements OnInit {
   public total: number = 0.00;
   public totalTVA: number = 0.00;
   public estChange: boolean = false;
+  public commandeChange: boolean = false;
+  public typeCommandes: string = "Clients";
   constructor(
     private commandesService: CommandesService,
     public router: Router,
     public loadingController: LoadingController,
     public alertController: AlertController,
+    private activatedRoute: ActivatedRoute,
     private modalController: ModalController,
   ) {
+    this.activatedRoute.queryParams.subscribe(() => {
+      this.commandeChange = this.router.getCurrentNavigation().extras.state.data
+      if (!this.commandeChange) {
+        //this.typeCommandes = "client"
+        this.typeCommandes = "Clients"
+      } else {
+        // this.entreprise = "fournisseur"
+        this.typeCommandes="Fournisseurs"
+      }
+    });
   }
   public async ajoutCommande(commande: AjouterCommandePage) {
     const loading = await this.loadingController.create({
@@ -44,7 +57,7 @@ export class AjouterCommandePage implements OnInit {
     });
     const alertNom = await this.alertController.create({
       header: 'Attention',
-      message: 'Nous avons besoin d\'un numéro de facture',
+      message: 'Nous avons besoin d\'un numéro de commande',
       buttons: ['OK']
     });
     const articleExiste = await this.alertController.create({
@@ -65,10 +78,10 @@ export class AjouterCommandePage implements OnInit {
           this.commandeProduit.produitNom = this.produit.nom,
           this.commandeProduit.keyProduit = this.produit.key,
           this.commandesProduits.forEach(commandeProduit => {
-            this.commandesService.createCommandeProduit(commandeProduit).then(x => {
+            this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes).then(x => {
             })
           });
-        this.commandesService.createCommande(this.commande).then(ref => {
+        this.commandesService.createCommande(this.commande, this.typeCommandes).then(ref => {
           this.total = 0,
             this.totalTVA = 0,
             this.commande = new CommandeModele
@@ -79,7 +92,12 @@ export class AjouterCommandePage implements OnInit {
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
           produit.key = commandeProduit.keyProduit;
-          produit.quantite = commandeProduit.quantite;
+          if(!this.commandeChange) { 
+            produit.quantite = commandeProduit.quantite;
+          } else {
+            produit.quantiteCommandee = commandeProduit.quantite;
+          }
+          
           this.commandesService.updateProduit(produit)
         });
         await loading.dismiss();
@@ -90,15 +108,15 @@ export class AjouterCommandePage implements OnInit {
     }
   }
   public async choixClientModal() {
-    var entreprise: string ="Clients"
+    var entreprise: string = this.typeCommandes
     const modal = await this.modalController.create({
       component: ModalClientPage,
       componentProps: { entreprise }
     });
     modal.onWillDismiss().then(dataReturned => {
-      if(dataReturned.data){
+      if (dataReturned.data) {
         this.client = dataReturned.data;
-      }    
+      }
     })
     return await modal.present()
   }
@@ -111,13 +129,23 @@ export class AjouterCommandePage implements OnInit {
         this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
-          commandeProduit.numeroCommande = this.commande.numeroCommande,
-          commandeProduit.prix = this.produit.prix,
+          commandeProduit.numeroCommande = this.commande.numeroCommande
+          if(this.typeCommandes=== "Clients"){
+            commandeProduit.prix = this.produit.prixVente
+          } else {
+            commandeProduit.prix = this.produit.prixAchat
+
+          }
+          
           commandeProduit.keyProduit = this.produit.key,
-          commandeProduit.TVAProduit = this.produit.TVA
+          commandeProduit.TVAProduit = this.produit.TVA,
+          
         commandeProduit.codeProduit = this.produit.codeProduit
+        
         this.commandesProduits.push(commandeProduit)
+        
       }
+      
     })
     return await modal.present()
   }

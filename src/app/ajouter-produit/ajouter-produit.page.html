@@ -42,8 +42,12 @@
     <ion-input [(ngModel)]='produit.quantite' type="number"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label position="floating">Prix</ion-label>
-    <ion-input [(ngModel)]='produit.prix' type="number"></ion-input>
+    <ion-label position="floating">Prix de vente en €</ion-label>
+    <ion-input [(ngModel)]='produit.prixVente' type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Prix d'achat en €</ion-label>
+    <ion-input [(ngModel)]='produit.prixAchat' type="number"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">TVA</ion-label>

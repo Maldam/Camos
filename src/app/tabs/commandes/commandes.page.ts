@@ -21,6 +21,8 @@ export class CommandesPage implements OnInit {
   
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
+  public typeCommandes: string ="Clients"
+  public commandeChange: boolean = false 
   constructor(
     public afAuth: AngularFireAuth,
     public connexionService: ConnexionService,
@@ -61,7 +63,9 @@ export class CommandesPage implements OnInit {
     }
   }
   public versVueCommande(commande: CommandeModele) {
-    this.router.navigate(["afficher-commande"], { state: { data: commande} });
+    this.router.navigate(["afficher-commande"], { state: { data: commande,
+    typeCommandes: this.typeCommandes
+    } });
   }
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
@@ -82,11 +86,31 @@ export class CommandesPage implements OnInit {
     })
     return await modal.present()
   }
-  public ngOnInit() {
-    this.commandesService.getCommandes().subscribe(commandes => {
+  public changeCommandes(){
+    //console.log(this.commandeChange)
+    this.commandeChange=!this.commandeChange
+    if(this.commandeChange){
+      this.typeCommandes = "Fournisseurs"
+      this.recupererListeCommandes()  
+    } else {
+      this.typeCommandes = "Clients"
+      this.recupererListeCommandes()  
+    }
+
+
+  }
+  public recupererListeCommandes(){
+    //console.log(this.typeCommandes)
+    this.commandesService.getCommandes(this.typeCommandes).subscribe(commandes => {
       this.commandes = commandes;
       this.commandes.sort((a,b) => b.dateCommande - a.dateCommande);
       this.listeCommandes = this.commandes;
     });
+  }
+  public ajouterCommandes(){
+    this.router.navigate(["ajouter-commande"], { state: { data: this.commandeChange} })
+  }
+  public ngOnInit() {
+    this.recupererListeCommandes()
   }
 }

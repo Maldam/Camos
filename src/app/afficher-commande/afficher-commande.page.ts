@@ -40,6 +40,7 @@ export class AfficherCommandePage implements OnInit {
   public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
   public totalTVA: number = 0;
+  public typeCommandes: string;
   private coordonnees: Array<CoordonneesModele>;
   private pdfObj= null;
   constructor(private commandesService: CommandesService,
@@ -58,13 +59,14 @@ export class AfficherCommandePage implements OnInit {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
+        this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
       }
     });
   }
   public async RemoveCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
-      this.commandesService.deleteCommande(commande);
-      this.commandesService.deleteCommandeProduit(this.commandesProduits)
+      this.commandesService.deleteCommande(commande, this.typeCommandes);
+      this.commandesService.deleteCommandeProduit(this.commandesProduits, this.typeCommandes)
       this.navCtrl.back()
     }
   }
@@ -104,7 +106,7 @@ export class AfficherCommandePage implements OnInit {
             commande.pseudoClient = this.form.value.pseudoClientForm,
               commande.numeroTVAClient = this.form.value.numeroTVAClientForm,
               commande.notes = this.form.value.notesForm,
-              await this.commandesService.updateCommande(commande).then(ref => {
+              await this.commandesService.updateCommande(commande, this.typeCommandes).then(ref => {
               });
             this.estChange = false;
             this.numeroChange = false;
@@ -116,17 +118,17 @@ export class AfficherCommandePage implements OnInit {
         //}
         if (this.nouveauxArticlesAjoutes.length > 0) {
           this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
-            this.commandesService.createCommandeProduit(nouvelArticleAjoute).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>(), this.calculPrix() }
+            this.commandesService.createCommandeProduit(nouvelArticleAjoute, this.typeCommandes).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>(), this.calculPrix() }
             )
           });
         }
         if (this.articlesModifies.length > 0) {
           this.articlesModifies.forEach(element => {
-            this.commandesService.updateListeProduit(element).then(x => { this.articlesModifies = new Array<CommandeProduitModele>() })
+            this.commandesService.updateListeProduit(element, this.typeCommandes).then(x => { this.articlesModifies = new Array<CommandeProduitModele>() })
           });
         }
         if (this.produitASupprimer.length > 0) {
-          this.commandesService.deleteCommandeProduit(this.produitASupprimer)
+          this.commandesService.deleteCommandeProduit(this.produitASupprimer, this.typeCommandes)
           this.produitASupprimer = new Array<CommandeProduitModele>()
         }
       }
@@ -135,11 +137,10 @@ export class AfficherCommandePage implements OnInit {
     // }
   }
   public async choixClientModal() {
-    var entreprise: string ="Clients"
+    var entreprise: string = this.typeCommandes
     const modal = await this.modalController.create({
       component: ModalClientPage,
       componentProps: { entreprise }
-
     });
     modal.onWillDismiss().then(dataReturned => {
       if (dataReturned.data) {
@@ -200,7 +201,7 @@ export class AfficherCommandePage implements OnInit {
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
           commandeProduit.numeroCommande = this.commande.numeroCommande,
-          commandeProduit.prix = this.produit.prix,
+          commandeProduit.prix = this.produit.prixVente,
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
         commandeProduit.codeProduit = this.produit.codeProduit
@@ -400,7 +401,8 @@ export class AfficherCommandePage implements OnInit {
       numeroTVAClientForm: [this.commande.numeroTVAClient],
       notesForm: [this.commande.notes],
     });
-    this.commandesService.getCommandesProduits(this.commande.numeroCommande).subscribe(commandesProduits => {
+    console.log(this.typeCommandes)
+    this.commandesService.getCommandesProduits(this.commande.numeroCommande, this.typeCommandes).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });

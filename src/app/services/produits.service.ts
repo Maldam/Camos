@@ -52,13 +52,15 @@ export class ProduitsService {
           produit.codeProduit = produitRecus.payload.exportVal().codeProduit,
             produit.nom = produitRecus.payload.exportVal().nom,
             produit.quantite = produitRecus.payload.exportVal().quantite,
-            produit.prix = produitRecus.payload.exportVal().prix,
+            produit.prixVente = produitRecus.payload.exportVal().prixVente,
+            produit.prixAchat = produitRecus.payload.exportVal().prixAchat,
             produit.imageURL = produitRecus.payload.exportVal().imageURL,
             produit.categorie = produitRecus.payload.exportVal().categorie,
             produit.type = produitRecus.payload.exportVal().type,
             produit.TVA = produitRecus.payload.exportVal().TVA,
             produit.keyFournisseur = produitRecus.payload.exportVal().keyFournisseur,
             produit.codeProduitFournisseur = produitRecus.payload.exportVal().codeProduitFournisseur,
+            produit.quantiteCommandee = produitRecus.payload.exportVal().quantiteCommandee,
           produits.push(produit);
           observer.next(produits);
         })
@@ -71,13 +73,15 @@ export class ProduitsService {
         codeProduit: produit.codeProduit,
         nom: produit.nom, 
         quantite: produit.quantite, 
-        prix: produit.prix, 
+        prixVente: produit.prixVente,
+        prixAchat: produit.prixAchat, 
         imageURL: produit.imageURL,
         categorie: produit.categorie,
         type: produit.type,
         TVA: produit.TVA,
         keyFournisseur: produit.keyFournisseur,
         codeProduitFournisseur: produit.codeProduitFournisseur,
+        quantiteCommandee: produit.quantiteCommandee,
       }).then(
         res => resolve(res),
         err => reject(err),

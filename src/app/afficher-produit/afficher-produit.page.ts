@@ -81,7 +81,8 @@ export class AfficherProduitPage implements OnInit {
             await loading.present();
             produit.nom = this.form.value.nomForm;
             produit.quantite = this.form.value.quantiteForm;
-            produit.prix = this.form.value.prixForm;
+            produit.prixVente = this.form.value.prixForm;
+            produit.prixAchat = this.form.value.prixAchatForm;
             produit.codeProduit = this.form.value.codeProduitForm;
             produit.TVA = this.form.value.TVAForm;
             produit.codeProduitFournisseur = this.form.value.codeProduitFournisseurForm
@@ -168,10 +169,12 @@ export class AfficherProduitPage implements OnInit {
     this.form = this.formBuilder.group({
       nomForm: [this.produit.nom],
       quantiteForm: [this.produit.quantite],
-      prixForm: [this.produit.prix],
+      prixVenteForm: [this.produit.prixVente],
+      prixAchatForm: [this.produit.prixAchat],
       codeProduitForm: [this.produit.codeProduit],
       TVAForm: [this.produit.TVA],
-      codeProduitFournisseurForm:[this.produit.codeProduitFournisseur]
+      codeProduitFournisseurForm:[this.produit.codeProduitFournisseur],
+    //  quantiteCommandeeForm:[this.produit.quantiteCommandee]
     });
     console.log(this.produit.keyFournisseur)
     this.clientsService.getClientSepare(this.produit.keyFournisseur).subscribe(fournisseurs => {

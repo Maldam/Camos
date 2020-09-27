@@ -27,9 +27,6 @@ export class ClientsService {
     public contactsService: ContactsService,
     private camera: Camera,
   ) {
-    //  this.getClients('Clients').subscribe(clients => {
-    //    this.clients2 = clients;
-    //  });
   }
   public createClient(client: ClientModele, coordonnees: CoordonneesModele, dossier: string) {
     var keyClient = this.angularFireDatabase.list(dossier).push(client).key

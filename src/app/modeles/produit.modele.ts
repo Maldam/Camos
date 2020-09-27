@@ -2,7 +2,8 @@ export class ProduitModele {
   public key: string;
   public nom: string = null;
   public codeProduit: string = "";
-  public prix: number = 0;
+  public prixVente: number = 0;
+  public prixAchat: number = 0;
   public quantite: number = 0;
   public type: string = "";
   public categorie: string ="";
@@ -11,6 +12,7 @@ export class ProduitModele {
   public codeProduitFournisseur: string="";
   public imageURL: string = "";
   public keyFournisseur:string="";
+  public quantiteCommandee: number =0;
   constructor(
   ) { }
 }
