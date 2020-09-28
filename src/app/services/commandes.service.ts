@@ -35,11 +35,10 @@ export class CommandesService {
     })
   }
   public getCommandes(typeCommande: string, commandeLivree: number): Observable<Array<CommandeModele>> {
-    let commandes: Array<CommandeModele> = new Array<CommandeModele>();
-
     return new Observable<Array<CommandeModele>>(observer => {
       this.angularFireDatabase.list('Commandes' + typeCommande + '/', ref => ref.orderByChild('commandeLivree')
         .equalTo(commandeLivree)).snapshotChanges(['child_added', 'child_removed', 'child_changed', 'child_moved']).subscribe(commandesRecus => {
+    let commandes: Array<CommandeModele> = new Array<CommandeModele>();
           commandesRecus.forEach(commandeRecus => {
             let commande: CommandeModele = new CommandeModele();
             commande.key = commandeRecus.key,

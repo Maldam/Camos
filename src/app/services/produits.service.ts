@@ -20,9 +20,9 @@ export class ProduitsService {
     public angularFireAuth: AngularFireAuth,
     private camera: Camera,
   ) {
-    this.getProduits().subscribe(produits => {
-      this.produits2 = produits;
-    });
+    // this.getProduits().subscribe(produits => {
+    //   this.produits2 = produits;
+    // });
   }
   public createProduit(produit: ProduitModele) {
     return new Promise<any>((resolve, reject) => {

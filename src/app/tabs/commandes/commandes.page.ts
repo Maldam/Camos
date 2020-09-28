@@ -17,6 +17,7 @@ export class CommandesPage implements OnInit {
   public userId: string;
   public mail: string;
   public method: any;
+  public color: string ='';
   //private commandeLivree: number = 0
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
