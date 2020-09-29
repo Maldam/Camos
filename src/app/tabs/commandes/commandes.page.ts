@@ -17,7 +17,7 @@ export class CommandesPage implements OnInit {
   public userId: string;
   public mail: string;
   public method: any;
-  public color: string ='';
+  //public color: string ='';
   //private commandeLivree: number = 0
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
@@ -66,7 +66,8 @@ export class CommandesPage implements OnInit {
   }
   public versVueCommande(commande: CommandeModele) {
     this.router.navigate(["afficher-commande"], { state: { data: commande,
-    typeCommandes: this.typeCommandes
+    typeCommandes: this.typeCommandes,
+    archive: this.archive
     } });
   }
   public deconnexion() {
@@ -112,8 +113,9 @@ export class CommandesPage implements OnInit {
   //  this.commandes = new Array<CommandeModele>()
 
   }
-  public archiverCommande(commande: CommandeModele, numeroArchive: number){
+  public archiverCommande(commande: CommandeModele, numeroArchive: number, commandeFacturee: string){
     commande.commandeLivree=numeroArchive;
+    commande.commandeFacturee=commandeFacturee;
     this.commandesService.updateCommandeLivree(commande, this.typeCommandes)
     if(!this.archive){
       if(this.commandeChange){

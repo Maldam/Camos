@@ -54,6 +54,7 @@ export class CommandesService {
               commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,
               commande.keyClient = commandeRecus.payload.exportVal().keyClient,
               commande.commandeLivree = commandeRecus.payload.exportVal().commandeLivree,
+              commande.commandeFacturee = commandeRecus.payload.exportVal().commandeFacturee,
               commandes.push(commande);
 
           })
@@ -80,7 +81,10 @@ export class CommandesService {
     })
   }
   public updateCommandeLivree(commande: CommandeModele, typeCommande: string) {
-    this.angularFireDatabase.list('Commandes' + typeCommande + '/').update(commande.key, { commandeLivree: commande.commandeLivree })
+    this.angularFireDatabase.list('Commandes' + typeCommande + '/').update(commande.key, { 
+      commandeLivree: commande.commandeLivree, 
+      commandeFacturee:commande.commandeFacturee
+     })
     
   }
   public updateCommande(commande: CommandeModele, typeCommandes: string): Promise<void> {
@@ -97,6 +101,7 @@ export class CommandesService {
         dateLivraison: commande.dateLivraison,
         keyClient: commande.keyClient,
         commandeLivree: commande.commandeLivree,
+        commandeFacturee: commande.commandeFacturee,
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -191,24 +196,16 @@ export class CommandesService {
     });
   }
   public updateProduitsLivres(commandeProduit: CommandeProduitModele, dejaArchive: number){
-    console.log(dejaArchive)
     var total: number;
     var totalCommande: number;
     var ref = firebase.database().ref('Produits/');
     if(dejaArchive===0){
-      console.log("ici")
       ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
         total = snapshot.exportVal().quantite
         totalCommande = snapshot.exportVal().quantiteCommandee
     })
-    console.log(total)
-    console.log(totalCommande)
-    console.log(commandeProduit.quantite)
-
     var quantite: number = Number(total) + Number(commandeProduit.quantite)
     var quantiteCommandee: number = Number(totalCommande) - Number(commandeProduit.quantite)
-    console.log(quantite)
-    console.log(quantiteCommandee)
     this.angularFireDatabase.list('Produits/').update(commandeProduit.keyProduit, { 
       quantiteCommandee: quantiteCommandee, 
       quantite: quantite
@@ -230,7 +227,6 @@ export class CommandesService {
   public updateProduit(produit: ProduitModele) {
     var total: number;
     var ref = firebase.database().ref('Produits/');
-
     if (produit.quantiteCommandee === 0) {
       ref.child(produit.key).on("value", function (snapshot) {
         total = snapshot.exportVal().quantite

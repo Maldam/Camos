@@ -40,6 +40,9 @@ export class AfficherCommandePage implements OnInit {
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
   public totalTVA: number = 0;
   public typeCommandes: string;
+  private commandeOuFacture: string = "Récapitulatif de la commande numéro : " 
+  private archive: boolean = false;
+  private pdf: boolean = true;
   private coordonnees: Array<CoordonneesModele>;
   private pdfObj= null;
   constructor(private commandesService: CommandesService,
@@ -59,6 +62,13 @@ export class AfficherCommandePage implements OnInit {
       if (this.router.getCurrentNavigation().extras.state) {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
         this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
+        this.archive = this.router.getCurrentNavigation().extras.state.archive;
+        if(this.archive && this.typeCommandes==="Clients"){
+          this.commandeOuFacture = "Facture n° : "
+        }
+        if(this.typeCommandes!=="Clients"){
+          this.pdf=false
+        }
       }
     });
   }
@@ -114,6 +124,7 @@ export class AfficherCommandePage implements OnInit {
             await articleExiste.present();
           }
         }
+        this.commande = commande
         //}
         if (this.nouveauxArticlesAjoutes.length > 0) {
           this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
@@ -211,6 +222,9 @@ export class AfficherCommandePage implements OnInit {
   }
   public genererPDF() {
 
+    
+
+    
 
     const documentDefinition = {
       content: [
@@ -256,7 +270,7 @@ export class AfficherCommandePage implements OnInit {
           ]
         },
         {
-          text: 'Récapitulatif de la commande numéro : ' + this.commande.numeroCommande,
+          text: this.commandeOuFacture + this.commande.numeroCommande,
           style: 'header',
           bold: true,
         },
@@ -307,7 +321,16 @@ export class AfficherCommandePage implements OnInit {
         keywords: 'commande',
       },
     }
-    this.pdfObj = pdfMake.createPdf(documentDefinition).open();
+    if(this.commande.commandeFacturee!==""){
+      if(confirm('Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.')){
+        this.pdfObj = pdfMake.createPdf(documentDefinition).open();
+        this.commande.commandeFacturee=""
+        this.commandesService.updateCommande(this.commande, this.typeCommandes)
+
+      }
+    } else {
+      this.pdfObj = pdfMake.createPdf(documentDefinition).open();
+    }
     // this.downloadPdf();
   }
   // public downloadPdf() {

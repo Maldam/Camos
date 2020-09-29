@@ -147,17 +147,17 @@
       placeholder="Choisissez une date de livraison" (change)="estChange=true"></ion-datetime>
   </ion-item>
   <ion-item></ion-item>
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab *ngIf="!archive" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveCommande(commande)">
       <ion-icon name="trash"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab *ngIf="!archive" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="success" (click)="UpdateCommande(commande,'Êtes-vous sûr de vouloir modifier le commande?')">
       <ion-icon name="save"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-button (click)="genererPDF()" expand="block" color="primary">
+  <ion-button *ngIf="pdf" (click)="genererPDF()" expand="block" color="primary">
     <ion-icon name="checkmark"></ion-icon>PDF
   </ion-button>
 </ion-content>
