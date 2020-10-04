@@ -39,10 +39,8 @@ export class AjouterCommandePage implements OnInit {
     this.activatedRoute.queryParams.subscribe(() => {
       this.commandeChange = this.router.getCurrentNavigation().extras.state.data
       if (!this.commandeChange) {
-        //this.typeCommandes = "client"
         this.typeCommandes = "Clients"
       } else {
-        // this.entreprise = "fournisseur"
         this.typeCommandes="Fournisseurs"
       }
     });
@@ -134,18 +132,12 @@ export class AjouterCommandePage implements OnInit {
             commandeProduit.prix = this.produit.prixVente
           } else {
             commandeProduit.prix = this.produit.prixAchat
-
           }
-          
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA,
-          
         commandeProduit.codeProduit = this.produit.codeProduit
-        
-        this.commandesProduits.push(commandeProduit)
-        
+        this.commandesProduits.push(commandeProduit) 
       }
-      
     })
     return await modal.present()
   }

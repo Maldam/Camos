@@ -40,11 +40,11 @@ export class AfficherCommandePage implements OnInit {
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
   public totalTVA: number = 0;
   public typeCommandes: string;
-  private commandeOuFacture: string = "Récapitulatif de la commande numéro : " 
+  private commandeOuFacture: string = "Récapitulatif de la commande numéro : "
   private archive: boolean = false;
   private pdf: boolean = true;
   private coordonnees: Array<CoordonneesModele>;
-  private pdfObj= null;
+  private pdfObj = null;
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -55,7 +55,7 @@ export class AfficherCommandePage implements OnInit {
     private modalController: ModalController,
     private coordonneesService: CoordonneesService,
     private plt: Platform,
-    private file: File, 
+    private file: File,
     private fileOpener: FileOpener,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
@@ -63,11 +63,11 @@ export class AfficherCommandePage implements OnInit {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
         this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
         this.archive = this.router.getCurrentNavigation().extras.state.archive;
-        if(this.archive && this.typeCommandes==="Clients"){
+        if (this.archive && this.typeCommandes === "Clients") {
           this.commandeOuFacture = "Facture n° : "
         }
-        if(this.typeCommandes!=="Clients"){
-          this.pdf=false
+        if (this.typeCommandes !== "Clients") {
+          this.pdf = false
         }
       }
     });
@@ -93,7 +93,6 @@ export class AfficherCommandePage implements OnInit {
       buttons: ['OK']
     });
     var changementNomOK = false;
-    //if (confirm(errorMessage)) {
     await loading.present();
     if (this.estChange) {
       if (confirm(errorMessage)) {
@@ -109,7 +108,6 @@ export class AfficherCommandePage implements OnInit {
             changementNomOK = true
           }
           if (changementNomOK) {
-            //if (confirm(errorMessage)) {
             commande.numeroCommande = this.form.value.numeroCommandeForm;
             commande.nomClient = this.form.value.nomClientForm;
             commande.pseudoClient = this.form.value.pseudoClientForm,
@@ -119,13 +117,11 @@ export class AfficherCommandePage implements OnInit {
               });
             this.estChange = false;
             this.numeroChange = false;
-            //}
           } else {
             await articleExiste.present();
           }
         }
         this.commande = commande
-        //}
         if (this.nouveauxArticlesAjoutes.length > 0) {
           this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
             this.commandesService.createCommandeProduit(nouvelArticleAjoute, this.typeCommandes).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>(), this.calculPrix() }
@@ -144,7 +140,6 @@ export class AfficherCommandePage implements OnInit {
       }
     }
     loading.dismiss();
-    // }
   }
   public async choixClientModal() {
     var entreprise: string = this.typeCommandes
@@ -154,8 +149,8 @@ export class AfficherCommandePage implements OnInit {
     });
     modal.onWillDismiss().then(dataReturned => {
       if (dataReturned.data) {
-      var client: ClientModele;
-      client = dataReturned.data;
+        var client: ClientModele;
+        client = dataReturned.data;
         this.form = this.formBuilder.group({
           numeroCommandeForm: [this.commande.numeroCommande],
           nomClientForm: [client.nom],
@@ -187,7 +182,6 @@ export class AfficherCommandePage implements OnInit {
     }
   }
   public quantitePrixEstChange(commandeProduit: CommandeProduitModele, i: number) {
-    //this.commandeProduit.prix = commandeProduit.prix
     if (i === 2) {
       this.articlesModifies.push(commandeProduit)
     }
@@ -207,7 +201,7 @@ export class AfficherCommandePage implements OnInit {
     });
     modal.onWillDismiss().then(dataReturned => {
       if (dataReturned.data) {
-      this.produit = dataReturned.data;
+        this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
           commandeProduit.numeroCommande = this.commande.numeroCommande,
@@ -221,11 +215,6 @@ export class AfficherCommandePage implements OnInit {
     return await modal.present()
   }
   public genererPDF() {
-
-    
-
-    
-
     const documentDefinition = {
       content: [
         this.getProfilePicObject(),
@@ -321,47 +310,16 @@ export class AfficherCommandePage implements OnInit {
         keywords: 'commande',
       },
     }
-    if(this.commande.commandeFacturee!==""){
-      if(confirm('Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.')){
+    if (this.commande.commandeFacturee !== "") {
+      if (confirm('Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.')) {
         this.pdfObj = pdfMake.createPdf(documentDefinition).open();
-        this.commande.commandeFacturee=""
+        this.commande.commandeFacturee = ""
         this.commandesService.updateCommande(this.commande, this.typeCommandes)
-
       }
     } else {
       this.pdfObj = pdfMake.createPdf(documentDefinition).open();
     }
-    // this.downloadPdf();
   }
-  // public downloadPdf() {
-  //   console.log ('0')
-
-  //  // console.log(this.plt.is()
-  //   if (this.plt.is('desktop')) {
-  //     console.log ('1')
-
-  //     this.pdfObj.getBuffer((buffer) => {
-  //     console.log ('2')
-
-  //       var blob = new Blob([buffer], { type: 'application/pdf' });
-  //     console.log ('3')
-
- 
-  //       // Save the PDF to the data Directory of our App
-  //       this.file.writeFile(this.file.dataDirectory, 'Commande.pdf', blob, { replace: true }).then(fileEntry => {
-  //         // Open the PDf with the correct OS tools
-  //     console.log ('4')
-          
-  //         this.fileOpener.open(this.file.dataDirectory + 'Commande.pdf', 'application/pdf');
-  //       })
-  //     });
-  //   } else {
-  //     // On a browser simply use download!
-  //     this.pdfObj.download();
-  //     console.log ('là')
-
-  //   }
-  // }
   public getListeProduits(listeProduits: Array<CommandeProduitModele>) {
     return {
       table: {
@@ -427,8 +385,8 @@ export class AfficherCommandePage implements OnInit {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });
-    this.coordonneesService.getCoordonnees(this.commande.keyClient).subscribe(coordonneess => 
+    this.coordonneesService.getCoordonnees(this.commande.keyClient).subscribe(coordonneess =>
       this.coordonnees = coordonneess
-      )
+    )
   }
 }
