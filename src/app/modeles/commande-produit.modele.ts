@@ -8,7 +8,7 @@ export class CommandeProduitModele {
     public keyProduit: string;
     public pourcentageProduit: number = 0;
  //   public date: number = 0;
-    public numeroCommande: number = null;
+    public keyCommande: string = "";
     public TVAProduit: number = 0;
     public livree: number = 0;
     constructor(

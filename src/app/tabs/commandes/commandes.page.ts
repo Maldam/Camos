@@ -104,7 +104,7 @@ export class CommandesPage implements OnInit {
     this.commandesService.updateCommandeLivree(commande, this.typeCommandes)
     if (!this.archive) {
       if (this.commandeChange) {
-        this.commandesService.getCommandesProduits(commande.numeroCommande, this.typeCommandes).subscribe(commandesProduits => {
+        this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
           commandesProduits.forEach(produit => {
             this.commandesService.updateProduitsLivres(produit, 0)
           })
@@ -113,7 +113,7 @@ export class CommandesPage implements OnInit {
       this.recupererListeCommandes(0)
     } else {
       if (this.commandeChange) {
-        this.commandesService.getCommandesProduits(commande.numeroCommande, this.typeCommandes).subscribe(commandesProduits => {
+        this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
           commandesProduits.forEach(produit => {
             this.commandesService.updateProduitsLivres(produit, 1)
           })

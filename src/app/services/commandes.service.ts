@@ -26,13 +26,10 @@ export class CommandesService {
     // });
   }
   public createCommande(commande: CommandeModele, typeCommandes: string) {
-    return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('Commandes' + typeCommandes + '/').push(commande)
-        .then(
-          res => resolve(res),
-          err => reject(err)
-        )
-    })
+    
+    return  this.angularFireDatabase.list('Commandes' + typeCommandes + '/').push(commande).key
+        
+
   }
   public getCommandes(typeCommande: string, commandeLivree: number): Observable<Array<CommandeModele>> {
     return new Observable<Array<CommandeModele>>(observer => {
@@ -73,7 +70,7 @@ export class CommandesService {
         //imageURL: commandeProduit.imageURL,
         keyProduit: commandeProduit.keyProduit,
         pourcentageProduit: commandeProduit.pourcentageProduit,
-        numeroCommande: commandeProduit.numeroCommande,
+        keyCommande: commandeProduit.keyCommande,
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -147,9 +144,9 @@ export class CommandesService {
       this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/').remove(commandeProduit.key).catch(error => console.log(error));
     });
   }
-  public getCommandesProduits(numeroCommande: number, typeCommandes: string): Observable<Array<CommandeProduitModele>> {
+  public getCommandesProduits(keyCommande: string, typeCommandes: string): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
-      this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/', ref => ref.orderByChild('numeroCommande').equalTo(numeroCommande)).snapshotChanges().subscribe(
+      this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/', ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges().subscribe(
         commandesRecus => {
           let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
           commandesRecus.forEach(commandeRecus => {
@@ -161,7 +158,7 @@ export class CommandesService {
               //commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
               commandeProduit.keyProduit = commandeRecus.payload.exportVal().keyProduit,
               commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
-              commandeProduit.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+              commandeProduit.keyCommande = commandeRecus.payload.exportVal().keyCommande,
               commandeProduit.TVAProduit = commandeRecus.payload.exportVal().TVAProduit,
               commandeProduit.codeProduit = commandeRecus.payload.exportVal().codeProduit,
               commandesProduits.push(commandeProduit);

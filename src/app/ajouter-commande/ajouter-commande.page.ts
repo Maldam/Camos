@@ -41,7 +41,7 @@ export class AjouterCommandePage implements OnInit {
       if (!this.commandeChange) {
         this.typeCommandes = "Clients"
       } else {
-        this.typeCommandes="Fournisseurs"
+        this.typeCommandes = "Fournisseurs"
       }
     });
   }
@@ -74,28 +74,31 @@ export class AjouterCommandePage implements OnInit {
           this.commande.pseudoClient = this.client.pseudo,
           this.commande.numeroTVAClient = this.client.numeroTVA,
           this.commandeProduit.produitNom = this.produit.nom,
-          this.commandeProduit.keyProduit = this.produit.key,
+          this.commandeProduit.keyProduit = this.produit.key
+          var keyCommande = this.commandesService.createCommande(this.commande, this.typeCommandes)
+
           this.commandesProduits.forEach(commandeProduit => {
+commandeProduit.keyCommande=keyCommande
             this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes).then(x => {
             })
           });
-        this.commandesService.createCommande(this.commande, this.typeCommandes).then(ref => {
-          this.total = 0,
-            this.totalTVA = 0,
-            this.commande = new CommandeModele
-          this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
-            this.commande.dateCommande = Date.now()
-          this.commande.numeroCommande = this.commande.dateCommande
-        });
+        // .then(ref => {F
+        this.total = 0,
+          this.totalTVA = 0,
+          this.commande = new CommandeModele
+        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
+          this.commande.dateCommande = Date.now()
+        this.commande.numeroCommande = this.commande.dateCommande
+        // });
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
           produit.key = commandeProduit.keyProduit;
-          if(!this.commandeChange) { 
+          if (!this.commandeChange) {
             produit.quantite = commandeProduit.quantite;
           } else {
             produit.quantiteCommandee = commandeProduit.quantite;
           }
-          
+
           this.commandesService.updateProduit(produit)
         });
         await loading.dismiss();
@@ -126,17 +129,19 @@ export class AjouterCommandePage implements OnInit {
       if (dataReturned.data) {
         this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-        commandeProduit.produitNom = this.produit.nom,
-          commandeProduit.numeroCommande = this.commande.numeroCommande
-          if(this.typeCommandes=== "Clients"){
-            commandeProduit.prix = this.produit.prixVente
-          } else {
-            commandeProduit.prix = this.produit.prixAchat
-          }
-          commandeProduit.keyProduit = this.produit.key,
+        commandeProduit.produitNom = this.produit.nom
+//        commandeProduit.keyCommande = this.commande.key,
+
+  
+        if (this.typeCommandes === "Clients") {
+          commandeProduit.prix = this.produit.prixVente
+        } else {
+          commandeProduit.prix = this.produit.prixAchat
+        }
+        commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA,
-        commandeProduit.codeProduit = this.produit.codeProduit
-        this.commandesProduits.push(commandeProduit) 
+          commandeProduit.codeProduit = this.produit.codeProduit
+        this.commandesProduits.push(commandeProduit)
       }
     })
     return await modal.present()

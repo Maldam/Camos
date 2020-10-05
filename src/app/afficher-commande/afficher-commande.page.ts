@@ -14,8 +14,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DonneesEntrepriseModele } from '../modeles/donnees-entreprise.modele';
 import { CoordonneesModele } from '../modeles/coordonnees.modele';
 import { CoordonneesService } from '../services/coordonnees.service';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { File } from '@ionic-native/file/ngx';
+//import { FileOpener } from '@ionic-native/file-opener/ngx';
+//import { File } from '@ionic-native/file/ngx';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-afficher-commande',
@@ -55,8 +55,8 @@ export class AfficherCommandePage implements OnInit {
     private modalController: ModalController,
     private coordonneesService: CoordonneesService,
     private plt: Platform,
-    private file: File,
-    private fileOpener: FileOpener,
+    //private file: File,
+    //private fileOpener: FileOpener,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -79,66 +79,11 @@ export class AfficherCommandePage implements OnInit {
       this.navCtrl.back()
     }
   }
-  public async UpdateCommande(commande: CommandeModele, errorMessage: string) {
-    const loading = await this.loadingController.create({
-    });
-    const articleExiste = await this.alertController.create({
-      header: 'Attention',
-      message: 'Cet article existe déjà',
-      buttons: ['OK']
-    });
-    const alertNom = await this.alertController.create({
-      header: 'Attention',
-      message: 'Nous avons besoin d\'un nom de commande',
-      buttons: ['OK']
-    });
-    var changementNomOK = false;
-    await loading.present();
-    if (this.estChange) {
-      if (confirm(errorMessage)) {
-        if (this.form.value.nomForm === "") {
-          loading.dismiss();
-          await alertNom.present();
-        } else {
-          if (this.numeroChange) {
-            if (this.commandesService.numeroIndex(this.form.value.nomForm) === -1) {
-              changementNomOK = true
-            }
-          } else {
-            changementNomOK = true
-          }
-          if (changementNomOK) {
-            commande.numeroCommande = this.form.value.numeroCommandeForm;
-            commande.nomClient = this.form.value.nomClientForm;
-            commande.pseudoClient = this.form.value.pseudoClientForm,
-              commande.numeroTVAClient = this.form.value.numeroTVAClientForm,
-              commande.notes = this.form.value.notesForm,
-              await this.commandesService.updateCommande(commande, this.typeCommandes).then(ref => {
-              });
-            this.estChange = false;
-            this.numeroChange = false;
-          } else {
-            await articleExiste.present();
-          }
-        }
-        this.commande = commande
-        if (this.nouveauxArticlesAjoutes.length > 0) {
-          this.nouveauxArticlesAjoutes.forEach(nouvelArticleAjoute => {
-            this.commandesService.createCommandeProduit(nouvelArticleAjoute, this.typeCommandes).then(x => { this.nouveauxArticlesAjoutes = new Array<CommandeProduitModele>(), this.calculPrix() }
-            )
-          });
-        }
-        if (this.articlesModifies.length > 0) {
-          this.articlesModifies.forEach(element => {
-            this.commandesService.updateListeProduit(element, this.typeCommandes).then(x => { this.articlesModifies = new Array<CommandeProduitModele>() })
-          });
-        }
-        if (this.produitASupprimer.length > 0) {
-          this.commandesService.deleteCommandeProduit(this.produitASupprimer, this.typeCommandes)
-          this.produitASupprimer = new Array<CommandeProduitModele>()
-        }
-      }
-    }
+  public async UpdateCommande() {
+    const loading = await this.loadingController.create({});
+    loading.present();
+    this.commande.notes = this.form.value.notesForm,
+    this.commandesService.updateCommande(this.commande,this.typeCommandes)
     loading.dismiss();
   }
   public async choixClientModal() {
@@ -151,11 +96,12 @@ export class AfficherCommandePage implements OnInit {
       if (dataReturned.data) {
         var client: ClientModele;
         client = dataReturned.data;
+        this.commande.keyClient = client.key
+        this.commande.nomClient = client.nom,
+        this.commande.pseudoClient = client.pseudo,
+        this.commande.numeroTVAClient = client.numeroTVA
         this.form = this.formBuilder.group({
-          numeroCommandeForm: [this.commande.numeroCommande],
-          nomClientForm: [client.nom],
-          pseudoClientForm: [client.pseudo],
-          numeroTVAClientForm: [client.numeroTVA],
+          //numeroCommandeForm: [this.commande.numeroCommande],
           notesForm: [this.commande.notes],
         });
         this.commande.keyClient = client.key
@@ -204,7 +150,7 @@ export class AfficherCommandePage implements OnInit {
         this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
-          commandeProduit.numeroCommande = this.commande.numeroCommande,
+         // commandeProduit.keyCommande = this.commande.key,
           commandeProduit.prix = this.produit.prixVente,
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
@@ -375,13 +321,9 @@ export class AfficherCommandePage implements OnInit {
   }
   public ngOnInit() {
     this.form = this.formBuilder.group({
-      numeroCommandeForm: [this.commande.numeroCommande],
-      nomClientForm: [this.commande.nomClient],
-      pseudoClientForm: [this.commande.pseudoClient],
-      numeroTVAClientForm: [this.commande.numeroTVAClient],
       notesForm: [this.commande.notes],
     });
-    this.commandesService.getCommandesProduits(this.commande.numeroCommande, this.typeCommandes).subscribe(commandesProduits => {
+    this.commandesService.getCommandesProduits(this.commande.key, this.typeCommandes).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });
