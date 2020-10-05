@@ -1,6 +1,5 @@
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { CommandeModele } from '../modeles/commande.modele';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { CommandesService } from '../services/commandes.service';
 import { NavController, LoadingController, AlertController, ModalController, Platform } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,9 +22,6 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./afficher-commande.page.scss'],
 })
 export class AfficherCommandePage implements OnInit {
-  public estChange: boolean = false;
-  public numeroChange: boolean = false;
-  public form: FormGroup;
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
@@ -41,7 +37,7 @@ export class AfficherCommandePage implements OnInit {
   public totalTVA: number = 0;
   public typeCommandes: string;
   private commandeOuFacture: string = "Récapitulatif de la commande numéro : "
-  private archive: boolean = false;
+  private livraisons: boolean = false;
   private pdf: boolean = true;
   private coordonnees: Array<CoordonneesModele>;
   private pdfObj = null;
@@ -49,7 +45,6 @@ export class AfficherCommandePage implements OnInit {
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder,
     public loadingController: LoadingController,
     public alertController: AlertController,
     private modalController: ModalController,
@@ -62,12 +57,12 @@ export class AfficherCommandePage implements OnInit {
       if (this.router.getCurrentNavigation().extras.state) {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
         this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
-        this.archive = this.router.getCurrentNavigation().extras.state.archive;
-        if (this.archive && this.typeCommandes === "Clients") {
+        this.livraisons = this.router.getCurrentNavigation().extras.state.livraisons;
+        if (this.livraisons && this.typeCommandes === "Clients") {
           this.commandeOuFacture = "Facture n° : "
         }
         if (this.typeCommandes !== "Clients") {
-          this.pdf = false
+          this.pdf=false
         }
       }
     });
@@ -77,7 +72,6 @@ export class AfficherCommandePage implements OnInit {
       this.commandesService.deleteCommande(commande, this.typeCommandes);
       this.commandesProduits.forEach(produit=>{
         this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
-
       })
       this.navCtrl.back()
     }
@@ -85,9 +79,7 @@ export class AfficherCommandePage implements OnInit {
   public async updateCommande() {
     const loading = await this.loadingController.create({});
     loading.present();
-    this.commande.notes = this.form.value.notesForm,
     this.commandesService.updateCommande(this.commande,this.typeCommandes)
-    this.estChange=false
     loading.dismiss();
   }
   public async choixClientModal() {
@@ -104,12 +96,7 @@ export class AfficherCommandePage implements OnInit {
         this.commande.nomClient = client.nom,
         this.commande.pseudoClient = client.pseudo,
         this.commande.numeroTVAClient = client.numeroTVA
-        this.form = this.formBuilder.group({
-          //numeroCommandeForm: [this.commande.numeroCommande],
-          notesForm: [this.commande.notes],
-        });
         this.commande.keyClient = client.key
-        this.estChange = true
       }
     })
     return await modal.present()
@@ -310,9 +297,6 @@ export class AfficherCommandePage implements OnInit {
     return null;
   }
   public ngOnInit() {
-    this.form = this.formBuilder.group({
-      notesForm: [this.commande.notes],
-    });
     this.commandesService.getCommandesProduits(this.commande.key, this.typeCommandes).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()

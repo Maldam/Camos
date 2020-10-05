@@ -24,17 +24,7 @@ export class ClientsPage implements OnInit {
     public dialogs: Dialogs,
     public connexionService: ConnexionService,
     private coordonneesService: CoordonneesService,
-
   ) {
-    this.network.onDisconnect().subscribe(()=>
-    {
-      this.dialogs.alert("pas de connexion à internet")
-    });
-    this.network.onConnect().subscribe(()=>
-    {
-      setTimeout(()=>{
-      },2000);
-    });  
   }
   public rechercheClient(ev: any){    
     this.clients = this.listeClients
@@ -51,7 +41,6 @@ export class ClientsPage implements OnInit {
       dossier: this.dossier
     } })
   }
-
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }

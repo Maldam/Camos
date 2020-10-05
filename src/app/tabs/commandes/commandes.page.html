@@ -9,7 +9,7 @@
   <ion-label class="typeCommandes">Clients</ion-label>
   <ion-toggle color="success" (ionChange)="changeCommandes()"> </ion-toggle>
   <ion-label class="typeCommandes">Fournisseurs</ion-label>
-  <ion-button class="archive" name=boutton expand="block" color="success" (click)="versArchive()">{{typeArchive}}
+  <ion-button class="livraisons" name=boutton expand="block" color="success" (click)="versLivraisons()">{{typeLivraisons}}
   </ion-button>
   <ion-toolbar>
     <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheCommande($event)">
@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-fab *ngIf="!archive" id='ajouter' routerLink="/ajouter-commande" vertical="bottom" horizontal="end" slot="fixed"
+  <ion-fab *ngIf="!livraisons" id='ajouter' routerLink="/ajouter-commande" vertical="bottom" horizontal="end" slot="fixed"
     (click)="ajouterCommandes()">
     <ion-fab-button>
       <ion-icon name="create"></ion-icon>
@@ -33,10 +33,10 @@
           <ion-item>{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-item>
         </ion-item>
         <ion-item-options side="start">
-          <ion-item-option *ngIf="!archive" color="success" (click)="archiverCommande(commande,1,'warning')">
+          <ion-item-option *ngIf="!livraisons" color="success" (click)="livrerCommande(commande,1,'warning')">
             <ion-icon name="archive" slot="icon-only"></ion-icon>
           </ion-item-option>
-          <ion-item-option *ngIf="archive" color="danger" (click)="archiverCommande(commande,0,'')">
+          <ion-item-option *ngIf="livraisons" color="danger" (click)="livrerCommande(commande,0,'')">
             <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
           </ion-item-option>
         </ion-item-options>

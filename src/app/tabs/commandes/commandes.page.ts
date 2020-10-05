@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { ConnexionService } from '../../services/connexion.service';
 import { CommandesService } from 'src/app/services/commandes.service';
 import { Router } from '@angular/router';
-import { Network } from '@ionic-native/network/ngx';
-import { Dialogs } from '@ionic-native/dialogs/ngx';
 import { CommandeModele } from 'src/app/modeles/commande.modele';
 import { ModalController } from '@ionic/angular';
 import { ModalCommandesPage } from 'src/app/modals/modal-commandes/modal-commandes.page';
@@ -14,33 +11,18 @@ import { ModalCommandesPage } from 'src/app/modals/modal-commandes/modal-command
   styleUrls: ['commandes.page.scss']
 })
 export class CommandesPage implements OnInit {
-  public userId: string;
-  public mail: string;
-  public method: any;
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
   public typeCommandes: string = "Clients";
   public commandeChange: boolean = false;
-  public archive: boolean = false;
-  public typeArchive: string = "Commandes livrées";
+  public livraisons: boolean = false;
+  public typeLivraisons: string = "Commandes livrées";
   constructor(
-    public afAuth: AngularFireAuth,
     public connexionService: ConnexionService,
     public commandesService: CommandesService,
     public router: Router,
-    public network: Network,
-    public dialogs: Dialogs,
     private modalController: ModalController,
   ) {
-    this.afAuth.authState.subscribe(auth => {
-      if (!auth) {
-        console.log('non connecté');
-      } else {
-        this.userId = auth.uid;
-        this.mail = auth.email;
-        this.method = auth.providerData[0].providerId;
-      }
-    });
   }
   public rechercheCommande(ev: any) {
     this.commandes = this.listeCommandes
@@ -56,7 +38,7 @@ export class CommandesPage implements OnInit {
       state: {
         data: commande,
         typeCommandes: this.typeCommandes,
-        archive: this.archive
+        livraisons: this.livraisons
       }
     });
   }
@@ -75,8 +57,8 @@ export class CommandesPage implements OnInit {
     return await modal.present()
   }
   public changeCommandes() {
-    this.archive = false
-    this.typeArchive = "Commandes livrées"
+    this.livraisons = false
+    this.typeLivraisons = "Commandes livrées"
     this.commandeChange = !this.commandeChange
     if (this.commandeChange) {
       this.commandes = new Array<CommandeModele>()
@@ -87,9 +69,9 @@ export class CommandesPage implements OnInit {
       this.recupererListeCommandes(0)
     }
   }
-  public recupererListeCommandes(archive: number) {
+  public recupererListeCommandes(livraisons: number) {
     this.commandes = new Array<CommandeModele>()
-    this.commandesService.getCommandes(this.typeCommandes, archive).subscribe(commandes => {
+    this.commandesService.getCommandes(this.typeCommandes, livraisons).subscribe(commandes => {
       this.commandes = commandes;
       this.commandes.sort((a, b) => b.dateCommande - a.dateCommande);
       this.listeCommandes = this.commandes;
@@ -98,11 +80,11 @@ export class CommandesPage implements OnInit {
   public ajouterCommandes() {
     this.router.navigate(["ajouter-commande"], { state: { data: this.commandeChange } })
   }
-  public archiverCommande(commande: CommandeModele, numeroArchive: number, commandeFacturee: string) {
-    commande.commandeLivree = numeroArchive;
+  public livrerCommande(commande: CommandeModele, numeroLivraison: number, commandeFacturee: string) {
+    commande.commandeLivree = numeroLivraison;
     commande.commandeFacturee = commandeFacturee;
     this.commandesService.updateCommandeLivree(commande, this.typeCommandes)
-    if (!this.archive) {
+    if (!this.livraisons) {
       if (this.commandeChange) {
         this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
           commandesProduits.forEach(produit => {
@@ -122,13 +104,13 @@ export class CommandesPage implements OnInit {
       this.recupererListeCommandes(1)
     }
   }
-  versArchive() {
-    this.archive = !this.archive
-    if (this.archive) {
-      this.typeArchive = "Commandes en cours"
+  versLivraisons() {
+    this.livraisons = !this.livraisons
+    if (this.livraisons) {
+      this.typeLivraisons = "Commandes en cours"
       this.recupererListeCommandes(1)
     } else {
-      this.typeArchive = "Commandes livrées"
+      this.typeLivraisons = "Commandes livrées"
       this.recupererListeCommandes(0)
     }
   }
