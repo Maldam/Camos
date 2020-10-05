@@ -79,8 +79,7 @@ export class AjouterCommandePage implements OnInit {
 
           this.commandesProduits.forEach(commandeProduit => {
 commandeProduit.keyCommande=keyCommande
-            this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes).then(x => {
-            })
+            this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes)
           });
         // .then(ref => {F
         this.total = 0,
@@ -98,7 +97,6 @@ commandeProduit.keyCommande=keyCommande
           } else {
             produit.quantiteCommandee = commandeProduit.quantite;
           }
-
           this.commandesService.updateProduit(produit)
         });
         await loading.dismiss();
@@ -131,8 +129,6 @@ commandeProduit.keyCommande=keyCommande
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom
 //        commandeProduit.keyCommande = this.commande.key,
-
-  
         if (this.typeCommandes === "Clients") {
           commandeProduit.prix = this.produit.prixVente
         } else {

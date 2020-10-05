@@ -34,54 +34,16 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Notes</ion-label>
-      <ion-textarea formControlName='notesForm' type="text" inputmode="text" (change)="estChange=true"></ion-textarea>
+      <ion-textarea formControlName='notesForm' type="text" inputmode="text" (click)="estChange=true"></ion-textarea>
+        <ion-fab-button *ngIf='estChange' slot='end' color="success" (click)="updateCommande()">
+          <ion-icon name="save"></ion-icon>
+        </ion-fab-button>
+      
     </ion-item>
   </form>
   <ion-item (click)="choixProduitModal()">
     <ion-label color='primary'>Ajouter un produit</ion-label>
   </ion-item>
-  <ion-card *ngFor="let nouvelArticleAjoute of nouveauxArticlesAjoutes">
-    <ion-item-sliding>
-      <ion-title id='titre'>{{nouvelArticleAjoute.produitNom}}</ion-title>
-      <ion-item>
-        <ion-note>
-          <ion-label position="floating">Quantité</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.quantite' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
-          </ion-textarea>
-        </ion-note>
-        <ion-note>
-          <ion-label position="floating">Prix</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.prix' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
-          </ion-textarea>
-        </ion-note>
-        <ion-note>
-          <ion-label position="floating">Réduction en %</ion-label>
-          <ion-textarea [(ngModel)]='nouvelArticleAjoute.pourcentageProduit' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(nouvelArticleAjoute,1);estChange=true">
-          </ion-textarea>
-        </ion-note>
-        <ion-note>
-          <ion-label position="floating">Total HTVA</ion-label>
-          <p></p>
-          <ion-label>
-            {{((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite-((nouvelArticleAjoute.prix*nouvelArticleAjoute.quantite)*nouvelArticleAjoute.pourcentageProduit/100)).toFixed(2)).replace('.',',')}}
-          </ion-label>
-        </ion-note>
-        <ion-note>
-          <ion-label position="floating">TVA</ion-label>
-          <p></p>
-          <ion-label>{{nouvelArticleAjoute.TVAProduit}} %</ion-label>
-        </ion-note>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteProduit(nouveauxArticlesAjoutes,nouvelArticleAjoute,1)">
-          <ion-icon name="trash" slot="icon-only"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-card>
   <ion-card *ngFor="let commandeProduit of commandesProduits">
     <ion-item-sliding>
       <ion-title id='titre'>{{commandeProduit.produitNom}}</ion-title>
@@ -89,19 +51,19 @@
         <ion-note>
           <ion-label position="floating">Quantité</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.quantite' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
+            (change)="produitModifie(commandeProduit)">
           </ion-textarea>
         </ion-note>
         <ion-note>
           <ion-label position="floating">Prix</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.prix' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
+            (change)="produitModifie(commandeProduit)">
           </ion-textarea>
         </ion-note>
         <ion-note>
           <ion-label position="floating">Réduction en %</ion-label>
           <ion-textarea [(ngModel)]='commandeProduit.pourcentageProduit' type="number" inputmode="number"
-            (change)="quantitePrixEstChange(commandeProduit,2);estChange=true">
+            (change)="produitModifie(commandeProduit)">
           </ion-textarea>
         </ion-note>
         <ion-note>
@@ -118,7 +80,7 @@
         </ion-note>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteProduit(commandesProduits,commandeProduit,2)">
+        <ion-item-option color="danger" (click)="deleteProduit(commandeProduit)">
           <ion-icon name="trash" slot="icon-only"></ion-icon>
         </ion-item-option>
       </ion-item-options>
@@ -127,7 +89,7 @@
   <ion-item>
     <ion-label position="floating">Réduction sur le total</ion-label>
     <ion-textarea [(ngModel)]='commande.pourcentageTotal' type="number" inputmode="number"
-      (change)="calculPrix(commande)">
+      (change)="calculPrix(commande); updateCommande()">
     </ion-textarea>
   </ion-item>
   <ion-item>
@@ -146,13 +108,8 @@
   </ion-item>
   <ion-item></ion-item>
   <ion-fab *ngIf="!archive" vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button color="danger" (click)="RemoveCommande(commande)">
+    <ion-fab-button color="danger" (click)="removeCommande(commande)">
       <ion-icon name="trash"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <ion-fab *ngIf="!archive" vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="success" (click)="UpdateCommande()">
-      <ion-icon name="save"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <ion-button *ngIf="pdf" (click)="genererPDF()" expand="block" color="primary">

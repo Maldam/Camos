@@ -32,11 +32,11 @@ export class AfficherCommandePage implements OnInit {
   public commandeProduit: CommandeProduitModele = new CommandeProduitModele();
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele;
-  public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
-  public articlesModifies: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+ // public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  //public articlesModifies: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public client: ClientModele;
   public total: number = 0;
-  public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  //public produitASupprimer: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public donneesEntreprise: DonneesEntrepriseModele = new DonneesEntrepriseModele();
   public totalTVA: number = 0;
   public typeCommandes: string;
@@ -72,18 +72,22 @@ export class AfficherCommandePage implements OnInit {
       }
     });
   }
-  public async RemoveCommande(commande: CommandeModele) {
+  public async removeCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
       this.commandesService.deleteCommande(commande, this.typeCommandes);
-      this.commandesService.deleteCommandeProduit(this.commandesProduits, this.typeCommandes)
+      this.commandesProduits.forEach(produit=>{
+        this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
+
+      })
       this.navCtrl.back()
     }
   }
-  public async UpdateCommande() {
+  public async updateCommande() {
     const loading = await this.loadingController.create({});
     loading.present();
     this.commande.notes = this.form.value.notesForm,
     this.commandesService.updateCommande(this.commande,this.typeCommandes)
+    this.estChange=false
     loading.dismiss();
   }
   public async choixClientModal() {
@@ -110,37 +114,6 @@ export class AfficherCommandePage implements OnInit {
     })
     return await modal.present()
   }
-  deleteProduit(produits: Array<CommandeProduitModele>, produit: CommandeProduitModele, i: number) {
-    const index = produits.indexOf(produit, 0);
-    if (i === 1) {
-      if (index > -1) {
-        this.nouveauxArticlesAjoutes.splice(index, 1);
-        this.calculPrix()
-      }
-    }
-    if (i === 2) {
-      if (index > -1) {
-        this.estChange = true
-        this.produitASupprimer.push(produit)
-        this.commandesProduits.splice(index, 1);
-        this.calculPrix()
-      }
-    }
-  }
-  public quantitePrixEstChange(commandeProduit: CommandeProduitModele, i: number) {
-    if (i === 2) {
-      this.articlesModifies.push(commandeProduit)
-    }
-    this.calculPrix()
-  }
-  public calculPrix() {
-    this.total = 0
-    this.totalTVA = 0
-    this.commandesProduits.forEach(element => { this.total += ((element.prix * element.quantite - ((element.prix * element.quantite) * element.pourcentageProduit / 100)) - ((element.prix * element.quantite - (((element.prix * element.quantite) * element.pourcentageProduit / 100))) * this.commande.pourcentageTotal / 100)) });
-    this.nouveauxArticlesAjoutes.forEach(element => { this.total += ((element.prix * element.quantite - ((element.prix * element.quantite) * element.pourcentageProduit / 100)) - ((element.prix * element.quantite - (((element.prix * element.quantite) * element.pourcentageProduit / 100))) * this.commande.pourcentageTotal / 100)) });
-    this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
-    this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
-  }
   public async choixProduitModal() {
     const modal = await this.modalController.create({
       component: ModalProduitPage,
@@ -155,10 +128,27 @@ export class AfficherCommandePage implements OnInit {
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
         commandeProduit.codeProduit = this.produit.codeProduit
-        this.nouveauxArticlesAjoutes.push(commandeProduit)
+        commandeProduit.keyCommande = this.commande.key
+      this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes)
       }
     })
     return await modal.present()
+  }
+  deleteProduit(produit: CommandeProduitModele) {
+    this.commandesService.deleteCommandeProduit(produit,this.typeCommandes)
+    this.calculPrix()
+  }
+  public produitModifie(commandeProduit: CommandeProduitModele) {
+    this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes)
+    this.calculPrix()      
+  }
+  public calculPrix() {
+    this.total = 0
+    this.totalTVA = 0
+    this.commandesProduits.forEach(element => { this.total += ((element.prix * element.quantite - ((element.prix * element.quantite) * element.pourcentageProduit / 100)) - ((element.prix * element.quantite - (((element.prix * element.quantite) * element.pourcentageProduit / 100))) * this.commande.pourcentageTotal / 100)) });
+    //this.nouveauxArticlesAjoutes.forEach(element => { this.total += ((element.prix * element.quantite - ((element.prix * element.quantite) * element.pourcentageProduit / 100)) - ((element.prix * element.quantite - (((element.prix * element.quantite) * element.pourcentageProduit / 100))) * this.commande.pourcentageTotal / 100)) });
+    this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
+    //this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
   }
   public genererPDF() {
     const documentDefinition = {

@@ -81,7 +81,7 @@ export class AfficherProduitPage implements OnInit {
             await loading.present();
             produit.nom = this.form.value.nomForm;
             produit.quantite = this.form.value.quantiteForm;
-            produit.prixVente = this.form.value.prixForm;
+            produit.prixVente = this.form.value.prixVenteForm;
             produit.prixAchat = this.form.value.prixAchatForm;
             produit.codeProduit = this.form.value.codeProduitForm;
             produit.TVA = this.form.value.TVAForm;
