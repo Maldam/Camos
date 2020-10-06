@@ -45,7 +45,6 @@ export class AjouterCommandePage implements OnInit {
       } else {
         this.typeCommandes = "Fournisseurs"
         this.dossierCommandes = "CommandesFournisseurs"
-
       }
     });
   }
@@ -85,15 +84,7 @@ export class AjouterCommandePage implements OnInit {
           commandeProduit.keyCommande = keyCommande
           this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes)
         });
-        // .then(ref => {F
-        this.total = 0,
-          this.totalTVA = 0,
-          this.commande = new CommandeModele
-        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
-          this.commande.dateCommande = Date.now()
-        this.commande.numeroCommande = this.commande.dateCommande
-        // });
-        this.commandesProduits.forEach(commandeProduit => {
+        this.commandesProduits.forEach(commandeProduit => { 
           let produit: ProduitModele = new ProduitModele();
           produit.key = commandeProduit.keyProduit;
           if (!this.fournisseurs) {
@@ -103,6 +94,15 @@ export class AjouterCommandePage implements OnInit {
           }
           this.commandesService.updateProduit(produit)
         });
+        // .then(ref => {F
+        this.total = 0,
+          this.totalTVA = 0,
+          this.commande = new CommandeModele
+        this.client = new ClientModele, this.produit = new ProduitModele, this.commandesProduits = new Array<CommandeProduitModele>(),
+          this.commande.dateCommande = Date.now()
+        this.commande.numeroCommande = this.commande.dateCommande
+        // });
+        
         await loading.dismiss();
         await alert.present();
       }

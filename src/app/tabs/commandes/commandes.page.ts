@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommandeModele } from 'src/app/modeles/commande.modele';
 import { ModalController } from '@ionic/angular';
 import { ModalCommandesPage } from 'src/app/modals/modal-commandes/modal-commandes.page';
+import { CoordonneesModele } from 'src/app/modeles/coordonnees.modele';
 @Component({
   selector: 'app-commandes',
   templateUrl: 'commandes.page.html',
@@ -13,6 +14,8 @@ import { ModalCommandesPage } from 'src/app/modals/modal-commandes/modal-command
 export class CommandesPage implements OnInit {
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
+  public listeLivraisons: Array<CommandeModele> = new Array<CommandeModele>();
+  public listeLivraisonRecherche: Array<CommandeModele> = new Array<CommandeModele>();
   public typeCommandes: string = "Clients";
   public dossierCommandes: string = "CommandesClients";
   public fournisseurs: boolean = false;
@@ -71,12 +74,23 @@ export class CommandesPage implements OnInit {
     }
   }
   public recupererListeCommandes(livraisons: number) {
-    //
+    this.commandes = new Array<CommandeModele>()
+
     //this.listeCommandes  = new Array<CommandeModele>()
-    this.commandesService.getCommandes(this.dossierCommandes).subscribe(commandes => {
+ this.commandesService.getCommandes(this.dossierCommandes, livraisons).subscribe(commandes => {
       this.commandes = commandes;
       this.commandes.sort((a, b) => b.dateCommande - a.dateCommande);
       this.listeCommandes = this.commandes;
+    });
+  }
+  public recupererListeLivraisons(livraisons: number) {
+    this.listeLivraisons = new Array<CommandeModele>()
+    
+    //this.listeCommandes  = new Array<CommandeModele>()
+    this.commandesService.getCommandes(this.dossierCommandes, livraisons).subscribe(commandes => {
+      this.listeLivraisons = commandes;
+      this.listeLivraisons.sort((a, b) => b.dateCommande - a.dateCommande);
+      this.listeLivraisonRecherche = this.listeLivraisons;
     });
   }
   public ajouterCommandes() {
@@ -88,30 +102,36 @@ export class CommandesPage implements OnInit {
     var numeroLivraison = Date.now()
     livraison.keyCommande = commande.key
     livraison.numeroCommande = numeroLivraison
-    livraison.commandeFacturee = "warning";    
+    livraison.commandeFacturee = "warning";
+    //this.sub.unsubscribe();
+
     this.commandesService.updateCommande(commande, this.dossierCommandes)
     this.commandesService.createCommande(livraison, 'LivraisonsClients')
+    
     //this.recupererListeCommandes(0)
-
   }
   public delivrerCommande(livraison: CommandeModele){
     var commande = {...livraison}
     commande.commandeLivree = 0;
     commande.commandeFacturee = "";    
     commande.key = livraison.keyCommande
+//    this.sub.unsubscribe();
+
     this.commandesService.updateCommande(commande, 'CommandesClients')
     this.commandesService.deleteCommande(livraison,this.dossierCommandes)
-   // this.recupererListeCommandes(1)
+    this.recupererListeLivraisons(1)
 
   }
   versLivraisons() {
-    this.commandes = new Array<CommandeModele>()
+    //this.commandes = new Array<CommandeModele>()
     this.livraisons = !this.livraisons
     if (this.livraisons) {
+ 
       this.typeLivraisons = "Commandes en cours"
       this.dossierCommandes = "LivraisonsClients"
-      this.recupererListeCommandes(1)
+      this.recupererListeLivraisons(1)
     } else {
+
       this.typeLivraisons = "Commandes livrées"
       this.dossierCommandes = "CommandesClients"
       this.recupererListeCommandes(0)

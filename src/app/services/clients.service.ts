@@ -44,7 +44,7 @@ export class ClientsService {
   }
   public getClients(dossier:string): Observable<Array<ClientModele>> {
     return new Observable<Array<ClientModele>>(observer => {
-      this.angularFireDatabase.list('/'+dossier).snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(clientsRecus => {
+      this.angularFireDatabase.list(dossier).snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(clientsRecus => {
         let clients: Array<ClientModele> = new Array<ClientModele>();
         clientsRecus.forEach(clientRecus => {
           let client: ClientModele = new ClientModele();

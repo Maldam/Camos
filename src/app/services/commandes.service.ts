@@ -28,9 +28,9 @@ export class CommandesService {
   public createCommande(commande: CommandeModele, dossierCommandes: string) {
     return this.angularFireDatabase.list(dossierCommandes).push(commande).key
   }
-  public getCommandes(dossierCommandes: string): Observable<Array<CommandeModele>> {
+  public getCommandes(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
     return new Observable<Array<CommandeModele>>(observer => {
-      this.angularFireDatabase.list(dossierCommandes).snapshotChanges(['child_added', 'child_removed', 'child_changed' ,'child_moved']).subscribe(commandesRecus => {
+      this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges([]).subscribe(commandesRecus => {
           let commandes: Array<CommandeModele> = new Array<CommandeModele>();
           commandesRecus.forEach(commandeRecus => {
             let commande: CommandeModele = new CommandeModele();
@@ -50,11 +50,40 @@ export class CommandesService {
               commande.commandeFacturee = commandeRecus.payload.exportVal().commandeFacturee,
               commande.keyCommande = commandeRecus.payload.exportVal().keyCommande,
               commandes.push(commande);
-          })
           observer.next(commandes);
+          })
         });
     });
   }
+
+  public getLivraisons(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
+    return new Observable<Array<CommandeModele>>(observer => {
+      this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges([]).subscribe(commandesRecus => {
+          let commandes: Array<CommandeModele> = new Array<CommandeModele>();
+          commandesRecus.forEach(commandeRecus => {
+            let commande: CommandeModele = new CommandeModele();
+            commande.key = commandeRecus.key,
+              commande.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+              commande.nomClient = commandeRecus.payload.exportVal().nomClient,
+              commande.pseudoClient = commandeRecus.payload.exportVal().pseudoClient,
+              commande.numeroTVAClient = commandeRecus.payload.exportVal().numeroTVAClient,
+              commande.notes = commandeRecus.payload.exportVal().notes,
+              //  commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
+              commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
+              // commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
+              commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
+              commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,
+              commande.keyClient = commandeRecus.payload.exportVal().keyClient,
+              commande.commandeLivree = commandeRecus.payload.exportVal().commandeLivree,
+              commande.commandeFacturee = commandeRecus.payload.exportVal().commandeFacturee,
+              commande.keyCommande = commandeRecus.payload.exportVal().keyCommande,
+              commandes.push(commande);
+          observer.next(commandes);
+          })
+        });
+    });
+  }
+
   public updateCommandeProduit(commandeProduit: CommandeProduitModele, typeCommandes: string): Promise<void> {
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/').update(commandeProduit.key, {
@@ -130,9 +159,9 @@ export class CommandesService {
     } else {
       ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
         total = snapshot.exportVal().quantiteCommandee
-      })
-      var resultat: number = Number(total) - Number(commandeProduit.quantite)
+        var resultat: number = Number(total) - Number(commandeProduit.quantite)
       this.angularFireDatabase.list('Produits/').update(commandeProduit.keyProduit, { quantiteCommandee: resultat })
+      })
     }
     this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/').remove(commandeProduit.key).catch(error => console.log(error));
   }

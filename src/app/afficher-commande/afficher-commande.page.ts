@@ -76,7 +76,7 @@ export class AfficherCommandePage implements OnInit {
   }
   public async removeCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
-      this.commandesService.deleteCommande(commande, this.typeCommandes);
+      this.commandesService.deleteCommande(commande, 'Commandes'+this.typeCommandes);
       this.commandesProduits.forEach(produit=>{
         this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
       })
@@ -244,7 +244,7 @@ export class AfficherCommandePage implements OnInit {
       if (confirm('Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.')) {
         this.pdfObj = pdfMake.createPdf(documentDefinition).open();
         this.commande.commandeFacturee = ""
-        this.commandesService.updateCommande(this.commande, this.typeCommandes)
+        this.commandesService.updateCommande(this.commande, 'Livraisons'+this.typeCommandes)
       }
     } else {
       this.pdfObj = pdfMake.createPdf(documentDefinition).open();
