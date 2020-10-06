@@ -26,8 +26,9 @@ export class AjouterCommandePage implements OnInit {
   public total: number = 0.00;
   public totalTVA: number = 0.00;
   public estChange: boolean = false;
-  public commandeChange: boolean = false;
+  public fournisseurs: boolean = false;
   public typeCommandes: string = "Clients";
+  public dossierCommandes: string = "CommandesClients"
   constructor(
     private commandesService: CommandesService,
     public router: Router,
@@ -37,11 +38,14 @@ export class AjouterCommandePage implements OnInit {
     private modalController: ModalController,
   ) {
     this.activatedRoute.queryParams.subscribe(() => {
-      this.commandeChange = this.router.getCurrentNavigation().extras.state.data
-      if (!this.commandeChange) {
+      this.fournisseurs = this.router.getCurrentNavigation().extras.state.fournisseurs
+      if (!this.fournisseurs) {
         this.typeCommandes = "Clients"
+        this.dossierCommandes = "CommandesClients"
       } else {
         this.typeCommandes = "Fournisseurs"
+        this.dossierCommandes = "CommandesFournisseurs"
+
       }
     });
   }
@@ -75,12 +79,12 @@ export class AjouterCommandePage implements OnInit {
           this.commande.numeroTVAClient = this.client.numeroTVA,
           this.commandeProduit.produitNom = this.produit.nom,
           this.commandeProduit.keyProduit = this.produit.key
-          var keyCommande = this.commandesService.createCommande(this.commande, this.typeCommandes)
+        var keyCommande = this.commandesService.createCommande(this.commande, this.dossierCommandes)
 
-          this.commandesProduits.forEach(commandeProduit => {
-commandeProduit.keyCommande=keyCommande
-            this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes)
-          });
+        this.commandesProduits.forEach(commandeProduit => {
+          commandeProduit.keyCommande = keyCommande
+          this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes)
+        });
         // .then(ref => {F
         this.total = 0,
           this.totalTVA = 0,
@@ -92,7 +96,7 @@ commandeProduit.keyCommande=keyCommande
         this.commandesProduits.forEach(commandeProduit => {
           let produit: ProduitModele = new ProduitModele();
           produit.key = commandeProduit.keyProduit;
-          if (!this.commandeChange) {
+          if (!this.fournisseurs) {
             produit.quantite = commandeProduit.quantite;
           } else {
             produit.quantiteCommandee = commandeProduit.quantite;
@@ -128,7 +132,7 @@ commandeProduit.keyCommande=keyCommande
         this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom
-//        commandeProduit.keyCommande = this.commande.key,
+        //        commandeProduit.keyCommande = this.commande.key,
         if (this.typeCommandes === "Clients") {
           commandeProduit.prix = this.produit.prixVente
         } else {

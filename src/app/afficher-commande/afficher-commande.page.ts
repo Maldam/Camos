@@ -38,6 +38,7 @@ export class AfficherCommandePage implements OnInit {
   public typeCommandes: string;
   private commandeOuFacture: string = "Récapitulatif de la commande numéro : "
   private livraisons: boolean = false;
+  private keyCommande: string;
   private pdf: boolean = true;
   private coordonnees: Array<CoordonneesModele>;
   private pdfObj = null;
@@ -58,6 +59,12 @@ export class AfficherCommandePage implements OnInit {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
         this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
         this.livraisons = this.router.getCurrentNavigation().extras.state.livraisons;
+        if(this.livraisons){
+          this.keyCommande = this.commande.keyCommande
+        } else{
+          this.keyCommande = this.commande.key
+        } ; 
+
         if (this.livraisons && this.typeCommandes === "Clients") {
           this.commandeOuFacture = "Facture n° : "
         }
@@ -297,7 +304,7 @@ export class AfficherCommandePage implements OnInit {
     return null;
   }
   public ngOnInit() {
-    this.commandesService.getCommandesProduits(this.commande.key, this.typeCommandes).subscribe(commandesProduits => {
+    this.commandesService.getCommandesProduits(this.keyCommande, this.typeCommandes).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });

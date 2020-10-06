@@ -33,10 +33,10 @@
           <ion-item>{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-item>
         </ion-item>
         <ion-item-options side="start">
-          <ion-item-option *ngIf="!livraisons" color="success" (click)="livrerCommande(commande,1,'warning')">
+          <ion-item-option *ngIf="!livraisons" color="success" (click)="livrerCommande(commande)">
             <ion-icon name="archive" slot="icon-only"></ion-icon>
           </ion-item-option>
-          <ion-item-option *ngIf="livraisons" color="danger" (click)="livrerCommande(commande,0,'')">
+          <ion-item-option *ngIf="livraisons" color="danger" (click)="delivrerCommande(commande)">
             <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
           </ion-item-option>
         </ion-item-options>

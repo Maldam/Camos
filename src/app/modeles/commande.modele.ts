@@ -13,6 +13,7 @@ export class CommandeModele {
     public dateLivraison: number = 0;
     public commandeLivree: number = 0;
     public commandeFacturee: string="";
+    public keyCommande: string=""
     constructor(
     ) { }
 }

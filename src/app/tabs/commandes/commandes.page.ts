@@ -14,7 +14,8 @@ export class CommandesPage implements OnInit {
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
   public typeCommandes: string = "Clients";
-  public commandeChange: boolean = false;
+  public dossierCommandes: string = "CommandesClients";
+  public fournisseurs: boolean = false;
   public livraisons: boolean = false;
   public typeLivraisons: string = "Commandes livrées";
   constructor(
@@ -59,8 +60,8 @@ export class CommandesPage implements OnInit {
   public changeCommandes() {
     this.livraisons = false
     this.typeLivraisons = "Commandes livrées"
-    this.commandeChange = !this.commandeChange
-    if (this.commandeChange) {
+    this.fournisseurs = !this.fournisseurs
+    if (this.fournisseurs) {
       this.commandes = new Array<CommandeModele>()
       this.typeCommandes = "Fournisseurs"
       this.recupererListeCommandes(0)
@@ -70,47 +71,49 @@ export class CommandesPage implements OnInit {
     }
   }
   public recupererListeCommandes(livraisons: number) {
-    this.commandes = new Array<CommandeModele>()
-    this.commandesService.getCommandes(this.typeCommandes, livraisons).subscribe(commandes => {
+    //
+    //this.listeCommandes  = new Array<CommandeModele>()
+    this.commandesService.getCommandes(this.dossierCommandes).subscribe(commandes => {
       this.commandes = commandes;
       this.commandes.sort((a, b) => b.dateCommande - a.dateCommande);
       this.listeCommandes = this.commandes;
     });
   }
   public ajouterCommandes() {
-    this.router.navigate(["ajouter-commande"], { state: { data: this.commandeChange } })
+    this.router.navigate(["ajouter-commande"], { state: { fournisseurs: this.fournisseurs } })
   }
-  public livrerCommande(commande: CommandeModele, numeroLivraison: number, commandeFacturee: string) {
-    commande.commandeLivree = numeroLivraison;
-    commande.commandeFacturee = commandeFacturee;
-    this.commandesService.updateCommandeLivree(commande, this.typeCommandes)
-    if (!this.livraisons) {
-      if (this.commandeChange) {
-        this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
-          commandesProduits.forEach(produit => {
-            this.commandesService.updateProduitsLivres(produit, 0)
-          })
-        });
-      }
-      this.recupererListeCommandes(0)
-    } else {
-      if (this.commandeChange) {
-        this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
-          commandesProduits.forEach(produit => {
-            this.commandesService.updateProduitsLivres(produit, 1)
-          })
-        });
-      }
-      this.recupererListeCommandes(1)
-    }
+  public livrerCommande(commande: CommandeModele) {
+    commande.commandeLivree = 1;
+    var livraison = {...commande}
+    var numeroLivraison = Date.now()
+    livraison.keyCommande = commande.key
+    livraison.numeroCommande = numeroLivraison
+    livraison.commandeFacturee = "warning";    
+    this.commandesService.updateCommande(commande, this.dossierCommandes)
+    this.commandesService.createCommande(livraison, 'LivraisonsClients')
+    //this.recupererListeCommandes(0)
+
+  }
+  public delivrerCommande(livraison: CommandeModele){
+    var commande = {...livraison}
+    commande.commandeLivree = 0;
+    commande.commandeFacturee = "";    
+    commande.key = livraison.keyCommande
+    this.commandesService.updateCommande(commande, 'CommandesClients')
+    this.commandesService.deleteCommande(livraison,this.dossierCommandes)
+   // this.recupererListeCommandes(1)
+
   }
   versLivraisons() {
+    this.commandes = new Array<CommandeModele>()
     this.livraisons = !this.livraisons
     if (this.livraisons) {
       this.typeLivraisons = "Commandes en cours"
+      this.dossierCommandes = "LivraisonsClients"
       this.recupererListeCommandes(1)
     } else {
       this.typeLivraisons = "Commandes livrées"
+      this.dossierCommandes = "CommandesClients"
       this.recupererListeCommandes(0)
     }
   }
@@ -118,3 +121,23 @@ export class CommandesPage implements OnInit {
     this.recupererListeCommandes(0)
   }
 }
+
+// if (this.fournisseurs) {
+//   this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
+//     commandesProduits.forEach(produit => {
+//       this.commandesService.updateProduitsLivres(produit, 0)
+//     })
+//   });
+// }
+
+
+// else {
+//   if (this.fournisseurs) {
+//     this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
+//       commandesProduits.forEach(produit => {
+//         this.commandesService.updateProduitsLivres(produit, 1)
+//       })
+//     });
+//   }
+//   this.recupererListeCommandes(1)
+// }
