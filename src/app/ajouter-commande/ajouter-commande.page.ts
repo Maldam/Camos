@@ -82,7 +82,7 @@ export class AjouterCommandePage implements OnInit {
 
         this.commandesProduits.forEach(commandeProduit => {
           commandeProduit.keyCommande = keyCommande
-          this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes)
+          this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes, 'CommandesProduits')
         });
         this.commandesProduits.forEach(commandeProduit => { 
           let produit: ProduitModele = new ProduitModele();

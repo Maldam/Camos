@@ -58,7 +58,7 @@ export class CommandesService {
 
   public getLivraisons(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
     return new Observable<Array<CommandeModele>>(observer => {
-      this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges([]).subscribe(commandesRecus => {
+      this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges(['child_changed','child_added','child_removed']).subscribe(commandesRecus => {
           let commandes: Array<CommandeModele> = new Array<CommandeModele>();
           commandesRecus.forEach(commandeRecus => {
             let commande: CommandeModele = new CommandeModele();
@@ -94,6 +94,8 @@ export class CommandesService {
         keyProduit: commandeProduit.keyProduit,
         pourcentageProduit: commandeProduit.pourcentageProduit,
         keyCommande: commandeProduit.keyCommande,
+        livree: commandeProduit.livree,
+        keyCommandeProduit: commandeProduit.keyCommandeProduit
       }).then(
         res => resolve(res),
         err => reject(err)
@@ -138,9 +140,9 @@ export class CommandesService {
       return -1
     }
   }
-  public createCommandeProduit(commandeProduit: CommandeProduitModele, typeCommande: string) {
+  public createCommandeProduit(commandeProduit: CommandeProduitModele, typeCommande: string, dossier: string) {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list('CommandesProduits' + typeCommande + '/').push(commandeProduit)
+      this.angularFireDatabase.list(dossier + typeCommande).push(commandeProduit)
         .then(
           res => resolve(res),
           err => reject(err)
@@ -165,9 +167,9 @@ export class CommandesService {
     }
     this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/').remove(commandeProduit.key).catch(error => console.log(error));
   }
-  public getCommandesProduits(keyCommande: string, typeCommandes: string): Observable<Array<CommandeProduitModele>> {
+  public getCommandesProduits(keyCommande: string, typeCommandes: string, dossier: string): Observable<Array<CommandeProduitModele>> {
     return new Observable<Array<CommandeProduitModele>>(observer => {
-      this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/', ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges().subscribe(
+      this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges().subscribe(
         commandesRecus => {
           let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
           commandesRecus.forEach(commandeRecus => {
@@ -182,6 +184,9 @@ export class CommandesService {
               commandeProduit.keyCommande = commandeRecus.payload.exportVal().keyCommande,
               commandeProduit.TVAProduit = commandeRecus.payload.exportVal().TVAProduit,
               commandeProduit.codeProduit = commandeRecus.payload.exportVal().codeProduit,
+              commandeProduit.livree = commandeRecus.payload.exportVal().livree,
+              commandeProduit.keyCommandeProduit = commandeRecus.payload.exportVal().keyCommandeProduit,
+
               commandesProduits.push(commandeProduit);
           })
           observer.next(commandesProduits);

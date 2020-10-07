@@ -42,6 +42,7 @@ export class AfficherCommandePage implements OnInit {
   private pdf: boolean = true;
   private coordonnees: Array<CoordonneesModele>;
   private pdfObj = null;
+  public dossierProduits: string ="CommandesProduits"
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -60,8 +61,9 @@ export class AfficherCommandePage implements OnInit {
         this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
         this.livraisons = this.router.getCurrentNavigation().extras.state.livraisons;
         if(this.livraisons){
-          this.keyCommande = this.commande.keyCommande
-        } else{
+          this.dossierProduits = "LivraisonsProduits"
+          //this.keyCommande = this.commande.keyCommande
+        } else {
           this.keyCommande = this.commande.key
         } ; 
 
@@ -123,7 +125,7 @@ export class AfficherCommandePage implements OnInit {
           commandeProduit.TVAProduit = this.produit.TVA
         commandeProduit.codeProduit = this.produit.codeProduit
         commandeProduit.keyCommande = this.commande.key
-      this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes)
+      this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes, 'CommandesProduits')
       }
     })
     return await modal.present()
@@ -144,6 +146,24 @@ export class AfficherCommandePage implements OnInit {
     this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
     //this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
   }
+
+  public livrerProduit(commandeProduit: CommandeProduitModele){
+    commandeProduit.livree = 1
+    this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes)
+
+    // commande.numeroLivraison = this.numeroLivraison;
+    // if(!this.commandeCree){
+    //   this.commandesService.createCommande(commande, this.dossierLivraisons);
+    //   this.commandeCree = !this.commandeCree
+    // }
+
+
+
+
+
+  }
+
+
   public genererPDF() {
     const documentDefinition = {
       content: [
@@ -304,7 +324,7 @@ export class AfficherCommandePage implements OnInit {
     return null;
   }
   public ngOnInit() {
-    this.commandesService.getCommandesProduits(this.keyCommande, this.typeCommandes).subscribe(commandesProduits => {
+    this.commandesService.getCommandesProduits(this.commande.key, this.typeCommandes,this.dossierProduits).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });
