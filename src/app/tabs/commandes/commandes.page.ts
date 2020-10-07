@@ -109,11 +109,8 @@ export class CommandesPage implements OnInit {
     this.commandesService.updateCommande(commande, this.dossierCommandes)
     var keyLivraison= this.commandesService.createCommande(livraison, 'LivraisonsClients')
     
-    this.commandesService.getCommandesProduits(commande.key, this.typeCommandes, 'CommandesProduits').subscribe(commandesProduits => {
-      console.log(commandesProduits)
-      
+    this.commandesService.getCommandesProduits(commande.key, this.typeCommandes, 'CommandesProduits').subscribe(commandesProduits => {    
       commandesProduits.forEach(commandeProduit => {
-        console.log('ici')
         commandeProduit.keyCommandeProduit = commandeProduit.key,
         commandeProduit.keyCommande=keyLivraison,
     
@@ -129,9 +126,14 @@ export class CommandesPage implements OnInit {
     commande.commandeFacturee = "";    
     commande.key = livraison.keyCommande
 //    this.sub.unsubscribe();
-
     this.commandesService.updateCommande(commande, 'CommandesClients')
     this.commandesService.deleteCommande(livraison,this.dossierCommandes)
+    this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits').subscribe(commandesProduits => {    
+      commandesProduits.forEach(commandeProduit => {
+        //console.log('ici')
+        this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
+      });
+    });
     this.recupererListeLivraisons(1)
 
   }
