@@ -73,7 +73,9 @@ export class AjouterProduitPage implements OnInit {
           this.categorieProduitStatus=false
         }
         this.produit.keyFournisseur = this.fournisseur.key
-        this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele });
+        this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele 
+          this.fournisseur = new ClientModele();
+        });
       }
     } else {
       await articleExiste.present();

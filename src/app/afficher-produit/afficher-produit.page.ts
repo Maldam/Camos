@@ -176,7 +176,6 @@ export class AfficherProduitPage implements OnInit {
       codeProduitFournisseurForm:[this.produit.codeProduitFournisseur],
     //  quantiteCommandeeForm:[this.produit.quantiteCommandee]
     });
-    console.log(this.produit.keyFournisseur)
     this.clientsService.getClientSepare(this.produit.keyFournisseur).subscribe(fournisseurs => {
       fournisseurs.forEach(fournisseur=>{
         this.fournisseur = fournisseur;

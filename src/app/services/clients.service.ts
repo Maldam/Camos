@@ -76,8 +76,8 @@ export class ClientsService {
       )
     })
   }
-  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>, dossier:string): void {
-    this.angularFireDatabase.list(dossier+'/').remove(client.key).then(() => {
+  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>, entreprise:string): void {    
+    this.angularFireDatabase.list(entreprise).remove(client.key).then(() => {
       if (client.imageURL == undefined) {
       } else {
         if (client.imageURL == this.imageVide) {
@@ -87,10 +87,8 @@ export class ClientsService {
       }
     }).catch(error => console.log(error));
     this.coordonneesService.deleteCoordonnees(coordonnees)
-    console.log('là')
     contacts.forEach(contact => {
       this.coordonneesService.getCoordonnees(contact.key).subscribe(coordonneess => {
-        console.log('coordonnees')
         coordonneess.forEach(coordonnees => {
           this.contactsService.deleteContact(contact, coordonnees)
         })

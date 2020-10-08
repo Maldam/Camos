@@ -29,7 +29,7 @@ export class AfficherClientPage implements OnInit {
   public clients: Array<ClientModele> = new Array<ClientModele>();
   private coordonnees: CoordonneesModele = new CoordonneesModele();
   private contacts: Array<ContactModele> = new Array<ContactModele>();
-  private dossier: string;
+  private entreprises: string;
   constructor(private clientsService: ClientsService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -46,13 +46,13 @@ export class AfficherClientPage implements OnInit {
     this.activatedRoute.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.client = this.router.getCurrentNavigation().extras.state.data;
-        this.dossier = this.router.getCurrentNavigation().extras.state.dossier;
+        this.entreprises = this.router.getCurrentNavigation().extras.state.entreprises;
       }
     });
   }
   public async RemoveClient(client: ClientModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + client.nom + "?")) {
-      this.clientsService.deleteClient(client, this.coordonnees, this.contacts, this.dossier);
+      this.clientsService.deleteClient(client, this.coordonnees, this.contacts, this.entreprises);
       this.navCtrl.back()
     }
   }
@@ -95,7 +95,7 @@ export class AfficherClientPage implements OnInit {
               await this.nouvelleImage(client, nouveauNomImage)
               client.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
             }
-            await this.clientsService.updateClient(client, this.dossier).then(ref => {
+            await this.clientsService.updateClient(client, this.entreprises).then(ref => {
               loading.dismiss();
             });
             this.estChange = false;

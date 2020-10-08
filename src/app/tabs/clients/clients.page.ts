@@ -38,7 +38,7 @@ export class ClientsPage implements OnInit {
   public versVueClient(client: ClientModele) {
     this.router.navigate(["afficher-client"], { state: { 
       data: client,
-      dossier: this.dossier
+      entreprises: this.entreprises
     } })
   }
   public deconnexion() {
