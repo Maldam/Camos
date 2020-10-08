@@ -109,9 +109,11 @@ export class CommandesService {
     })
   }
   public updateCommande(commande: CommandeModele, dossierCommandes: string): Promise<void> {
+    console.log("1 " +commande.key)
+    console.log("1 "+ dossierCommandes)
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list(dossierCommandes).update(commande.key, {
-        numeroCommande: commande.numeroCommande,
+       // numeroCommande: commande.numeroCommande,
         nomClient: commande.nomClient,
         pseudoClient: commande.pseudoClient,
         numeroTVAClient: commande.numeroTVAClient,
@@ -131,6 +133,8 @@ export class CommandesService {
     })
   }
   public deleteCommande(commande: CommandeModele, dossierCommandes: string): void {
+    console.log("2 "+commande.key)
+    console.log("3 "+dossierCommandes)
     this.angularFireDatabase.list(dossierCommandes).remove(commande.key).catch(error => console.log(error));
   }
   public numeroIndex(numeroCommande: any) {

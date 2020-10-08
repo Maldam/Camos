@@ -121,17 +121,21 @@ export class CommandesPage implements OnInit {
     //this.recupererListeCommandes(0)
   }
   public delivrerCommande(livraison: CommandeModele){
-    var commande = {...livraison}
+    var commande = {...livraison};
     commande.commandeLivree = 0;
     commande.commandeFacturee = "";    
-    commande.key = livraison.keyCommande
+    commande.key = livraison.keyCommande;
 //    this.sub.unsubscribe();
-    this.commandesService.updateCommande(commande, 'CommandesClients')
-    this.commandesService.deleteCommande(livraison,this.dossierCommandes)
+    this.commandesService.updateCommande(commande,'CommandesClients');
+    this.commandesService.deleteCommande(livraison,'LivraisonsClients');
+    
     this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits').subscribe(commandesProduits => {    
       commandesProduits.forEach(commandeProduit => {
+        var commandePr = {...commandeProduit};
+        commandePr.key = commande.keyCommande;
+        //this.commandesService.updateCommandeProduit(commande, this.typeCommandes)
         //console.log('ici')
-        this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
+        this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes);
       });
     });
     this.recupererListeLivraisons(1)
