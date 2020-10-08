@@ -13,6 +13,7 @@ import { CommandeProduitModele } from 'src/app/modeles/commande-produit.modele';
   styleUrls: ['commandes.page.scss']
 })
 export class CommandesPage implements OnInit {
+  private livree: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeCommandes: Array<CommandeModele> = new Array<CommandeModele>();
   public listeLivraisons: Array<CommandeModele> = new Array<CommandeModele>();
@@ -111,16 +112,25 @@ export class CommandesPage implements OnInit {
     
     this.commandesService.getCommandesProduits(commande.key, this.typeCommandes, 'CommandesProduits').subscribe(commandesProduits => {    
       commandesProduits.forEach(commandeProduit => {
-        commandeProduit.keyCommandeProduit = commandeProduit.key,
-        commandeProduit.keyCommande=keyLivraison,
+
+        commandeProduit.livree=1
+        //
+        this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes)
+
+        commandeProduit.keyCommandeProduit = commandeProduit.key;
+        commandeProduit.keyCommandelivree=commandeProduit.keyCommande;
+        commandeProduit.keyCommande=keyLivraison;
+        commandeProduit.keyCommandeProduit=commandeProduit.key;
+
     
-        this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes,'LivraisonsProduits')
+        this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes,'LivraisonsProduits');
       });
     });
 
     //this.recupererListeCommandes(0)
   }
   public delivrerCommande(livraison: CommandeModele){
+    //var listeCommandes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
     var commande = {...livraison};
     commande.commandeLivree = 0;
     commande.commandeFacturee = "";    
@@ -129,17 +139,36 @@ export class CommandesPage implements OnInit {
     this.commandesService.updateCommande(commande,'CommandesClients');
     this.commandesService.deleteCommande(livraison,'LivraisonsClients');
     
-    this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits').subscribe(commandesProduits => {    
-      commandesProduits.forEach(commandeProduit => {
-        var commandePr = {...commandeProduit};
-        commandePr.key = commande.keyCommande;
+  // var commandesProduits : Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+   this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits')
+    .subscribe(commandesProduits => {   
+      console.log(commandesProduits)
+       commandesProduits.forEach(commandeProduit => {
+         console.log('ici')
+         var commandePr = {...commandeProduit};
+         commandePr.keyCommande=commandePr.keyCommandelivree;
+         commandePr.key = commandePr.keyCommandeProduit;
+         commandePr.livree = 0;
+         this.livree.push(commandePr);
+         this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
+         this.commandesService.updateCommandeProduit(commandePr, this.typeCommandes)
+  });
+       // 
+  
+  
+
+        //
+//console.log(listeCommandes);
         //this.commandesService.updateCommandeProduit(commande, this.typeCommandes)
         //console.log('ici')
-        this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes);
-      });
-    });
-    this.recupererListeLivraisons(1)
+        
+      
+      
 
+});
+
+
+    this.recupererListeLivraisons(1);
   }
   versLivraisons() {
     //this.commandes = new Array<CommandeModele>()
