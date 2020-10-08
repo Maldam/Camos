@@ -28,7 +28,9 @@ export class AfficherCommandePage implements OnInit {
   public commandeProduit: CommandeProduitModele = new CommandeProduitModele();
   public listeCommandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public produit: ProduitModele;
- // public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
+  private numeroLivraison: number = Date.now()
+  private keyLivraison: string
+  // public nouveauxArticlesAjoutes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   //public articlesModifies: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
   public client: ClientModele;
   public total: number = 0;
@@ -42,7 +44,8 @@ export class AfficherCommandePage implements OnInit {
   private pdf: boolean = true;
   private coordonnees: Array<CoordonneesModele>;
   private pdfObj = null;
-  public dossierProduits: string ="CommandesProduits"
+  public dossierProduits: string = "CommandesProduits"
+  private livraisonCree: boolean = false
   constructor(private commandesService: CommandesService,
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
@@ -60,26 +63,26 @@ export class AfficherCommandePage implements OnInit {
         this.commande = this.router.getCurrentNavigation().extras.state.data;
         this.typeCommandes = this.router.getCurrentNavigation().extras.state.typeCommandes;
         this.livraisons = this.router.getCurrentNavigation().extras.state.livraisons;
-        if(this.livraisons){
+        if (this.livraisons) {
           this.dossierProduits = "LivraisonsProduits"
           //this.keyCommande = this.commande.keyCommande
         } else {
           this.keyCommande = this.commande.key
-        } ; 
+        };
 
         if (this.livraisons && this.typeCommandes === "Clients") {
           this.commandeOuFacture = "Facture n° : "
         }
         if (this.typeCommandes !== "Clients") {
-          this.pdf=false
+          this.pdf = false
         }
       }
     });
   }
   public async removeCommande(commande: CommandeModele) {
     if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
-      this.commandesService.deleteCommande(commande, 'Commandes'+this.typeCommandes);
-      this.commandesProduits.forEach(produit=>{
+      this.commandesService.deleteCommande(commande, 'Commandes' + this.typeCommandes);
+      this.commandesProduits.forEach(produit => {
         this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
       })
       this.navCtrl.back()
@@ -88,7 +91,7 @@ export class AfficherCommandePage implements OnInit {
   public async updateCommande() {
     const loading = await this.loadingController.create({});
     loading.present();
-    this.commandesService.updateCommande(this.commande,this.typeCommandes)
+    this.commandesService.updateCommande(this.commande, this.typeCommandes)
     loading.dismiss();
   }
   public async choixClientModal() {
@@ -103,8 +106,8 @@ export class AfficherCommandePage implements OnInit {
         client = dataReturned.data;
         this.commande.keyClient = client.key
         this.commande.nomClient = client.nom,
-        this.commande.pseudoClient = client.pseudo,
-        this.commande.numeroTVAClient = client.numeroTVA
+          this.commande.pseudoClient = client.pseudo,
+          this.commande.numeroTVAClient = client.numeroTVA
         this.commande.keyClient = client.key
       }
     })
@@ -119,24 +122,24 @@ export class AfficherCommandePage implements OnInit {
         this.produit = dataReturned.data;
         let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
         commandeProduit.produitNom = this.produit.nom,
-         // commandeProduit.keyCommande = this.commande.key,
+          // commandeProduit.keyCommande = this.commande.key,
           commandeProduit.prix = this.produit.prixVente,
           commandeProduit.keyProduit = this.produit.key,
           commandeProduit.TVAProduit = this.produit.TVA
         commandeProduit.codeProduit = this.produit.codeProduit
         commandeProduit.keyCommande = this.commande.key
-      this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes, 'CommandesProduits')
+        this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes, 'CommandesProduits')
       }
     })
     return await modal.present()
   }
   deleteProduit(produit: CommandeProduitModele) {
-    this.commandesService.deleteCommandeProduit(produit,this.typeCommandes)
+    this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
     this.calculPrix()
   }
   public produitModifie(commandeProduit: CommandeProduitModele) {
     this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes)
-    this.calculPrix()      
+    this.calculPrix()
   }
   public calculPrix() {
     this.total = 0
@@ -147,17 +150,35 @@ export class AfficherCommandePage implements OnInit {
     //this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
   }
 
-  public livrerProduit(commandeProduit: CommandeProduitModele){
-    commandeProduit.livree = 1
-    this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes)
+  public livrerProduit(commandeProduit: CommandeProduitModele) {
+    if (!this.livraisonCree) {
+      var livraison = { ...this.commande };
+      livraison.commandeLivree = 1;
+      livraison.commandeFacturee='warning'
+      livraison.numeroCommande = this.numeroLivraison
+      this.keyLivraison = this.commandesService.createCommande(livraison, 'LivraisonsClients');
+      this.livraisonCree = !this.livraisonCree;
+    }
+    commandeProduit.livree = 1;
+    this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes);
+    commandeProduit.keyCommandeProduit = commandeProduit.key;
+    commandeProduit.keyCommande = this.keyLivraison;
+    this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes, 'LivraisonsProduits');
 
-    // commande.numeroLivraison = this.numeroLivraison;
-    // if(!this.commandeCree){
-    //   this.commandesService.createCommande(commande, this.dossierLivraisons);
-    //   this.commandeCree = !this.commandeCree
-    // }
-
-
+    var verificationCommandeLivree: boolean = true
+    this.commandesProduits.forEach(produit => {
+      if (produit.livree === 0) {
+        verificationCommandeLivree = false
+      } 
+    })
+    if (verificationCommandeLivree) {
+      this.commande.commandeLivree = 1
+        } else {
+          this.commande.commandeLivree = 0
+          if(this.typeCommandes === "Clients"){
+        this.commande.commandeFacturee = "medium"
+         } }
+         this.commandesService.updateCommande(this.commande, 'Commandes'+this.typeCommandes)
 
 
 
@@ -264,7 +285,7 @@ export class AfficherCommandePage implements OnInit {
       if (confirm('Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.')) {
         this.pdfObj = pdfMake.createPdf(documentDefinition).open();
         this.commande.commandeFacturee = ""
-        this.commandesService.updateCommande(this.commande, 'Livraisons'+this.typeCommandes)
+        this.commandesService.updateCommande(this.commande, 'Livraisons' + this.typeCommandes)
       }
     } else {
       this.pdfObj = pdfMake.createPdf(documentDefinition).open();
@@ -324,7 +345,7 @@ export class AfficherCommandePage implements OnInit {
     return null;
   }
   public ngOnInit() {
-    this.commandesService.getCommandesProduits(this.commande.key, this.typeCommandes,this.dossierProduits).subscribe(commandesProduits => {
+    this.commandesService.getCommandesProduits(this.commande.key, this.typeCommandes, this.dossierProduits).subscribe(commandesProduits => {
       this.commandesProduits = commandesProduits;
       this.calculPrix()
     });
