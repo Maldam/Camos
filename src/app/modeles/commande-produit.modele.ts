@@ -1,7 +1,7 @@
 export class CommandeProduitModele {
     public key: string;
-    public codeProduit: string = null;
-    public produitNom: string = null;
+    public codeProduit: string = "";
+    public produitNom: string = "";
     public prix: number = 0;
     public quantite: number = 0;
   //  public imageURL: string = "";

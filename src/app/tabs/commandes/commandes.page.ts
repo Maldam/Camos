@@ -111,23 +111,23 @@ export class CommandesPage implements OnInit {
     var keyLivraison= this.commandesService.createCommande(livraison, 'LivraisonsClients')
     
     this.commandesService.getCommandesProduits(commande.key, this.typeCommandes, 'CommandesProduits').subscribe(commandesProduits => {    
+      console.log(1)
+      
       commandesProduits.forEach(commandeProduit => {
-
         commandeProduit.livree=1
-        //
+        var commandePr={...commandeProduit}
         this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes)
-
-        commandeProduit.keyCommandeProduit = commandeProduit.key;
-        commandeProduit.keyCommandelivree=commandeProduit.keyCommande;
-        commandeProduit.keyCommande=keyLivraison;
-        commandeProduit.keyCommandeProduit=commandeProduit.key;
-
+        console.log(2)
+        commandePr.keyCommandeProduit = commandeProduit.key;
+        commandePr.keyCommandelivree=commandeProduit.keyCommande;
+        commandePr.keyCommande=keyLivraison;
+        commandePr.keyCommandeProduit=commandeProduit.key;
     
-        this.commandesService.createCommandeProduit(commandeProduit,this.typeCommandes,'LivraisonsProduits');
+        this.commandesService.createCommandeProduit(commandePr,this.typeCommandes,'LivraisonsProduits');
       });
     });
-
-    //this.recupererListeCommandes(0)
+ //console.log(this.commandesService.getCommandesProduits2(commande.key, this.typeCommandes, 'CommandesProduits'))
+    this.recupererListeCommandes(0)
   }
   public delivrerCommande(livraison: CommandeModele){
     //var listeCommandes: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
@@ -142,9 +142,10 @@ export class CommandesPage implements OnInit {
   // var commandesProduits : Array<CommandeProduitModele> = new Array<CommandeProduitModele>();
    this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits')
     .subscribe(commandesProduits => {   
-      console.log(commandesProduits)
+      console.log(3)
+      debugger
        commandesProduits.forEach(commandeProduit => {
-         console.log('ici')
+      console.log(4)
          var commandePr = {...commandeProduit};
          commandePr.keyCommande=commandePr.keyCommandelivree;
          commandePr.key = commandePr.keyCommandeProduit;
