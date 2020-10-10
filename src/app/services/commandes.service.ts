@@ -9,6 +9,7 @@ import { CommandeProduitModele } from '../modeles/commande-produit.modele';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ProduitsService } from './produits.service';
 import * as firebase from 'firebase/app';
+//import { Scavenger } from '@wishtack/rx-scavenger';
 @Injectable()
 export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
@@ -29,8 +30,6 @@ export class CommandesService {
     return this.angularFireDatabase.list(dossierCommandes).push(commande).key
   }
   public getCommandes(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
-    console.log(6)
-   
     return new Observable<Array<CommandeModele>>(observer => {
       this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges([]).subscribe(commandesRecus => {
           let commandes: Array<CommandeModele> = new Array<CommandeModele>();
@@ -86,9 +85,7 @@ export class CommandesService {
     });
   }
 
-  public updateCommandeProduit(commandeProduit: CommandeProduitModele, typeCommandes: string): Promise<void> {
-    console.log(5)
-     
+  public updateCommandeProduit(commandeProduit: CommandeProduitModele, typeCommandes: string): Promise<void> {     
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list('CommandesProduits' + typeCommandes + '/').update(commandeProduit.key, {
         produitNom: commandeProduit.produitNom,
@@ -146,8 +143,6 @@ export class CommandesService {
     }
   }
   public createCommandeProduit(commandeProduit: CommandeProduitModele, typeCommande: string, dossier: string) {
-    console.log(7)
-
     return new Promise<any>((resolve, reject) => {
       this.angularFireDatabase.list(dossier + typeCommande).push(commandeProduit)
         .then(
@@ -178,6 +173,7 @@ export class CommandesService {
     this.angularFireDatabase.list('LivraisonsProduits' + typeCommandes + '/').remove(commandeProduit.key).catch(error => console.log(error));
   }
   public getCommandesProduits(keyCommande: string, typeCommandes: string, dossier: string): Observable<Array<CommandeProduitModele>> {
+    console.log(3)
     return new Observable<Array<CommandeProduitModele>>(observer => {
       this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges().subscribe(
         commandesRecus => {
@@ -200,7 +196,9 @@ export class CommandesService {
               commandesProduits.push(commandeProduit);
           })
           observer.next(commandesProduits);
+    console.log(4)
         });
+    console.log(5)
     });
   }
   public getCommandesSeparee(keyClient: string): Observable<Array<CommandeModele>> {
@@ -285,33 +283,11 @@ export class CommandesService {
 
 
    public getCommandesProduits2(keyCommande: string, typeCommandes: string, dossier: string) {
-     let commandesProduits: Array<CommandeProduitModele> = new Array<CommandeProduitModele>();          
-      
-     this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges(['child_changed','child_added','child_removed']).subscribe(
-         commandesRecus => {
-           commandesRecus.forEach(commandeRecus => {
-             let commandeProduit: CommandeProduitModele = new CommandeProduitModele();
-             commandeProduit.key = commandeRecus.key,
-               commandeProduit.produitNom = commandeRecus.payload.exportVal().produitNom,
-               commandeProduit.prix = commandeRecus.payload.exportVal().prix,
-               commandeProduit.quantite = commandeRecus.payload.exportVal().quantite,
-               //commandeProduit.imageURL = commandeRecus.payload.exportVal().imageURL,
-               commandeProduit.keyProduit = commandeRecus.payload.exportVal().keyProduit,
-               commandeProduit.pourcentageProduit = commandeRecus.payload.exportVal().pourcentageProduit,
-               commandeProduit.keyCommande = commandeRecus.payload.exportVal().keyCommande,
-               commandeProduit.TVAProduit = commandeRecus.payload.exportVal().TVAProduit,
-               commandeProduit.codeProduit = commandeRecus.payload.exportVal().codeProduit,
-               commandeProduit.livree = commandeRecus.payload.exportVal().livree,
-               commandeProduit.keyCommandeProduit = commandeRecus.payload.exportVal().keyCommandeProduit,
-               commandeProduit.keyCommandelivree =  commandeRecus.payload.exportVal().keyCommandelivree,
-               commandesProduits.push(commandeProduit);
-           })
-          // observer.next(commandesProduits);
-         });
-         return commandesProduits
+          
+   return this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).valueChanges().toPromise()    
+            
 
-       }
-
+   }
 
 
 }
