@@ -79,8 +79,6 @@ export class CommandesPage implements OnInit {
   }
   public recupererListeCommandes(livraisons: number) {
     this.commandes = new Array<CommandeModele>()
-
-    //this.listeCommandes  = new Array<CommandeModele>()
  this.commandesService.getCommandes(this.dossierCommandes, livraisons).subscribe(commandes => {
       this.commandes = commandes;
       this.commandes.sort((a, b) => b.dateCommande - a.dateCommande);
@@ -89,7 +87,6 @@ export class CommandesPage implements OnInit {
   }
   public recupererListeLivraisons(livraisons: number) {
     this.listeLivraisons = new Array<CommandeModele>()
-    //this.listeCommandes  = new Array<CommandeModele>()
     this.commandesService.getCommandes(this.dossierCommandes, livraisons).subscribe(commandes => {
       this.listeLivraisons = commandes;
       this.listeLivraisons.sort((a, b) => b.dateCommande - a.dateCommande);
@@ -104,18 +101,14 @@ export class CommandesPage implements OnInit {
       this.subsciption.unsubscribe()
     }
     commande.commandeLivree = 1;
-    // if(this.subsciption){
-    // }
     var livraison = {...commande}
     var numeroLivraison = Date.now()
     livraison.keyCommande = commande.key
     livraison.numeroCommande = numeroLivraison
     livraison.commandeFacturee = "warning";
-    console.log(this.subsciption)
     this.commandesService.updateCommande(commande, this.dossierCommandes)
     var keyLivraison= this.commandesService.createCommande(livraison, 'LivraisonsClients')
     this.subsciption = this.commandesService.getCommandesProduits(commande.key, this.typeCommandes, 'CommandesProduits').subscribe(commandesProduits => {    
-      console.log(1)
       commandesProduits.forEach(commandeProduit => {
         commandeProduit.livree=1
         var commandePr={...commandeProduit}
@@ -124,18 +117,13 @@ export class CommandesPage implements OnInit {
         commandePr.keyCommandelivree=commandeProduit.keyCommande;
         commandePr.keyCommande=keyLivraison;
         commandePr.keyCommandeProduit=commandeProduit.key;
-        console.log(2)
         this.commandesService.createCommandeProduit(commandePr,this.typeCommandes,'LivraisonsProduits');
-        //console.log('ici')
       });
       this.subsciption.unsubscribe()
     });
     this.recupererListeCommandes(0)
   }
   public delivrerCommande(livraison: CommandeModele){
-    // if(this.subsciption){
-    //   this.subsciption.unsubscribe()
-    // }
     var commande = {...livraison};
     commande.commandeLivree = 0;
     commande.commandeFacturee = "";    
@@ -158,7 +146,6 @@ export class CommandesPage implements OnInit {
     this.recupererListeLivraisons(1);
   }
   versLivraisons() {
-    //this.commandes = new Array<CommandeModele>()
     this.livraisons = !this.livraisons
     if (this.livraisons) {
       this.typeLivraisons = "Commandes en cours"

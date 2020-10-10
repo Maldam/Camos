@@ -57,33 +57,33 @@ export class CommandesService {
     });
   }
 
-  public getLivraisons(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
-    return new Observable<Array<CommandeModele>>(observer => {
-      this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges(['child_changed','child_added','child_removed']).subscribe(commandesRecus => {
-          let commandes: Array<CommandeModele> = new Array<CommandeModele>();
-          commandesRecus.forEach(commandeRecus => {
-            let commande: CommandeModele = new CommandeModele();
-            commande.key = commandeRecus.key,
-              commande.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
-              commande.nomClient = commandeRecus.payload.exportVal().nomClient,
-              commande.pseudoClient = commandeRecus.payload.exportVal().pseudoClient,
-              commande.numeroTVAClient = commandeRecus.payload.exportVal().numeroTVAClient,
-              commande.notes = commandeRecus.payload.exportVal().notes,
-              //  commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
-              commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
-              // commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
-              commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
-              commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,
-              commande.keyClient = commandeRecus.payload.exportVal().keyClient,
-              commande.commandeLivree = commandeRecus.payload.exportVal().commandeLivree,
-              commande.commandeFacturee = commandeRecus.payload.exportVal().commandeFacturee,
-              commande.keyCommande = commandeRecus.payload.exportVal().keyCommande,
-              commandes.push(commande);
-          observer.next(commandes);
-          })
-        });
-    });
-  }
+  // public getLivraisons(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
+  //   return new Observable<Array<CommandeModele>>(observer => {
+  //     this.angularFireDatabase.list(dossierCommandes, ref => ref.orderByChild('commandeLivree').equalTo(commandeLivree)).snapshotChanges(['child_changed','child_added','child_removed']).subscribe(commandesRecus => {
+  //         let commandes: Array<CommandeModele> = new Array<CommandeModele>();
+  //         commandesRecus.forEach(commandeRecus => {
+  //           let commande: CommandeModele = new CommandeModele();
+  //           commande.key = commandeRecus.key,
+  //             commande.numeroCommande = commandeRecus.payload.exportVal().numeroCommande,
+  //             commande.nomClient = commandeRecus.payload.exportVal().nomClient,
+  //             commande.pseudoClient = commandeRecus.payload.exportVal().pseudoClient,
+  //             commande.numeroTVAClient = commandeRecus.payload.exportVal().numeroTVAClient,
+  //             commande.notes = commandeRecus.payload.exportVal().notes,
+  //             //  commande.nomProduit = commandeRecus.payload.exportVal().nomProduit,
+  //             commande.pourcentageTotal = commandeRecus.payload.exportVal().pourcentageTotal,
+  //             // commande.montantFacture = commandeRecus.payload.exportVal().montantFacture,
+  //             commande.dateCommande = commandeRecus.payload.exportVal().dateCommande,
+  //             commande.dateLivraison = commandeRecus.payload.exportVal().dateLivraison,
+  //             commande.keyClient = commandeRecus.payload.exportVal().keyClient,
+  //             commande.commandeLivree = commandeRecus.payload.exportVal().commandeLivree,
+  //             commande.commandeFacturee = commandeRecus.payload.exportVal().commandeFacturee,
+  //             commande.keyCommande = commandeRecus.payload.exportVal().keyCommande,
+  //             commandes.push(commande);
+  //         observer.next(commandes);
+  //         })
+  //       });
+  //   });
+  // }
 
   public updateCommandeProduit(commandeProduit: CommandeProduitModele, typeCommandes: string): Promise<void> {     
     return new Promise<any>((resolve, reject) => {
@@ -196,9 +196,7 @@ export class CommandesService {
               commandesProduits.push(commandeProduit);
           })
           observer.next(commandesProduits);
-    console.log(4)
         });
-    console.log(5)
     });
   }
   public getCommandesSeparee(keyClient: string): Observable<Array<CommandeModele>> {
@@ -278,16 +276,4 @@ export class CommandesService {
       return -1
     }
   }
-
-
-
-
-   public getCommandesProduits2(keyCommande: string, typeCommandes: string, dossier: string) {
-          
-   return this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).valueChanges().toPromise()    
-            
-
-   }
-
-
 }
