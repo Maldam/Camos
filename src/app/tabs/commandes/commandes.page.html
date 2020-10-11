@@ -7,7 +7,7 @@
     </ion-title>
   </ion-toolbar>
   <ion-label class="typeCommandes">Clients</ion-label>
-  <ion-toggle color="success" (ionChange)="changeCommandes()"> </ion-toggle>
+  <ion-toggle color="success" (ionChange)="versFournisseurs()"> </ion-toggle>
   <ion-label class="typeCommandes">Fournisseurs</ion-label>
   <ion-button class="livraisons" name=boutton expand="block" color="success" (click)="versLivraisons()">{{typeLivraisons}}
   </ion-button>
@@ -52,7 +52,7 @@
           <ion-item>{{commande.numeroCommande}}</ion-item>
           <ion-item>{{commande.dateCommande | date: 'dd MMMM yyyy'}}</ion-item>
         </ion-item>
-        <ion-item-options *ngIf="commande.commandeFacturee!=''" side="start">
+        <ion-item-options *ngIf="commande.commandeFacturee!='' || fournisseurs " side="start">
           <ion-item-option color="danger" (click)="delivrerCommande(commande)">
             <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
           </ion-item-option>

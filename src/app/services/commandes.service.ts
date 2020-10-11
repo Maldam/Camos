@@ -173,7 +173,7 @@ export class CommandesService {
     this.angularFireDatabase.list('LivraisonsProduits' + typeCommandes + '/').remove(commandeProduit.key).catch(error => console.log(error));
   }
   public getCommandesProduits(keyCommande: string, typeCommandes: string, dossier: string): Observable<Array<CommandeProduitModele>> {
-    console.log(3)
+
     return new Observable<Array<CommandeProduitModele>>(observer => {
       this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges().subscribe(
         commandesRecus => {
