@@ -142,7 +142,14 @@ export class CommandesPage implements OnInit {
     if (this.fournisseurs) {
       this.subsciption = this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits').subscribe(commandesProduits => {
         commandesProduits.forEach(commandeProduit => {
+          var commandePr = { ...commandeProduit };
+          commandePr.keyCommande = commandePr.keyCommandelivree;
+          commandePr.key = commandePr.keyCommandeProduit;
+          commandePr.livree = 0;
+          //this.livree.push(commandePr);
           this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
+          this.commandesService.updateCommandeProduit(commandePr, this.typeCommandes)
+          //this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
           this.commandesService.updateProduitsLivres(commandeProduit, 1)
         });
         this.subsciption.unsubscribe()
@@ -156,7 +163,7 @@ export class CommandesPage implements OnInit {
           commandePr.keyCommande = commandePr.keyCommandelivree;
           commandePr.key = commandePr.keyCommandeProduit;
           commandePr.livree = 0;
-          this.livree.push(commandePr);
+          //this.livree.push(commandePr);
           this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
           this.commandesService.updateCommandeProduit(commandePr, this.typeCommandes)
         });

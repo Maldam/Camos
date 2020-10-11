@@ -108,7 +108,7 @@
       placeholder="Choisissez une date de livraison" (change)="estChange=true"></ion-datetime>
   </ion-item>
   <ion-item></ion-item>
-  <ion-fab *ngIf="!archive" vertical="bottom" horizontal="start" slot="fixed">
+  <ion-fab *ngIf="!livraisons" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="removeCommande(commande)">
       <ion-icon name="trash"></ion-icon>
     </ion-fab-button>

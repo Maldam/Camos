@@ -76,10 +76,11 @@ export class AjouterCommandePage implements OnInit {
         this.commande.nomClient = this.client.nom,
           this.commande.pseudoClient = this.client.pseudo,
           this.commande.numeroTVAClient = this.client.numeroTVA,
+
           this.commandeProduit.produitNom = this.produit.nom,
           this.commandeProduit.keyProduit = this.produit.key
         var keyCommande = this.commandesService.createCommande(this.commande, this.dossierCommandes)
-
+        
         this.commandesProduits.forEach(commandeProduit => {
           commandeProduit.keyCommande = keyCommande
           this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes, 'CommandesProduits')

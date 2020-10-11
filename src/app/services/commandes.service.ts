@@ -229,6 +229,9 @@ export class CommandesService {
     var totalCommande: number;
     var ref = firebase.database().ref('Produits/');
     if (dejaArchive === 0) {
+      console.log('livree')
+      console.log(commandeProduit.keyProduit)
+
       ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
         total = snapshot.exportVal().quantite
         totalCommande = snapshot.exportVal().quantiteCommandee
@@ -240,6 +243,9 @@ export class CommandesService {
         quantite: quantite
       })
     } else {
+      console.log('delivree')
+      console.log(commandeProduit.keyProduit)
+
       ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
         total = snapshot.exportVal().quantite
         totalCommande = snapshot.exportVal().quantiteCommandee
