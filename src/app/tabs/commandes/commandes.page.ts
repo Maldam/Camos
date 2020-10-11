@@ -163,31 +163,22 @@ export class CommandesPage implements OnInit {
         this.subsciption.unsubscribe()
       });
     }
-
-
-
-
-
     //   this.recupererListeLivraisons(1);
   }
   versLivraisons() {
     this.livraisons = !this.livraisons
     if (this.livraisons) {
-
       if (this.fournisseurs) {
-        console.log('livraison fournisseur')
         //this.commandes = new Array<CommandeModele>()
         this.typeLivraisons = "Commandes en cours"
         // this.dossierCommandes = "LivraisonsFournisseurs"
         this.recupererListeLivraisons(1)
       } else {
-        console.log('livraison client')
         this.typeLivraisons = "Commandes en cours"
         //this.dossierLivraisons = "LivraisonsClients"
         this.recupererListeLivraisons(1)
       }
     } else {
-      console.log('commande client')
       this.typeLivraisons = "Commandes livrées"
       //this.dossierCommandes = "CommandesClients"
       //   this.recupererListeCommandes(0)
@@ -198,7 +189,6 @@ export class CommandesPage implements OnInit {
     this.typeLivraisons = "Commandes livrées"
     this.fournisseurs = !this.fournisseurs
     if (this.fournisseurs) {
-      console.log('commande fournisseur')
       //  this.commandes = new Array<CommandeModele>()
       this.typeCommandes = "Fournisseurs"
       this.dossierLivraisons = "LivraisonsFournisseurs"
@@ -215,15 +205,3 @@ export class CommandesPage implements OnInit {
     this.recupererListeCommandes(0)
   }
 }
-
-
-// else {
-//   if (this.fournisseurs) {
-//     this.commandesService.getCommandesProduits(commande.key, this.typeCommandes).subscribe(commandesProduits => {
-//       commandesProduits.forEach(produit => {
-//         this.commandesService.updateProduitsLivres(produit, 1)
-//       })
-//     });
-//   }
-//   this.recupererListeCommandes(1)
-// }
