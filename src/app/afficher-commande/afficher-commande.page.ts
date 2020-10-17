@@ -149,12 +149,11 @@ export class AfficherCommandePage implements OnInit {
     this.commandesProduits.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
     //this.nouveauxArticlesAjoutes.forEach(element => { this.totalTVA += ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100) - ((((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) - ((element.prix * element.quantite) + (element.prix * element.quantite) * (element.TVAProduit / 100)) * element.pourcentageProduit / 100)) * this.commande.pourcentageTotal / 100) });
   }
-
   public livrerProduit(commandeProduit: CommandeProduitModele) {
     if (!this.livraisonCree) {
       var livraison = { ...this.commande };
       livraison.commandeLivree = 1;
-      livraison.commandeFacturee='warning'
+      livraison.commandeFacturee = 'warning'
       livraison.numeroCommande = this.numeroLivraison
       this.keyLivraison = this.commandesService.createCommande(livraison, 'LivraisonsClients');
       this.livraisonCree = !this.livraisonCree;
@@ -164,27 +163,22 @@ export class AfficherCommandePage implements OnInit {
     commandeProduit.keyCommandeProduit = commandeProduit.key;
     commandeProduit.keyCommande = this.keyLivraison;
     this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes, 'LivraisonsProduits');
-
     var verificationCommandeLivree: boolean = true
     this.commandesProduits.forEach(produit => {
       if (produit.livree === 0) {
         verificationCommandeLivree = false
-      } 
+      }
     })
     if (verificationCommandeLivree) {
       this.commande.commandeLivree = 1
-        } else {
-          this.commande.commandeLivree = 0
-          if(this.typeCommandes === "Clients"){
+    } else {
+      this.commande.commandeLivree = 0
+      if (this.typeCommandes === "Clients") {
         this.commande.commandeFacturee = "medium"
-         } }
-         this.commandesService.updateCommande(this.commande, 'Commandes'+this.typeCommandes)
-
-
-
+      }
+    }
+    this.commandesService.updateCommande(this.commande, 'Commandes' + this.typeCommandes)
   }
-
-
   public genererPDF() {
     const documentDefinition = {
       content: [

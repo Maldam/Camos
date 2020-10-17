@@ -15,6 +15,7 @@ export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public commandes2: Array<CommandeModele>;
+  public subsciption;
   constructor(
     public produitsService: ProduitsService,
     public angularFireDatabase: AngularFireDatabase,
@@ -173,7 +174,6 @@ export class CommandesService {
     this.angularFireDatabase.list('LivraisonsProduits' + typeCommandes + '/').remove(commandeProduit.key).catch(error => console.log(error));
   }
   public getCommandesProduits(keyCommande: string, typeCommandes: string, dossier: string): Observable<Array<CommandeProduitModele>> {
-
     return new Observable<Array<CommandeProduitModele>>(observer => {
       this.angularFireDatabase.list(dossier + typeCommandes , ref => ref.orderByChild('keyCommande').equalTo(keyCommande)).snapshotChanges().subscribe(
         commandesRecus => {
@@ -225,38 +225,25 @@ export class CommandesService {
     });
   }
   public updateProduitsLivres(commandeProduit: CommandeProduitModele, dejaArchive: number) {
-    var total: number;
-    var totalCommande: number;
-    var ref = firebase.database().ref('Produits/');
-    if (dejaArchive === 0) {
-      console.log('livree')
-      console.log(commandeProduit.keyProduit)
-
-      ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
-        total = snapshot.exportVal().quantite
-        totalCommande = snapshot.exportVal().quantiteCommandee
-      })
-      var quantite: number = Number(total) + Number(commandeProduit.quantite)
-      var quantiteCommandee: number = Number(totalCommande) - Number(commandeProduit.quantite)
-      this.angularFireDatabase.list('Produits/').update(commandeProduit.keyProduit, {
-        quantiteCommandee: quantiteCommandee,
-        quantite: quantite
-      })
-    } else {
-      console.log('delivree')
-      console.log(commandeProduit.keyProduit)
-
-      ref.child(commandeProduit.keyProduit).on("value", function (snapshot) {
-        total = snapshot.exportVal().quantite
-        totalCommande = snapshot.exportVal().quantiteCommandee
-      })
-      var quantite: number = Number(total) - Number(commandeProduit.quantite)
-      var quantiteCommandee: number = Number(totalCommande) + Number(commandeProduit.quantite)
-      this.angularFireDatabase.list('Produits/').update(commandeProduit.keyProduit, {
-        quantiteCommandee: quantiteCommandee,
-        quantite: quantite
-      })
-    }
+    this.subsciption =  this.angularFireDatabase.list('Produits/', ref => ref.orderByKey().equalTo(commandeProduit.keyProduit)).snapshotChanges().subscribe(
+      produitsRecus => {
+        produitsRecus.forEach(produitRecus => {
+          var quantiteProduit: number = produitRecus.payload.exportVal().quantite
+          var quantiteCommandeeProduit: number = produitRecus.payload.exportVal().quantiteCommandee
+     if (dejaArchive === 0) {
+       var quantite: number = Number(quantiteProduit) + Number(commandeProduit.quantite)
+       var quantiteCommandee: number = Number(quantiteCommandeeProduit) - Number(commandeProduit.quantite)
+     } else {
+       var quantite: number = Number(quantiteProduit) - Number(commandeProduit.quantite)
+       var quantiteCommandee: number = Number(quantiteCommandeeProduit) + Number(commandeProduit.quantite)
+     }
+     this.angularFireDatabase.list('Produits/').update(commandeProduit.keyProduit, {
+      quantiteCommandee: quantiteCommandee,
+      quantite: quantite
+    })
+        })
+        this.subsciption.unsubscribe()
+      });
   }
   public updateProduit(produit: ProduitModele) {
     var total: number;
