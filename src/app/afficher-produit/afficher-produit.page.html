@@ -1,9 +1,10 @@
 <ion-header>
   <ion-toolbar color='primary'>
     <ion-buttons id='retourProduits' slot="start">
-      <ion-back-button text="" ></ion-back-button>
-      <ion-title id='titre'>Produit</ion-title>
+      <ion-back-button icon="./assets/svg/arrow-back.svg" text="">
+      </ion-back-button>
     </ion-buttons>
+    <ion-title id='titre'>Produit</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -91,7 +92,7 @@
     </ion-fab-button>
   </ion-fab>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="success" (click)="UpdateProduit(produit,'Êtes-vous sûr de vouloir modifier le produit?')">
+    <ion-fab-button color="success" (click)="UpdateProduit(produit)">
       <!-- <ion-icon name="save"></ion-icon> -->
       <ion-icon src="./assets/svg/save.svg"></ion-icon>
     </ion-fab-button>

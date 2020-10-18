@@ -80,13 +80,29 @@ export class AfficherCommandePage implements OnInit {
     });
   }
   public async removeCommande(commande: CommandeModele) {
-    if (confirm("Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?")) {
-      this.commandesService.deleteCommande(commande, 'Commandes' + this.typeCommandes);
-      this.commandesProduits.forEach(produit => {
-        this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
-      })
-      this.navCtrl.back()
-    }
+    await this.alertController.create({
+      header: "Attention",
+      message: "Êtes-vous sûr de vouloir supprimer " + commande.nomClient + "?",
+      buttons: [
+        {
+          text: 'Non',
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.commandesService.deleteCommande(commande, 'Commandes' + this.typeCommandes);
+            this.commandesProduits.forEach(produit => {
+              this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
+            })
+            this.navCtrl.back()
+          }
+        }
+      ]
+    }).then(
+      res => {
+        res.present();
+      });
+
   }
   public async updateCommande() {
     const loading = await this.loadingController.create({});
@@ -157,7 +173,7 @@ export class AfficherCommandePage implements OnInit {
         livraison.commandeFacturee = 'warning'
       }
       livraison.numeroCommande = this.numeroLivraison
-      this.keyLivraison = this.commandesService.createCommande(livraison, 'Livraisons'+this.typeCommandes);
+      this.keyLivraison = this.commandesService.createCommande(livraison, 'Livraisons' + this.typeCommandes);
       this.livraisonCree = !this.livraisonCree;
     }
     commandeProduit.livree = 1;
@@ -278,11 +294,28 @@ export class AfficherCommandePage implements OnInit {
       },
     }
     if (this.commande.commandeFacturee !== "") {
-      if (confirm('Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.')) {
-        this.pdfObj = pdfMake.createPdf(documentDefinition).open();
-        this.commande.commandeFacturee = ""
-        this.commandesService.updateCommande(this.commande, 'Livraisons' + this.typeCommandes)
-      }
+
+      this.alertController.create({
+        header: "Attention",
+        message: "'Si vous confirmez la génération du PDF, la commande sera considérée comme facturée.'",
+        buttons: [
+          {
+            text: 'Non',
+          },
+          {
+            text: 'Oui',
+            handler: () => {
+              this.pdfObj = pdfMake.createPdf(documentDefinition).open();
+              this.commande.commandeFacturee = ""
+              this.commandesService.updateCommande(this.commande, 'Livraisons' + this.typeCommandes)
+            }
+          }
+        ]
+      }).then(
+        res => {
+          res.present();
+        });
+
     } else {
       this.pdfObj = pdfMake.createPdf(documentDefinition).open();
     }

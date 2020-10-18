@@ -51,12 +51,28 @@ export class AfficherClientPage implements OnInit {
     });
   }
   public async RemoveClient(client: ClientModele) {
-    if (confirm("Êtes-vous sûr de vouloir supprimer " + client.nom + "?")) {
-      this.clientsService.deleteClient(client, this.coordonnees, this.contacts, this.entreprises);
-      this.navCtrl.back()
-    }
+
+    await this.alertController.create({
+      header: "Attention",
+      message: "Êtes-vous sûr de vouloir supprimer " + client.nom + "?",
+      buttons: [
+        {
+          text: 'Non',
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.clientsService.deleteClient(client, this.coordonnees, this.contacts, this.entreprises);
+            this.navCtrl.back()
+          }
+        }
+      ]
+    }).then(
+      res => {
+        res.present();
+      });
   }
-  public async UpdateClient(client: ClientModele, errorMessage: string) {
+  public async UpdateClient(client: ClientModele) {
     const loading = await this.loadingController.create({
     });
     const articleExiste = await this.alertController.create({
@@ -82,26 +98,41 @@ export class AfficherClientPage implements OnInit {
           changementNomOK = true
         }
         if (changementNomOK) {
-          if (confirm(errorMessage)) {
-            await loading.present();
-            client.nom = this.form.value.nomForm;
-            client.pseudo = this.form.value.pseudoForm;
-            client.numeroTVA = this.form.value.numeroTVAForm;
-            client.siteWeb = this.form.value.siteWebForm;
-            client.notes = this.form.value.notesForm;
-            this.coordonneesService.updateCoordonnees(this.coordonnees)
-            if (this.imageChange) {
-              var nouveauNomImage = client.nom + Date.now()
-              await this.nouvelleImage(client, nouveauNomImage)
-              client.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
-            }
-            await this.clientsService.updateClient(client, this.entreprises).then(ref => {
-              loading.dismiss();
+          this.alertController.create({
+            header: "Attention",
+            message: "Êtes-vous sûr de vouloir valider les modifications?",
+            buttons: [
+              {
+                text: 'Non',
+              },
+              {
+                text: 'Oui',
+                handler: () => {
+                  loading.present();
+                  client.nom = this.form.value.nomForm;
+                  client.pseudo = this.form.value.pseudoForm;
+                  client.numeroTVA = this.form.value.numeroTVAForm;
+                  client.siteWeb = this.form.value.siteWebForm;
+                  client.notes = this.form.value.notesForm;
+                  this.coordonneesService.updateCoordonnees(this.coordonnees)
+                  if (this.imageChange) {
+                    var nouveauNomImage = client.nom + Date.now()
+                    this.nouvelleImage(client, nouveauNomImage)
+                    client.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Clients%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+                  }
+                  this.clientsService.updateClient(client, this.entreprises).then(ref => {
+                    loading.dismiss();
+                  });
+                  this.estChange = false;
+                  this.nomChange = false;
+                  this.imageChange = false;
+                }
+              }
+            ]
+          }).then(
+            res => {
+              res.present();
             });
-            this.estChange = false;
-            this.nomChange = false;
-            this.imageChange = false;
-          }
         } else {
           await articleExiste.present();
         }

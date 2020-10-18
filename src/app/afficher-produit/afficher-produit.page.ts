@@ -64,7 +64,7 @@ export class AfficherProduitPage implements OnInit {
       res.present();
     });
   }
-  public async UpdateProduit(produit: ProduitModele, errorMessage: string) {
+  public async UpdateProduit(produit: ProduitModele) {
     const loading = await this.loadingController.create({
     });
     const articleExiste = await this.alertController.create({
@@ -89,36 +89,53 @@ export class AfficherProduitPage implements OnInit {
         } else { 
           changementNomOK = true }
         if (changementNomOK) {
-          if (confirm(errorMessage)) {
-            await loading.present();
-            produit.nom = this.form.value.nomForm;
-            produit.quantite = this.form.value.quantiteForm;
-            produit.prixVente = this.form.value.prixVenteForm;
-            produit.prixAchat = this.form.value.prixAchatForm;
-            produit.codeProduit = this.form.value.codeProduitForm;
-            produit.TVA = this.form.value.TVAForm;
-            produit.codeProduitFournisseur = this.form.value.codeProduitFournisseurForm
-            if (this.imageChange) { 
-              var nouveauNomImage = produit.nom + Date.now()
-              await this.nouvelleImage(produit,nouveauNomImage) 
-              produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
-            }
-            if(this.categorieProduitStatus){
-              this.produit.categorie = this.nouvelleCategorie
-              this.produitsService.createCategorieProduit(this.produit)
-              this.categorieProduitStatus=false
-            }
-            await this.produitsService.updateProduit(produit).then(ref => {
-              loading.dismiss();
-            });
-            this.estChange = false;
-            this.nomChange = false;
-            this.imageChange = false;
-          }
-        } else {
-          await articleExiste.present();
-        }
+
+
+          this.alertController.create({
+            header: "Attention",
+            message: "Êtes-vous sûr de vouloir modifier le produit?",
+            buttons: [
+              {
+                text: 'Non',
+              },
+              {
+                text: 'Oui',
+                handler: () => {
+                  loading.present();
+                  produit.nom = this.form.value.nomForm;
+                  produit.quantite = this.form.value.quantiteForm;
+                  produit.prixVente = this.form.value.prixVenteForm;
+                  produit.prixAchat = this.form.value.prixAchatForm;
+                  produit.codeProduit = this.form.value.codeProduitForm;
+                  produit.TVA = this.form.value.TVAForm;
+                  produit.codeProduitFournisseur = this.form.value.codeProduitFournisseurForm
+                  if (this.imageChange) { 
+                    var nouveauNomImage = produit.nom + Date.now()
+                   this.nouvelleImage(produit,nouveauNomImage) 
+                    produit.imageURL = 'https://firebasestorage.googleapis.com/v0/b/camos-266e6.appspot.com/o/Produits%2F' + nouveauNomImage + '.jpg?alt=media&token=03dbf0d3-b9d6-40ae-99c7-2af2486a69e5'
+                  }
+                  if(this.categorieProduitStatus){
+                    this.produit.categorie = this.nouvelleCategorie
+                    this.produitsService.createCategorieProduit(this.produit)
+                    this.categorieProduitStatus=false
+                  }
+                  this.produitsService.updateProduit(produit).then(ref => {
+                    loading.dismiss();
+                  });
+                  this.estChange = false;
+                  this.nomChange = false;
+                  this.imageChange = false;
+                }
+              }
+            ]
+          }).then(res => {
+            res.present();
+          });
+         } else {
+           await articleExiste.present();
+         
       }
+    }
     }
   }
   public async nouvelleImage(produit: ProduitModele,nouveauNomImage: string) {

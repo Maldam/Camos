@@ -67,59 +67,92 @@ export class ModalContactPage implements OnInit {
     } else {
       await articleExiste.present();
     }
-   this.closeModal() 
+    this.closeModal()
   }
   public async closeModal() {
     await this.modalController.dismiss();
   }
-   public async RemoveContact(contact: ContactModele) {
-     if (confirm("Êtes-vous sûr de vouloir supprimer " + contact.nom + "?")) {
-       this.contactsService.deleteContact(contact, this.coordonnees);
-    await this.modalController.dismiss();
-       //this.navCtrl.back()
-     }
-   }
-   public async UpdateClient(contact: ContactModele, errorMessage: string) {
-     const loading = await this.loadingController.create({
-     });
-     const articleExiste = await this.alertController.create({
-       header: 'Attention',
-       message: 'Ce client existe déjà',
-       buttons: ['OK']
-     });
-     const alertNom = await this.alertController.create({
-       header: 'Attention',
-       message: 'Nous avons besoin d\'un nom de contact',
-       buttons: ['OK']
-     });
-     var changementNomOK = false;
-     if (this.estChange) {
-       if (this.contact.nom === "") {
-         await alertNom.present();
-       } else {
-         if (this.nomChange) {
-           if (this.contactsService.numeroIndex(this.contact.nom) === -1) {
-             changementNomOK = true
-           }
-         } else {
-           changementNomOK = true
-         }
-         if (changementNomOK) {
-           if (confirm(errorMessage)) {
-             await loading.present();
+  public async RemoveContact(contact: ContactModele) {
+    this.alertController.create({
+      header: "Attention",
+      message: "Êtes-vous sûr de vouloir supprimer " + contact.nom + "?",
+      buttons: [
+        {
+          text: 'Non',
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.contactsService.deleteContact(contact, this.coordonnees);
+            this.modalController.dismiss();
+            // this.navCtrl.back()
+          }
+        }
+      ]
+    }).then(
+      res => {
+        res.present();
+      });
+  }
+  public async UpdateClient(contact: ContactModele, errorMessage: string) {
+    const loading = await this.loadingController.create({
+    });
+    const articleExiste = await this.alertController.create({
+      header: 'Attention',
+      message: 'Ce contact existe déjà',
+      buttons: ['OK']
+    });
+    const alertNom = await this.alertController.create({
+      header: 'Attention',
+      message: 'Nous avons besoin d\'un nom de contact',
+      buttons: ['OK']
+    });
+    var changementNomOK = false;
+    if (this.estChange) {
+      if (this.contact.nom === "") {
+        await alertNom.present();
+      } else {
+        if (this.nomChange) {
+          if (this.contactsService.numeroIndex(this.contact.nom) === -1) {
+            changementNomOK = true
+          }
+        } else {
+          changementNomOK = true
+        }
+        if (changementNomOK) {
+          
+
+            this.alertController.create({
+              header: "Attention",
+              message: "Êtes-vous sûr de vouloir modifier le contact?",
+              buttons: [
+                {
+                  text: 'Non',
+                },
+                {
+                  text: 'Oui',
+                  handler: () => {
+            loading.present();
             this.contactsService.updateContacts(this.contact)
             this.coordonneesService.updateCoordonnees(this.coordonnees).then(ref => {
-              loading.dismiss();           
-             });
-             this.estChange = false;
-             this.nomChange = false;
-           }
-         } else {
-           await articleExiste.present();
-         }
-       }
-     }
-   }
+              loading.dismiss();
+            });
+            this.estChange = false;
+            this.nomChange = false;
+                  }
+                }
+              ]
+            }).then(
+              res => {
+              res.present();
+            });
+
+        } else {
+          await articleExiste.present();
+        }
+      }
+    }
+  }
   public openBrowser(url: string) {
     window.open(url)
   }
