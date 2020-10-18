@@ -2,7 +2,8 @@
   <ion-toolbar color='primary'>
     <ion-title id='titre'>{{entreprises}}
     <ion-button class="deconnexion" name=boutton (click)="deconnexion()" expand="block" color="primary">
-      <ion-icon name="power"></ion-icon>
+      <!-- <ion-icon name="power"></ion-icon> -->
+      <ion-icon src="./assets/svg/power.svg"></ion-icon>
     </ion-button>
   </ion-title>
   </ion-toolbar>
@@ -17,7 +18,9 @@
 <ion-content>
   <ion-fab id='ajouter' routerLink="/ajouter-client" vertical="bottom" horizontal="end" slot="fixed" (click)="ajouterEntreprise()">
     <ion-fab-button>
-      <ion-icon name="add-circle"></ion-icon>
+      <!-- <ion-icon name="add-circle"></ion-icon> -->
+      <ion-icon src="./assets/svg/add.svg"></ion-icon>
+
     </ion-fab-button>
   </ion-fab>
   <ion-list>

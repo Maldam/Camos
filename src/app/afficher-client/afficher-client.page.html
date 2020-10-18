@@ -14,15 +14,18 @@
   </div>
   <ion-item>
     <ion-fab-button slot="start" (click)="choixCommandesModal(client.key, client.pseudo)">
-      <ion-icon name="clipboard"></ion-icon>
+      <!-- <ion-icon name="clipboard"></ion-icon> -->
+      <ion-icon src="./assets/svg/clipboard.svg"></ion-icon>
     </ion-fab-button>
     <ion-fab-button slot="end" (click)="choixContactModal(client.key)">
-      <ion-icon name="person"></ion-icon>
+      <!-- <ion-icon name="person"></ion-icon> -->
+      <ion-icon src="./assets/svg/person.svg"></ion-icon>
     </ion-fab-button>
   </ion-item>
   <ion-button (click)="changerPhoto('galerie')" color="tertiary" expand="block"
     (click)="imageChange=true; estChange=true">
-    <ion-icon name="image" slot="start"></ion-icon>
+    <!-- <ion-icon name="image" slot="start"></ion-icon> -->
+    <ion-icon src="./assets/svg/image.svg"></ion-icon>
     Changer l'image
   </ion-button>
   <form [formGroup]="form" novalidate>
@@ -45,7 +48,8 @@
       <ion-label position="floating">Page web</ion-label>
       <ion-textarea formControlName="siteWebForm" (change)="estChange=true"></ion-textarea>
       <ion-fab-button *ngIf="client.siteWeb" slot="end" (click)="openBrowser(client.siteWeb)">
-        <ion-icon name="globe"></ion-icon>
+        <!-- <ion-icon name="globe"></ion-icon> -->
+        <ion-icon src="./assets/svg/globe.svg"></ion-icon>
       </ion-fab-button>
     </ion-item>
     <ion-item>
@@ -99,7 +103,8 @@
         <ion-input [(ngModel)]='coordonnees.numeroTelephone' type="text" inputmode="text" (change)="estChange=true">
         </ion-input>
         <ion-fab-button *ngIf="coordonnees.numeroTelephone" slot="end" (click)="appeler(coordonnees.numeroTelephone)">
-          <ion-icon name="call"></ion-icon>
+          <!-- <ion-icon name="call"></ion-icon> -->
+          <ion-icon src="./assets/svg/call.svg"></ion-icon>
         </ion-fab-button>
       </ion-item>
       <ion-item>
@@ -107,10 +112,12 @@
         <ion-input [(ngModel)]='coordonnees.numeroGSM' type="text" inputmode="text" (change)="estChange=true">
         </ion-input>
         <ion-fab-button *ngIf="coordonnees.numeroGSM" slot="end" (click)="appeler(coordonnees.numeroGSM)">
-          <ion-icon name="call"></ion-icon>
+          <!-- <ion-icon name="call"></ion-icon> -->
+          <ion-icon src="./assets/svg/phone-portrait.svg"></ion-icon>
         </ion-fab-button>
         <ion-fab-button *ngIf="coordonnees.numeroGSM" slot="end" (click)="envoyerSMS(coordonnees.numeroGSM)">
-          <ion-icon name="phone-portrait"></ion-icon>
+          <!-- <ion-icon name="phone-portrait"></ion-icon> -->
+        <ion-icon src="./assets/svg/chatbox.svg"></ion-icon>
         </ion-fab-button>
       </ion-item>
       <ion-item>
@@ -122,7 +129,8 @@
         <ion-label position="floating">Adresse email</ion-label>
         <ion-input [(ngModel)]='coordonnees.email' type="text" inputmode="text" (change)="estChange=true"></ion-input>
         <ion-fab-button *ngIf="coordonnees.email" slot="end" href="mailto:{{coordonnees.email}}">
-          <ion-icon name="mail"></ion-icon>
+          <!-- <ion-icon name="mail"></ion-icon> -->
+          <ion-icon src="./assets/svg/mail.svg"></ion-icon>
         </ion-fab-button>
       </ion-item>
       <ion-item>
@@ -130,7 +138,8 @@
         <ion-input [(ngModel)]='coordonnees.linkedIn' type="text" inputmode="text" (change)="estChange=true">
         </ion-input>
         <ion-fab-button *ngIf="coordonnees.linkedIn" slot="end" (click)="openBrowser(coordonnees.linkedIn)">
-          <ion-icon name="logo-linkedin"></ion-icon>
+          <!-- <ion-icon name="logo-linkedin"></ion-icon> -->
+          <ion-icon src="./assets/svg/logo-linkedin.svg"></ion-icon>
         </ion-fab-button>
       </ion-item>
     </ion-item-sliding>
@@ -138,12 +147,14 @@
   </ion-card>
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="RemoveClient(client)">
-      <ion-icon name="trash"></ion-icon>
+      <!-- <ion-icon name="trash"></ion-icon> -->
+      <ion-icon src="./assets/svg/trash.svg"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="success" (click)="UpdateClient(client,'Êtes-vous sûr de vouloir valider les modifications?')">
-      <ion-icon name="save"></ion-icon>
+      <!-- <ion-icon name="save"></ion-icon> -->
+      <ion-icon src="./assets/svg/save.svg"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

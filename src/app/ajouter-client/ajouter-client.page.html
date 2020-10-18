@@ -14,11 +14,13 @@
     </div>
   </div>
   <ion-button (click)="ajouterPhoto('galerie')" color="tertiary" expand="block">
-    <ion-icon name="image" slot="start"></ion-icon>
+    <!-- <ion-icon name="image" slot="start"></ion-icon> -->
+    <ion-icon src="./assets/svg/image.svg"></ion-icon>
     Charger l'image
   </ion-button>
   <ion-button (click)="ajouterPhoto('camera')" color="secondary" expand="block">
-    <ion-icon name="camera" slot="start"></ion-icon>
+    <!-- <ion-icon name="camera" slot="start"></ion-icon> -->
+    <ion-icon src="./assets/svg/camera.svg"></ion-icon>
     Prenez une photo
   </ion-button>
   <ion-item>
@@ -98,6 +100,7 @@
     <ion-textarea [(ngModel)]='client.notes' type="text" inputmode="text"></ion-textarea>
   </ion-item>
   <ion-button (click)="ajoutClient(client)" expand="block" color="primary">
-    <ion-icon name="checkmark"></ion-icon>Ajouter
-  </ion-button>
+    <!-- <ion-icon name="checkmark"></ion-icon> -->
+    <ion-icon src="./assets/svg/checkmark.svg"></ion-icon>
+    Ajouter</ion-button>
 </ion-content>

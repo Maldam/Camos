@@ -75,12 +75,14 @@
       </ion-item>
       <ion-item-options side="start">
         <ion-item-option color="success" (click)="livrerProduit(commandeProduit)">
-          <ion-icon name="archive" slot="icon-only"></ion-icon>
+          <!-- <ion-icon name="archive" slot="icon-only"></ion-icon> -->
+          <ion-icon src="./assets/svg/archive.svg"></ion-icon>
         </ion-item-option>
       </ion-item-options>
       <ion-item-options side="end">
         <ion-item-option color="danger" (click)="deleteProduit(commandeProduit)">
-          <ion-icon name="trash" slot="icon-only"></ion-icon>
+          <!-- <ion-icon name="trash" slot="icon-only"></ion-icon> -->
+          <ion-icon src="./assets/svg/trash.svg"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
@@ -110,10 +112,12 @@
   <ion-item></ion-item>
   <ion-fab *ngIf="!livraisons" vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button color="danger" (click)="removeCommande(commande)">
-      <ion-icon name="trash"></ion-icon>
+      <!-- <ion-icon name="trash"></ion-icon> -->
+      <ion-icon src="./assets/svg/trash.svg"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   <ion-button *ngIf="pdf" (click)="genererPDF()" expand="block" color="primary">
-    <ion-icon name="checkmark"></ion-icon>PDF
-  </ion-button>
+    <!-- <ion-icon name="checkmark"></ion-icon> -->
+    <ion-icon src="./assets/svg/document.svg"></ion-icon>
+    PDF</ion-button>
 </ion-content>

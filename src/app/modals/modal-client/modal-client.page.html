@@ -3,7 +3,8 @@
     <ion-title id="titre">Liste des {{entreprise}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
+        <!-- <ion-icon slot="icon-only" name="close"></ion-icon> -->
+        <ion-icon src="./assets/svg/close.svg"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -12,11 +13,7 @@
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
-
-  
   <ion-list>
     <ion-item *ngFor="let client of clients" (click)="versVueClient(client)">
       <ion-label>{{client.nom}}</ion-label>

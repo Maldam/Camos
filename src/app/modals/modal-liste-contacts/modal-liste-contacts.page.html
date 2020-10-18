@@ -3,13 +3,15 @@
     <ion-title id="titre">Liste de contacts</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
+        <!-- <ion-icon slot="icon-only" name="close"></ion-icon> -->
+        <ion-icon src="./assets/svg/close.svg"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 <ion-item>
   <ion-fab-button slot="end" (click)="vide=true; contactModal(keyEntreprise,vide,contact)">
-    <ion-icon name="person-add"></ion-icon>
+    <!-- <ion-icon name="person-add"></ion-icon> -->
+    <ion-icon src="./assets/svg/person-add.svg"></ion-icon>
   </ion-fab-button>
 </ion-item>
 </ion-header>
