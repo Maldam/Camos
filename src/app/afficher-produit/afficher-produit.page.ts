@@ -26,8 +26,6 @@ export class AfficherProduitPage implements OnInit {
   public categorieProduitStatus: boolean = false;
   public nouvelleCategorie: string  ="";
   private fournisseur: ClientModele = new ClientModele();
-
-
   constructor(private produitsService: ProduitsService,
     private clientsService: ClientsService,
     private navCtrl: NavController,
@@ -47,10 +45,24 @@ export class AfficherProduitPage implements OnInit {
     //this.image = this.produit.imageURL
   }
   public async RemoveProduit(produit: ProduitModele) {
-    if (confirm("Êtes-vous sûr de vouloir supprimer " + produit.nom + "?")) {
-      this.produitsService.deleteProduit(produit);
-      this.navCtrl.back()
-    }
+    this.alertController.create({
+      header: "Attention",
+      message: "Êtes-vous sûr de vouloir supprimer " + produit.nom + "?",
+      buttons: [
+        {
+          text: 'Non',
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.produitsService.deleteProduit(produit);
+      this.navCtrl.back();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
+    });
   }
   public async UpdateProduit(produit: ProduitModele, errorMessage: string) {
     const loading = await this.loadingController.create({
@@ -165,7 +177,6 @@ export class AfficherProduitPage implements OnInit {
   public ngOnInit() {
     this.image = this.produit.imageURL
     this.imageOrigine = this.produit.imageURL
-
     this.form = this.formBuilder.group({
       nomForm: [this.produit.nom],
       quantiteForm: [this.produit.quantite],

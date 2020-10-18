@@ -5,7 +5,6 @@ import { LoadingController, AlertController, ModalController } from '@ionic/angu
 import { ProduitModele } from '../modeles/produit.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ClientModele } from '../modeles/client.modele';
-
 @Component({
   selector: 'app-produits',
   templateUrl: './ajouter-produit.page.html',
@@ -22,15 +21,12 @@ export class AjouterProduitPage implements OnInit {
   public categorieProduitStatus: boolean = false
   public nouvelleCategorie: string  ="";
   private fournisseur: ClientModele = new ClientModele();
-
-
   constructor(
     private produitsService: ProduitsService,
     private camera: Camera,
     public loadingController: LoadingController,
     public alertController: AlertController,
   private modalController: ModalController,
-
   ) {
   }
   public async ajoutProduit(produit: AjouterProduitPage) {

@@ -153,9 +153,11 @@ export class AfficherCommandePage implements OnInit {
     if (!this.livraisonCree) {
       var livraison = { ...this.commande };
       livraison.commandeLivree = 1;
-      livraison.commandeFacturee = 'warning'
+      if (this.typeCommandes === "Clients") {
+        livraison.commandeFacturee = 'warning'
+      }
       livraison.numeroCommande = this.numeroLivraison
-      this.keyLivraison = this.commandesService.createCommande(livraison, 'LivraisonsClients');
+      this.keyLivraison = this.commandesService.createCommande(livraison, 'Livraisons'+this.typeCommandes);
       this.livraisonCree = !this.livraisonCree;
     }
     commandeProduit.livree = 1;
