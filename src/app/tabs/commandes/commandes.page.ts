@@ -107,7 +107,7 @@ export class CommandesPage implements OnInit {
           commandePr.keyCommandeProduit = commandeProduit.key;
           commandePr.keyCommandelivree = commandeProduit.keyCommande;
           commandePr.keyCommande = keyLivraison;
-          commandePr.keyCommandeProduit = commandeProduit.key;
+         // commandePr.keyCommandeProduit = commandeProduit.key;
           this.commandesService.createCommandeProduit(commandePr, this.typeCommandes, 'LivraisonsProduits');
           this.commandesService.updateProduitsLivres(commandeProduit, 0)
         })
@@ -147,8 +147,9 @@ export class CommandesPage implements OnInit {
           commandePr.key = commandePr.keyCommandeProduit;
           commandePr.livree = 0;
           //this.livree.push(commandePr);
-          this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
           this.commandesService.updateCommandeProduit(commandePr, this.typeCommandes)
+          this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
+
           //this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
           this.commandesService.updateProduitsLivres(commandeProduit, 1)
         });
@@ -158,12 +159,16 @@ export class CommandesPage implements OnInit {
       //   this.recupererListeCommandes(1)
     } else {
       this.subsciption = this.commandesService.getCommandesProduits(livraison.key, this.typeCommandes, 'LivraisonsProduits').subscribe(commandesProduits => {
+        console.log(livraison.key)
         commandesProduits.forEach(commandeProduit => {
+          console.log(commandeProduit)
           var commandePr = { ...commandeProduit };
           commandePr.keyCommande = commandePr.keyCommandelivree;
           commandePr.key = commandePr.keyCommandeProduit;
           commandePr.livree = 0;
           //this.livree.push(commandePr);
+          console.log(commandePr)
+
           this.commandesService.deleteLivraisonProduit(commandeProduit, this.typeCommandes)
           this.commandesService.updateCommandeProduit(commandePr, this.typeCommandes)
         });

@@ -28,6 +28,7 @@ export class CommandesService {
     // });
   }
   public createCommande(commande: CommandeModele, dossierCommandes: string) {
+  //  console.log(commande)
     return this.angularFireDatabase.list(dossierCommandes).push(commande).key
   }
   public getCommandes(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {

@@ -94,7 +94,7 @@ export class AfficherCommandePage implements OnInit {
             this.commandesProduits.forEach(produit => {
               this.commandesService.deleteCommandeProduit(produit, this.typeCommandes)
             })
-            this.navCtrl.back()
+            
           }
         }
       ]
@@ -102,7 +102,7 @@ export class AfficherCommandePage implements OnInit {
       res => {
         res.present();
       });
-
+      this.navCtrl.back()
   }
   public async updateCommande() {
     const loading = await this.loadingController.create({});
@@ -178,9 +178,12 @@ export class AfficherCommandePage implements OnInit {
     }
     commandeProduit.livree = 1;
     this.commandesService.updateCommandeProduit(commandeProduit, this.typeCommandes);
-    commandeProduit.keyCommandeProduit = commandeProduit.key;
-    commandeProduit.keyCommande = this.keyLivraison;
-    this.commandesService.createCommandeProduit(commandeProduit, this.typeCommandes, 'LivraisonsProduits');
+
+    var commandePr={... commandeProduit};
+    commandePr.keyCommandeProduit = commandeProduit.key;
+    commandePr.keyCommandelivree = commandeProduit.keyCommande;
+    commandePr.keyCommande = this.keyLivraison;
+    this.commandesService.createCommandeProduit(commandePr, this.typeCommandes, 'LivraisonsProduits');
     var verificationCommandeLivree: boolean = true
     this.commandesProduits.forEach(produit => {
       if (produit.livree === 0) {
