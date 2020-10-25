@@ -29,7 +29,6 @@ export class CommandesPage implements OnInit {
     private modalController: ModalController,
   ) {
   }
-  // barre de recherche
   public rechercheCommande(ev: any) {
     this.commandes = this.listeCommandes
     const val = ev.target.value;
@@ -39,7 +38,6 @@ export class CommandesPage implements OnInit {
       })
     }
   }
-  // renvois à la page qui affiche les détails de la commande
   public versVueCommande(commande: CommandeModele) {
     this.router.navigate(["afficher-commande"], {
       state: {
@@ -49,11 +47,9 @@ export class CommandesPage implements OnInit {
       }
     });
   }
-  // déconnexion
   public deconnexion() {
     this.connexionService.deconnexionUtilisateur();
   }
-  // lancer la modale d'affichage la liste des commandes du client ou du fournisseur
   public async choixCommandesModal(keyClient: string, pseudoClient: string) {
     var typeCommandes =this.typeCommandes
     const modal = await this.modalController.create({
@@ -66,7 +62,6 @@ export class CommandesPage implements OnInit {
     })
     return await modal.present()
   }
-  // récupérer la lite des commandes
   public recupererListeCommandes(livraisons: number) {
     this.commandes = new Array<CommandeModele>()
     this.commandesService.getCommandes(this.dossierCommandes, livraisons).subscribe(commandes => {
@@ -75,7 +70,6 @@ export class CommandesPage implements OnInit {
       this.listeCommandes = this.commandes;
     });
   }
-  // récupérer la lite des livraisons
   public recupererListeLivraisons(livraisons: number) {
     this.listeLivraisons = new Array<CommandeModele>()
     this.commandesService.getCommandes(this.dossierLivraisons, livraisons).subscribe(commandes => {
@@ -84,11 +78,9 @@ export class CommandesPage implements OnInit {
       this.listeLivraisonRecherche = this.listeLivraisons;
     });
   }
-  // renvois à la page d'ajout de commande
   public ajouterCommandes() {
     this.router.navigate(["ajouter-commande"], { state: { fournisseurs: this.fournisseurs } })
   }
-  // place une commande en livraison
   public livrerCommande(commande: CommandeModele) {
     commande.commandeLivree = 1;
     var livraison = { ...commande }
@@ -133,7 +125,6 @@ export class CommandesPage implements OnInit {
       });
     }
   }
-  // supprime une livraison et la replace en commande
   public delivrerCommande(livraison: CommandeModele) {
     var commande = { ...livraison };
     commande.commandeLivree = 0;
@@ -196,7 +187,6 @@ export class CommandesPage implements OnInit {
     //commande.commandeLivree = 0;
     //commande.commandeFacturee = "";
   }
-  // affiche les livraison
 public versLivraisons() {
     this.livraisons = !this.livraisons
     if (this.livraisons) {
@@ -211,7 +201,6 @@ public versLivraisons() {
       this.typeLivraisons = "Commandes livrées"
     }
   }
-  // affiche les commandes fournisseurs
   public versFournisseurs() {
     this.livraisons = false
     this.typeLivraisons = "Commandes livrées"
