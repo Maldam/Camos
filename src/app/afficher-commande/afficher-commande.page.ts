@@ -173,6 +173,7 @@ export class AfficherCommandePage implements OnInit {
         livraison.commandeFacturee = 'warning'
       }
       livraison.numeroCommande = this.numeroLivraison
+      livraison.keyCommande = this.commande.key
       this.keyLivraison = this.commandesService.createCommande(livraison, 'Livraisons' + this.typeCommandes);
       this.livraisonCree = !this.livraisonCree;
     }
@@ -194,9 +195,9 @@ export class AfficherCommandePage implements OnInit {
       this.commande.commandeLivree = 1
     } else {
       this.commande.commandeLivree = 0
-      if (this.typeCommandes === "Clients") {
+     // if (this.typeCommandes === "Clients") {
         this.commande.commandeFacturee = "medium"
-      }
+     // }
     }
     this.commandesService.updateCommande(this.commande, 'Commandes' + this.typeCommandes)
   }

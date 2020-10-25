@@ -10,7 +10,7 @@
 
   <ion-toolbar>
     <ion-item>
-      <ion-searchbar animated placeholder="Recherche" (ionChange)="rechercheProduit($event)"></ion-searchbar>
+      <ion-searchbar animated placeholder="Recherche" clearIcon="./assets/svg/close.svg" search-icon="./assets/svg/search.svg" (ionChange)="rechercheProduit($event)"></ion-searchbar>
     </ion-item>
 
     <ion-item>
@@ -42,11 +42,7 @@
     </ion-item-option>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-item>
-      <ion-item class="nom">Nom</ion-item>
-      <ion-item class="nom">Quantitées en stock</ion-item>
-      <ion-item class="nom">Quantitées à recevoir</ion-item>
-    </ion-item>
+  
     
   </ion-toolbar>
 </ion-header>
@@ -59,6 +55,12 @@
     </ion-fab-button>
   </ion-fab>
   <ion-list>
+    <ion-item>
+      <ion-item class="nom">Nom</ion-item>
+      <ion-item class="nom">Quantitées en stock</ion-item>
+      <ion-item class="nom">Quantitées à recevoir</ion-item>
+    </ion-item>
+    
     <ion-item routerLink="/afficher-produit" *ngFor="let produit of produits" (click)="versVueProduit(produit)">
       <ion-thumbnail slot="start">
         <!--<img [src]="produit.imageURL" alt="" />-->
@@ -68,7 +70,7 @@
       </ion-thumbnail>
     <ion-item-sliding>
       <ion-item>
-      <ion-item class="nom" slot="start">{{produit.nom}}</ion-item>
+      <ion-item class="nom">{{produit.nom}}</ion-item>
       <ion-item class="nom">{{produit.quantite}}</ion-item>
       <ion-item class="nom">{{produit.quantiteCommandee}}</ion-item>
       </ion-item>

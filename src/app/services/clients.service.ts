@@ -17,7 +17,6 @@ export class ClientsService {
   public clients: Array<ClientModele> = new Array<ClientModele>();
   public clients2: Array<ClientModele>;
   public image: string;
-  public test: string
   constructor(
     public angularFireDatabase: AngularFireDatabase,
     public angularFireStorage: AngularFireStorage,
@@ -42,7 +41,7 @@ export class ClientsService {
         )
     })
   }
-  public getClients(dossier:string): Observable<Array<ClientModele>> {
+  public getClients(dossier: string): Observable<Array<ClientModele>> {
     return new Observable<Array<ClientModele>>(observer => {
       this.angularFireDatabase.list(dossier).snapshotChanges(['child_added', 'child_removed', 'child_changed']).subscribe(clientsRecus => {
         let clients: Array<ClientModele> = new Array<ClientModele>();
@@ -61,9 +60,9 @@ export class ClientsService {
       });
     });
   }
-  public updateClient(client: ClientModele, dossier:string): Promise<void> {
+  public updateClient(client: ClientModele, dossier: string): Promise<void> {
     return new Promise<any>((resolve, reject) => {
-      this.angularFireDatabase.list(dossier+'/').update(client.key, {
+      this.angularFireDatabase.list(dossier + '/').update(client.key, {
         nom: client.nom,
         pseudo: client.pseudo,
         numeroTVA: client.numeroTVA,
@@ -76,7 +75,7 @@ export class ClientsService {
       )
     })
   }
-  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>, entreprise:string): void {    
+  public deleteClient(client: ClientModele, coordonnees: CoordonneesModele, contacts: Array<ContactModele>, entreprise: string): void {
     this.angularFireDatabase.list(entreprise).remove(client.key).then(() => {
       if (client.imageURL == undefined) {
       } else {
@@ -147,7 +146,7 @@ export class ClientsService {
     return new Observable<Array<ClientModele>>(observer => {
       this.angularFireDatabase.list('Fournisseurs/', ref => ref.orderByKey().equalTo(keyClient)).snapshotChanges().subscribe(
         commandesRecus => {
-          let clients : Array<ClientModele> = new Array<ClientModele>();
+          let clients: Array<ClientModele> = new Array<ClientModele>();
           commandesRecus.forEach(clientRecus => {
             let client: ClientModele = new ClientModele();
             client.key = clientRecus.key,
@@ -163,5 +162,4 @@ export class ClientsService {
         });
     });
   }
-
 }

@@ -73,4 +73,3 @@ import { ContactsService } from './services/contacts.service';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

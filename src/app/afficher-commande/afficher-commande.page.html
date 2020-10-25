@@ -5,7 +5,8 @@
       <ion-back-button icon="./assets/svg/arrow-back.svg" text="">
       </ion-back-button>
     </ion-buttons>
-    <ion-title id='titre'>Commande</ion-title>
+    <ion-title *ngIf="!livraisons" id='titre'>Commande</ion-title>
+    <ion-title *ngIf="livraisons" id='titre'>Livraison</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -81,7 +82,7 @@
         </ion-item-option>
       </ion-item-options>
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="deleteProduit(commandeProduit)">
+        <ion-item-option *ngIf="commandeProduit.livree==0" color="danger" (click)="deleteProduit(commandeProduit)">
           <!-- <ion-icon name="trash" slot="icon-only"></ion-icon> -->
           <ion-icon src="./assets/svg/trash.svg"></ion-icon>
         </ion-item-option>

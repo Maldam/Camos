@@ -15,7 +15,7 @@ export class CommandesService {
   public commande: CommandeModele = new CommandeModele();
   public commandes: Array<CommandeModele> = new Array<CommandeModele>();
   public commandes2: Array<CommandeModele>;
-  public subsciption;
+  public subsciption: any;
   constructor(
     public produitsService: ProduitsService,
     public angularFireDatabase: AngularFireDatabase,
@@ -28,7 +28,6 @@ export class CommandesService {
     // });
   }
   public createCommande(commande: CommandeModele, dossierCommandes: string) {
-  //  console.log(commande)
     return this.angularFireDatabase.list(dossierCommandes).push(commande).key
   }
   public getCommandes(dossierCommandes: string, commandeLivree: number): Observable<Array<CommandeModele>> {
