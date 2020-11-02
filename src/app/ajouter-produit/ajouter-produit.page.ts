@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProduitsService } from '../services/produits.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { LoadingController, AlertController, ModalController } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController, NavController } from '@ionic/angular';
 import { ProduitModele } from '../modeles/produit.modele';
 import { ModalClientPage } from '../modals/modal-client/modal-client.page';
 import { ClientModele } from '../modeles/client.modele';
@@ -24,6 +24,7 @@ export class AjouterProduitPage implements OnInit {
   constructor(
     private produitsService: ProduitsService,
     private camera: Camera,
+    private navCtrl: NavController,
     public loadingController: LoadingController,
     public alertController: AlertController,
   private modalController: ModalController,
@@ -71,6 +72,7 @@ export class AjouterProduitPage implements OnInit {
         this.produit.keyFournisseur = this.fournisseur.key
         this.produitsService.createProduit(this.produit).then(ref => { this.produit = new ProduitModele 
           this.fournisseur = new ClientModele();
+        //  this.navCtrl.back()
         });
       }
     } else {
