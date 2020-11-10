@@ -170,22 +170,13 @@ export class CommandesPage implements OnInit {
         }
       })
       subsciption.unsubscribe()
-      
-      if (livree===1) {
-        console.log('tous les articles sont delivre')
-          //commande.commandeLivree = 0
+      if (livree >= 1) {
           commande.commandeFacturee = "";
         } else {
-        console.log('tous les articles ne sont pas delivre')
-         // commande.commandeLivree = 1
-         // if (this.typeCommandes === "Clients") {
           commande.commandeFacturee = "medium"
-         // }
         }
         this.commandesService.updateCommande(commande, this.dossierCommandes);
     });
-    //commande.commandeLivree = 0;
-    //commande.commandeFacturee = "";
   }
 public versLivraisons() {
     this.livraisons = !this.livraisons
